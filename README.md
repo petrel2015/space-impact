@@ -47,7 +47,7 @@ Plus 2 **mid-bosses** (boss HP bar + guaranteed heal drop, but the level goes on
 - 📦 **Data-driven core** — enemies/levels are JSON; `node test/data-test.js` validates every reference the moment you add content.
 - 🌍 **EN / 中文** in one click, auto-detected and remembered.
 - 🎨 **3 themes** — Retro LCD (yellow-green, default, with pixel-grid overlay), Night (phosphor), Paper.
-- 📱 **Mobile & tablet** — responsive layout, multi-touch D-pad + FIRE/BOMB buttons, auto-fire toggle.
+- 📱 **Mobile & tablet** — responsive layout; on-screen D-pad + FIRE/BOMB appear automatically on touch devices **and** whenever the viewport is phone/tablet sized, with an auto-fire toggle.
 - 📋 **In-game cheat sheet** — controls & item legend stay visible at the bottom while you play.
 - 🔥 **Difficulty** — Easy / Normal / Hard presets stack with per-level coefficients and loop multipliers.
 - ⚡ **Power-ups** — P power · S spread · L piercing laser · + heal · E special energy · G shield; the special is a screen-clearing beam.

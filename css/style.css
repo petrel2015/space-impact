@@ -330,7 +330,14 @@ html[data-theme="retro"] .lcd-grid {
   -webkit-user-select: none;
 }
 
-body.touch .touch-controls { display: flex; }
+/* shown after a real touch, via ?touch=1, or automatically when the
+   viewport is phone/tablet sized (body.small, set by js/app.js) */
+@media (pointer: coarse) {
+  .touch-controls { display: flex; }
+}
+
+body.touch .touch-controls,
+body.small .touch-controls { display: flex; }
 
 .dpad {
   display: grid;

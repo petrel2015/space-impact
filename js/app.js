@@ -98,8 +98,11 @@
     ['pointerdown', 'keydown', 'touchstart'].forEach(function (ty) {
       global.addEventListener(ty, SI.audio.unlock, { passive: true });
     });
-    global.addEventListener('resize', fitLcd);
-    global.addEventListener('orientationchange', function () { setTimeout(fitLcd, 150); });
+    syncSmall();
+    global.addEventListener('resize', function () { syncSmall(); fitLcd(); });
+    global.addEventListener('orientationchange', function () {
+      setTimeout(function () { syncSmall(); fitLcd(); }, 150);
+    });
     document.addEventListener('visibilitychange', function () {
       if (document.hidden && mode === 'play' && !demoActive) pauseGame();
     });
@@ -317,8 +320,21 @@
     };
   }
 
+  /* Phone/tablet-sized viewport (or coarse pointer) → show on-screen
+     controls even without a real touch event. */
+  function syncSmall() {
+    var coarse = global.matchMedia && global.matchMedia('(pointer: coarse)').matches;
+    var small = !!(coarse || global.innerWidth <= 820);
+    document.body.classList.toggle('small', small);
+  }
+
+  function touchMode() {
+    return document.body.classList.contains('touch') ||
+           document.body.classList.contains('small');
+  }
+
   function currentInput() {
-    var useTouch = document.body.classList.contains('touch');
+    var useTouch = touchMode();
     if (demoActive && mode === 'play') return demoInput();
     return {
       up: keys.up || dpadDirs.up > 0,
@@ -521,7 +537,7 @@
   /* ── LCD sizing (integer scale) ────────────── */
   function fitLcd() {
     if (!lcd) return;
-    var isTouch = document.body.classList.contains('touch');
+    var isTouch = touchMode();
     var availW = Math.min(global.innerWidth - 24, 880);
     /* compact controls on short (landscape phone) viewports */
     var chromeH = isTouch ? (global.innerHeight <= 560 ? 200 : 260) : 170;
