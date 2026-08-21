@@ -534,13 +534,27 @@
     af.querySelector('.toggle-state').textContent = autofire ? 'ON' : 'OFF';
   }
 
-  /* ── LCD sizing (integer scale) ────────────── */
+  /* ── LCD sizing ────────────────────────────── */
   function fitLcd() {
     if (!lcd) return;
-    var isTouch = touchMode();
+    var touch = touchMode();
+    var portrait = global.innerWidth < global.innerHeight;
+
+    /* phone/tablet portrait: stretch the canvas to full width — the
+       d-pad takes the space below, so the page has no dead zones */
+    if (touch && portrait && global.innerWidth <= 820) {
+      lcd.classList.add('fill');
+      canvas.style.width = '100%';
+      canvas.style.height = 'auto';
+      /* pixel-grid overlay needs the actual rendered scale */
+      lcd.style.setProperty('--px', (canvas.clientWidth / 144) + 'px');
+      return;
+    }
+
+    lcd.classList.remove('fill');
     var availW = Math.min(global.innerWidth - 24, 880);
     /* compact controls on short (landscape phone) viewports */
-    var chromeH = isTouch ? (global.innerHeight <= 560 ? 200 : 260) : 170;
+    var chromeH = touch ? (global.innerHeight <= 560 ? 200 : 260) : 170;
     var availH = Math.max(120, global.innerHeight - chromeH);
     var scale = Math.max(2, Math.floor(Math.min(availW / 144, availH / 80)));
     canvas.style.width = 144 * scale + 'px';
