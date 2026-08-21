@@ -206,7 +206,7 @@
       var gap = p(0, e.def.ap, 'gap', 16);
       var spacing = p(0, e.def.ap, 'spacing', 8);
       var bs = e.def.bulletSpeed;
-      var top = 10, bottom = 71;
+      var top = 10, bottom = (world.H || 80) - 9;
       var gapY = top + gap / 2 + world.rng() * Math.max(1, (bottom - top) - gap);
       var out = [], y;
       for (y = top + spacing / 2; y < bottom; y += spacing) {

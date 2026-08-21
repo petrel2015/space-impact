@@ -53,8 +53,6 @@
 
       footerNote: 'Runs entirely in your browser · levels & enemies are data-driven JSON',
 
-      hintControls: 'Move: arrows / WASD · Fire: Space / J (hold = auto) · Special: K / X · Pause: P / Esc',
-      hintItems: 'Items: P power · S spread · L laser · + heal · E energy ⚡ · G shield',
 
       errEnemyRef: 'Level “{lvl}” references unknown enemy “{id}”.',
       errSpriteRef: 'Enemy “{id}” references unknown sprite “{sp}”.',
@@ -107,8 +105,6 @@
 
       footerNote: '纯前端运行 · 关卡与怪物均为 JSON 数据驱动',
 
-      hintControls: '移动：方向键 / WASD · 射击：空格 / J（按住连发） · 大招：K / X · 暂停：P / Esc',
-      hintItems: '道具：P 火力 · S 散弹 · L 激光 · + 回血 · E 能量 ⚡ · G 护盾',
 
       errEnemyRef: '关卡「{lvl}」引用了未知怪物「{id}」。',
       errSpriteRef: '怪物「{id}」引用了未知精灵图「{sp}」。',

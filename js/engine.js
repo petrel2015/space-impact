@@ -136,6 +136,17 @@
     var rng = mulberry32(opts.seed == null ? 12345 : opts.seed);
     var difficulty = opts.difficulty || 1;   /* 1 = first loop */
     var carry = opts.player || {};
+    var W = opts.W || 144;
+    var H = opts.H || 80;   /* portrait mode runs a taller 144×128 field */
+
+    /* levels are compiled against the default 80-row field — remap
+       spawn rows proportionally when running at another height */
+    var queue = opts.level.queue.map(function (q) {
+      if (q.boss) return q;
+      var y = HUD_TOP + (q.y - HUD_TOP) * (H - HUD_TOP - HUD_BOTTOM) / (80 - HUD_TOP - HUD_BOTTOM);
+      y = Math.max(HUD_TOP, Math.min(H - HUD_BOTTOM - 4, y));
+      return { t: q.t, enemy: q.enemy, x: q.x, y: y, boss: false };
+    });
 
     var rt = {
       W: W, H: H,
@@ -150,7 +161,7 @@
       shake: 0,
       defs: opts.defs,
       level: opts.level,
-      queue: opts.level.queue.slice(),
+      queue: queue,
       cursor: 0,
       enemies: [], bullets: [], ebullets: [], powerups: [], particles: [],
       events: [],
@@ -238,7 +249,7 @@
       p.weaponLevel = 1;
       p.mode = 'normal'; p.modeTimer = 0;
       p.shield = 0;
-      p.y = (H - p.h) / 2;
+      p.y = (rt.H - p.h) / 2;
       pushEvent(rt, 'lifeLost', { lives: p.lives });
     } else {
       p.hp = 0;
@@ -334,6 +345,7 @@
   function step(rt, input, dt) {
     dt = Math.min(dt, 0.05);
     var p = rt.player;
+    var W = rt.W, H = rt.H;
     var world = {
       W: W, H: H,
       player: p,
@@ -360,6 +372,7 @@
     /* scheduled spawns */
     while (rt.cursor < rt.queue.length && rt.queue[rt.cursor].t <= rt.t) {
       var q = rt.queue[rt.cursor++];
+      if (q.boss) q.y = (rt.H - rt.defs[q.enemy].h) / 2; /* recentre on this field */
       spawnEnemy(rt, q.enemy, q.x, q.y, q.boss);
       if (q.boss) {
         rt.warning = 2.2;

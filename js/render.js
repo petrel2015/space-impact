@@ -68,11 +68,12 @@
     }
   }
 
-  function centeredBox(ctx, lcd, str, scale) {
+  function centeredBox(ctx, lcd, str, scale, rt) {
+    var W = rt.W, H = rt.H;
     var w = measure(str, scale) + 10;
     var h = 7 * scale + 8;
-    var x = Math.floor((144 - w) / 2);
-    var y = Math.floor((80 - h) / 2);
+    var x = Math.floor((W - w) / 2);
+    var y = Math.floor((H - h) / 2);
     ctx.fillStyle = lcd.bg;
     ctx.fillRect(x - 2, y - 2, w + 4, h + 4);
     ctx.fillStyle = lcd.ink;
@@ -92,13 +93,14 @@
     ctx.fillStyle = lcd.bg;
     ctx.fillRect(0, 0, W, H);
 
-    /* starfield (playfield only) */
+    /* starfield (playfield only, mapped onto this field height) */
     ctx.fillStyle = lcd.dim;
     for (var s = 0; s < STARS.length; s++) {
       var star = STARS[s];
       var sx = (star.x - rt.t * star.v) % W;
       if (sx < 0) sx += W;
-      ctx.fillRect(Math.floor(sx), star.y, 1, star.big ? 2 : 1);
+      var sy = 10 + Math.round((star.y - 10) * (H - 20) / 60);
+      ctx.fillRect(Math.floor(sx), sy, 1, star.big ? 2 : 1);
     }
 
     /* world (with shake offset) */
@@ -215,13 +217,13 @@
 
     /* ── status texts ── */
     if (rt.warning > 0 && Math.floor(rt.warning * 4) % 2 === 0) {
-      centeredBox(ctx, lcd, 'WARNING', 2);
+      centeredBox(ctx, lcd, 'WARNING', 2, rt);
     } else if (rt.status === 'clear') {
-      centeredBox(ctx, lcd, 'CLEAR!', 2);
+      centeredBox(ctx, lcd, 'CLEAR!', 2, rt);
     } else if (rt.status === 'over') {
-      centeredBox(ctx, lcd, 'GAME OVER', 2);
+      centeredBox(ctx, lcd, 'GAME OVER', 2, rt);
     } else if (rt.t < 2.0) {
-      centeredBox(ctx, lcd, 'LEVEL ' + rt.levelId, 1);
+      centeredBox(ctx, lcd, 'LEVEL ' + rt.levelId, 1, rt);
     }
 
     /* flash overlay */

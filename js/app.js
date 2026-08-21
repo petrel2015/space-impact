@@ -162,23 +162,35 @@
     startLevel(startIdx, 0, null);
   }
 
+  /* Portrait touch mode runs a taller 144×128 field so the canvas can
+     occupy ~half the screen instead of a thin letterbox strip. */
+  function portraitRes() {
+    return touchMode() && global.innerWidth < global.innerHeight && global.innerWidth <= 820;
+  }
+
   function startLevel(idx, loop, carry) {
     levelIdx = idx;
     loopCount = loop;
     var preset = DIFF_PRESETS[difficulty] || DIFF_PRESETS.normal;
     var lvlDiff = (levels[idx].difficulty || 1) * preset.mult * (1 + 0.35 * loop);
+    var tall = portraitRes();
     rt = SI.engine.createRuntime({
       defs: defs,
       level: levels[idx],
       seed: Math.floor(Math.random() * 1e9),
       difficulty: lvlDiff,
+      W: 144,
+      H: tall ? 128 : 80,
       player: carry ? carry : { lives: preset.lives }
     });
+    canvas.width = rt.W;
+    canvas.height = rt.H;
     overHandled = false;
     acc = 0;
     mode = 'play';
     showScreen('play');
     hideOverlays();
+    closeSettings();
     fitLcd();
     SI.audio.play('levelStart');
   }
@@ -233,7 +245,13 @@
   function showScreen(name) {
     $('screen-start').hidden = name !== 'start';
     $('screen-play').hidden = name !== 'play';
-    $('play-hint').hidden = name !== 'play';
+  }
+
+  function closeSettings() {
+    var pop = $('settings-pop');
+    if (!pop) return;
+    pop.hidden = true;
+    $('btn-settings').setAttribute('aria-expanded', 'false');
   }
 
   function hideOverlays() {
@@ -452,8 +470,30 @@
     $('btn-start').addEventListener('click', function () {
       SI.audio.unlock();
       SI.audio.play('ui');
+      closeSettings();
       startRun();
     });
+
+    /* header settings popover: opening mid-game auto-pauses */
+    $('btn-settings').addEventListener('click', function (e) {
+      e.stopPropagation();
+      var pop = $('settings-pop');
+      var open = pop.hidden;
+      pop.hidden = !open;
+      this.setAttribute('aria-expanded', String(open));
+      if (open && mode === 'play') pauseGame();
+      SI.audio.play('ui');
+    });
+    document.addEventListener('click', function (e) {
+      if (!popInSettings(e.target)) closeSettings();
+    });
+    function popInSettings(el) {
+      while (el) {
+        if (el.id === 'settings-pop' || el.id === 'btn-settings') return true;
+        el = el.parentNode;
+      }
+      return false;
+    }
 
     $('btn-pause').addEventListener('click', function () {
       if (mode === 'play') pauseGame();
@@ -539,6 +579,8 @@
     if (!lcd) return;
     var touch = touchMode();
     var portrait = global.innerWidth < global.innerHeight;
+    var LW = rt ? rt.W : (canvas.width || 144);
+    var LH = rt ? rt.H : (canvas.height || 80);
 
     /* phone/tablet portrait: stretch the canvas to full width — the
        d-pad takes the space below, so the page has no dead zones */
@@ -547,7 +589,7 @@
       canvas.style.width = '100%';
       canvas.style.height = 'auto';
       /* pixel-grid overlay needs the actual rendered scale */
-      lcd.style.setProperty('--px', (canvas.clientWidth / 144) + 'px');
+      lcd.style.setProperty('--px', (canvas.clientWidth / LW) + 'px');
       return;
     }
 
@@ -556,9 +598,9 @@
     /* compact controls on short (landscape phone) viewports */
     var chromeH = touch ? (global.innerHeight <= 560 ? 200 : 260) : 170;
     var availH = Math.max(120, global.innerHeight - chromeH);
-    var scale = Math.max(2, Math.floor(Math.min(availW / 144, availH / 80)));
-    canvas.style.width = 144 * scale + 'px';
-    canvas.style.height = 80 * scale + 'px';
+    var scale = Math.max(2, Math.floor(Math.min(availW / LW, availH / LH)));
+    canvas.style.width = LW * scale + 'px';
+    canvas.style.height = LH * scale + 'px';
     lcd.style.setProperty('--px', scale + 'px');
   }
 

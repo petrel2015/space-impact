@@ -179,6 +179,30 @@ levels.forEach(function (lvl) {
   check(threw && threw.key === 'errSpriteRef', 'unknown sprite should throw errSpriteRef');
 })();
 
+/* 8. tall portrait resolution (144×128): spawns remap into the field */
+(function () {
+  var rt = SI.engine.createRuntime({ defs: defs, level: levels[0], seed: 3, difficulty: 1, W: 144, H: 128 });
+  check(rt.W === 144 && rt.H === 128, 'portrait runtime resolution not applied');
+  for (var i = 0; i < Math.floor(5 * 60); i++) {
+    rt.player.invuln = 1;
+    SI.engine.step(rt, { up: false, down: false, left: false, right: false, fire: true, special: false }, STEP);
+    rt.events.length = 0;
+  }
+  check(rt.enemies.length > 0, 'no enemies spawned on tall field');
+  rt.enemies.forEach(function (e) {
+    check(e.y >= 8 && e.y + e.h <= 128 - 8, 'enemy leaks out of tall field: ' + e.id + ' y=' + e.y.toFixed(1));
+  });
+  check(rt.player.y + rt.player.h <= 128 - 8, 'player outside tall field');
+  /* boss recentres vertically on the tall field */
+  var rt2 = SI.engine.createRuntime({ defs: defs, level: levels[0], seed: 4, difficulty: 1, W: 144, H: 128 });
+  for (var j = 0; j < Math.floor(41 * 60); j++) {
+    rt2.player.invuln = 1;
+    SI.engine.step(rt2, { up: false, down: false, left: false, right: false, fire: false, special: false }, STEP);
+  }
+  var boss = rt2.enemies.filter(function (e) { return e.def.boss; })[0];
+  check(boss && Math.abs((boss.y + boss.h / 2) - 64) < 12, 'boss not centred on tall field');
+})();
+
 /* ── summary ─────────────────────────────────── */
 if (fails) {
   console.error('\n' + fails + ' check(s) failed.');

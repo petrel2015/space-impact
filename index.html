@@ -6,23 +6,62 @@
 <meta name="description" content="Space Impact — classic Nokia shoot-'em-up, rebuilt for the web. Data-driven levels & enemies.">
 <meta name="theme-color" content="#b6c653">
 <title>Space Impact</title>
-<link rel="stylesheet" href="css/style.css?v=6">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="stylesheet" href="css/style.css?v=7">
 </head>
 <body>
 
 <header class="site-head">
   <div class="wrap head-row">
     <span class="brand">SPACE·IMPACT</span>
-    <div class="lang-switch" role="group" aria-label="Language / 语言">
-      <button type="button" id="lang-en" data-lang="en" aria-pressed="false">EN</button>
-      <button type="button" id="lang-zh" data-lang="zh" aria-pressed="false">中文</button>
+    <div class="head-actions">
+      <div class="settings-wrap">
+        <button type="button" id="btn-settings" aria-expanded="false" aria-controls="settings-pop" aria-label="Settings / 设置">⚙</button>
+        <div class="settings-pop" id="settings-pop" hidden>
+          <h2 class="rule-title" data-i18n="settingsTitle">Settings</h2>
+
+          <div class="field field--block">
+            <span class="field-label" data-i18n="difficultyLabel">Difficulty</span>
+            <div class="segmented" id="diff-seg" role="group" aria-label="Difficulty / 难度">
+              <button type="button" data-diff="easy" data-i18n="diffEasy">Easy</button>
+              <button type="button" data-diff="normal" data-i18n="diffNormal">Normal</button>
+              <button type="button" data-diff="hard" data-i18n="diffHard">Hard</button>
+            </div>
+          </div>
+
+          <div class="field field--block">
+            <span class="field-label" data-i18n="themeLabel">Theme</span>
+            <div class="segmented" id="theme-seg" role="group" aria-label="Theme / 主题">
+              <button type="button" data-theme="retro" data-i18n="themeRetro">Retro LCD</button>
+              <button type="button" data-theme="night" data-i18n="themeNight">Night</button>
+              <button type="button" data-theme="paper" data-i18n="themePaper">Paper</button>
+            </div>
+          </div>
+
+          <div class="field">
+            <span class="field-label" data-i18n="soundLabel">Sound</span>
+            <button type="button" id="btn-sound" class="toggle" aria-pressed="true"><span class="toggle-state">ON</span></button>
+          </div>
+
+          <div class="field">
+            <span class="field-label" data-i18n="autoFireLabel">Touch auto-fire</span>
+            <button type="button" id="btn-autofire" class="toggle" aria-pressed="true"><span class="toggle-state">ON</span></button>
+          </div>
+        </div>
+      </div>
+      <div class="lang-switch" role="group" aria-label="Language / 语言">
+        <button type="button" id="lang-en" data-lang="en" aria-pressed="false">EN</button>
+        <button type="button" id="lang-zh" data-lang="zh" aria-pressed="false">中文</button>
+      </div>
     </div>
   </div>
 </header>
 
 <main class="wrap">
 
-  <!-- ═══ Screen: Start ═══ -->
+  <!-- ═══ Screen: Start (how-to lives here only — hidden once playing) ═══ -->
   <section id="screen-start" class="screen">
 
     <div class="hero">
@@ -31,7 +70,7 @@
       <p class="hiscore-line"><span data-i18n="highScoreLabel">High score</span> <strong id="hiscore-value">0</strong></p>
     </div>
 
-    <div class="cols">
+    <div class="start-panel">
       <section class="panel">
         <h2 class="rule-title" data-i18n="howTitle">How to play</h2>
         <ul class="how-list">
@@ -42,38 +81,6 @@
         </ul>
         <button type="button" id="btn-start" class="btn-primary btn-big" data-i18n="startBtn">Start</button>
         <p class="data-status" id="data-status" hidden></p>
-      </section>
-
-      <section class="panel">
-        <h2 class="rule-title" data-i18n="settingsTitle">Settings</h2>
-
-        <div class="field field--block">
-          <span class="field-label" data-i18n="difficultyLabel">Difficulty</span>
-          <div class="segmented" id="diff-seg" role="group" aria-label="Difficulty / 难度">
-            <button type="button" data-diff="easy" data-i18n="diffEasy">Easy</button>
-            <button type="button" data-diff="normal" data-i18n="diffNormal">Normal</button>
-            <button type="button" data-diff="hard" data-i18n="diffHard">Hard</button>
-          </div>
-        </div>
-
-        <div class="field field--block">
-          <span class="field-label" data-i18n="themeLabel">Theme</span>
-          <div class="segmented" id="theme-seg" role="group" aria-label="Theme / 主题">
-            <button type="button" data-theme="retro" data-i18n="themeRetro">Retro LCD</button>
-            <button type="button" data-theme="night" data-i18n="themeNight">Night</button>
-            <button type="button" data-theme="paper" data-i18n="themePaper">Paper</button>
-          </div>
-        </div>
-
-        <div class="field">
-          <span class="field-label" data-i18n="soundLabel">Sound</span>
-          <button type="button" id="btn-sound" class="toggle" aria-pressed="true"><span class="toggle-state">ON</span></button>
-        </div>
-
-        <div class="field">
-          <span class="field-label" data-i18n="autoFireLabel">Touch auto-fire</span>
-          <button type="button" id="btn-autofire" class="toggle" aria-pressed="true"><span class="toggle-state">ON</span></button>
-        </div>
       </section>
     </div>
   </section>
@@ -105,7 +112,7 @@
             <p class="over-best"><span data-i18n="bestLabel">Best</span> <strong id="over-best">0</strong></p>
             <p class="new-record" id="new-record" hidden data-i18n="newRecord">New record!</p>
             <div class="btn-col">
-              <button type="button" id="btn-retry" class="btn-primary" data-i18n="retryBtn">Retry</button>
+              <button type="button" id="btn-retry" class="btn-primary" data-i18n="retryBtn">Retry level</button>
               <button type="button" id="btn-menu" data-i18n="menuBtn">Menu</button>
             </div>
           </div>
@@ -130,22 +137,17 @@
 
 </main>
 
-<div class="wrap play-hint" id="play-hint" hidden>
-  <p data-i18n="hintControls">Move: arrows / WASD · Fire: Space / J (hold = auto) · Special: K / X · Pause: P / Esc</p>
-  <p data-i18n="hintItems">Items: P power · S spread · L laser · + heal · E energy ⚡ · G shield</p>
-</div>
-
 <footer class="site-foot">
   <div class="wrap" data-i18n="footerNote">Runs entirely in your browser · levels &amp; enemies are data-driven JSON</div>
 </footer>
 
-<script src="js/i18n.js?v=6"></script>
-<script src="js/theme.js?v=6"></script>
-<script src="js/audio.js?v=6"></script>
-<script src="js/sprites.js?v=6"></script>
-<script src="js/behaviors.js?v=6"></script>
-<script src="js/engine.js?v=6"></script>
-<script src="js/render.js?v=6"></script>
-<script src="js/app.js?v=6"></script>
+<script src="js/i18n.js?v=7"></script>
+<script src="js/theme.js?v=7"></script>
+<script src="js/audio.js?v=7"></script>
+<script src="js/sprites.js?v=7"></script>
+<script src="js/behaviors.js?v=7"></script>
+<script src="js/engine.js?v=7"></script>
+<script src="js/render.js?v=7"></script>
+<script src="js/app.js?v=7"></script>
 </body>
 </html>

@@ -52,6 +52,34 @@ body {
   padding-bottom: 10px;
 }
 
+.head-actions { display: flex; align-items: center; gap: 8px; }
+
+/* settings popover hanging off the header gear */
+.settings-wrap { position: relative; }
+
+#btn-settings {
+  font-size: 16px;
+  line-height: 1;
+  padding: 4px 10px;
+}
+
+.settings-pop {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 10px);
+  z-index: 60;
+  width: min(320px, calc(100vw - 24px));
+  background: var(--panel);
+  border: 2px solid var(--ink);
+  box-shadow: 4px 4px 0 var(--shadow);
+  padding: 14px;
+  text-align: left;
+}
+
+.settings-pop[hidden] { display: none; }
+
+.settings-pop .field { margin: 10px 0; }
+
 .brand {
   font-weight: 700;
   letter-spacing: 0.22em;
@@ -99,22 +127,6 @@ button:focus-visible {
   color: var(--muted);
 }
 
-/* in-game controls cheat sheet, right above the footer */
-.play-hint {
-  margin-top: 22px;
-  padding: 10px 14px;
-  border: 2px dashed var(--ink);
-  background: var(--panel);
-  box-shadow: 3px 3px 0 var(--shadow);
-  font-size: 12px;
-  line-height: 1.9;
-  text-align: center;
-}
-
-.play-hint p { margin: 0; }
-
-.play-hint p + p { color: var(--muted); }
-
 /* ── start screen ────────────────────────────── */
 .hero { text-align: center; padding: 34px 0 22px; }
 
@@ -146,6 +158,8 @@ button:focus-visible {
   margin-left: 6px;
   box-shadow: 2px 2px 0 var(--shadow);
 }
+
+.start-panel { max-width: 620px; margin: 0 auto; }
 
 .cols {
   display: grid;
@@ -428,7 +442,7 @@ body.small .touch-controls { display: flex; }
   .act-fire { width: 70px; height: 70px; }
 }
 
-/* phone portrait: full-width canvas + compact hint/footer; oversized
+/* phone portrait: full-width canvas + compact footer; oversized
    controls absorb the leftover height so there is no dead band */
 @media (max-width: 560px) {
   .game-area { gap: 8px; padding: 8px 0 2px; }
@@ -438,7 +452,6 @@ body.small .touch-controls { display: flex; }
   }
   .act { width: min(94px, 14vh); height: min(94px, 14vh); }
   .act-fire { width: min(108px, 16vh); height: min(108px, 16vh); }
-  .play-hint { margin-top: 12px; font-size: 11px; line-height: 1.7; padding: 8px 10px; }
   .site-foot { padding: 6px 0; font-size: 11px; }
   .hero { padding: 20px 0 14px; }
   .panel { padding: 12px; }
