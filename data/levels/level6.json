@@ -1,0 +1,91 @@
+{
+  "id": 6,
+  "difficulty": 1.1,
+  "events": [
+    {
+      "t": 1,
+      "enemy": "crab",
+      "count": 1,
+      "formation": "single",
+      "y": 0.4
+    },
+    {
+      "t": 5,
+      "enemy": "crab",
+      "count": 1,
+      "formation": "single",
+      "y": 0.7
+    },
+    {
+      "t": 9,
+      "enemy": "wasp",
+      "count": 6,
+      "interval": 0.35,
+      "formation": "lineH",
+      "y": 0.5
+    },
+    {
+      "t": 15,
+      "enemy": "lasher",
+      "count": 1,
+      "formation": "single",
+      "y": 0.3
+    },
+    {
+      "t": 18,
+      "enemy": "lasher",
+      "count": 1,
+      "formation": "single",
+      "y": 0.7
+    },
+    {
+      "t": 22,
+      "enemy": "crab",
+      "count": 2,
+      "interval": 2.5,
+      "formation": "scatter"
+    },
+    {
+      "t": 28,
+      "enemy": "cube",
+      "count": 3,
+      "interval": 1.0,
+      "formation": "stagger",
+      "y": 0.5
+    },
+    {
+      "t": 35,
+      "enemy": "drone",
+      "count": 10,
+      "interval": 0.3,
+      "formation": "lineV",
+      "y": 0.5
+    },
+    {
+      "t": 42,
+      "enemy": "crab",
+      "count": 2,
+      "interval": 3.0,
+      "formation": "scatter"
+    },
+    {
+      "t": 48,
+      "enemy": "lasher",
+      "count": 3,
+      "interval": 1.2,
+      "formation": "lineH",
+      "y": 0.5
+    },
+    {
+      "t": 54,
+      "enemy": "mb1",
+      "count": 1,
+      "formation": "single",
+      "y": 0.5
+    },
+    {
+      "t": 66,
+      "boss": "boss4b"
+    }
+  ]
+}

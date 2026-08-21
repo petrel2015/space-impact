@@ -1,0 +1,84 @@
+{
+  "id": 9,
+  "difficulty": 1.3,
+  "events": [
+    {
+      "t": 2,
+      "enemy": "bastion",
+      "count": 1,
+      "formation": "single",
+      "y": 0.4
+    },
+    {
+      "t": 8,
+      "enemy": "gunner",
+      "count": 2,
+      "interval": 2.0,
+      "formation": "single",
+      "y": 0.3
+    },
+    {
+      "t": 14,
+      "enemy": "spinner",
+      "count": 2,
+      "interval": 2.5,
+      "formation": "single",
+      "y": 0.7
+    },
+    {
+      "t": 20,
+      "enemy": "bastion",
+      "count": 1,
+      "formation": "single",
+      "y": 0.65
+    },
+    {
+      "t": 26,
+      "enemy": "spider",
+      "count": 4,
+      "interval": 0.8,
+      "formation": "scatter"
+    },
+    {
+      "t": 32,
+      "enemy": "cube",
+      "count": 4,
+      "interval": 1.0,
+      "formation": "stagger",
+      "y": 0.5
+    },
+    {
+      "t": 40,
+      "enemy": "lasher",
+      "count": 4,
+      "interval": 1.2,
+      "formation": "lineH",
+      "y": 0.5
+    },
+    {
+      "t": 48,
+      "enemy": "bastion",
+      "count": 1,
+      "formation": "single",
+      "y": 0.3
+    },
+    {
+      "t": 54,
+      "enemy": "wasp",
+      "count": 10,
+      "interval": 0.25,
+      "formation": "scatter"
+    },
+    {
+      "t": 62,
+      "enemy": "mb2",
+      "count": 1,
+      "formation": "single",
+      "y": 0.5
+    },
+    {
+      "t": 75,
+      "boss": "boss6"
+    }
+  ]
+}

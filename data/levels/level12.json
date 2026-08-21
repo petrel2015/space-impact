@@ -1,0 +1,83 @@
+{
+  "id": 12,
+  "difficulty": 1.55,
+  "events": [
+    {
+      "t": 2,
+      "enemy": "spider",
+      "count": 6,
+      "interval": 0.7,
+      "formation": "scatter"
+    },
+    {
+      "t": 8,
+      "enemy": "chaser",
+      "count": 8,
+      "interval": 0.3,
+      "formation": "scatter"
+    },
+    {
+      "t": 16,
+      "enemy": "spider",
+      "count": 6,
+      "interval": 0.6,
+      "formation": "scatter"
+    },
+    {
+      "t": 24,
+      "enemy": "bastion",
+      "count": 2,
+      "interval": 4.0,
+      "formation": "single",
+      "y": 0.5
+    },
+    {
+      "t": 32,
+      "enemy": "manta",
+      "count": 6,
+      "interval": 0.5,
+      "formation": "scatter"
+    },
+    {
+      "t": 40,
+      "enemy": "cube",
+      "count": 5,
+      "interval": 1.0,
+      "formation": "stagger",
+      "y": 0.5
+    },
+    {
+      "t": 48,
+      "enemy": "spider",
+      "count": 8,
+      "interval": 0.5,
+      "formation": "scatter"
+    },
+    {
+      "t": 56,
+      "enemy": "mb2",
+      "count": 1,
+      "formation": "single",
+      "y": 0.5
+    },
+    {
+      "t": 64,
+      "enemy": "bastion",
+      "count": 2,
+      "interval": 4.0,
+      "formation": "single",
+      "y": 0.3
+    },
+    {
+      "t": 72,
+      "enemy": "spider",
+      "count": 10,
+      "interval": 0.4,
+      "formation": "scatter"
+    },
+    {
+      "t": 82,
+      "boss": "boss5b"
+    }
+  ]
+}

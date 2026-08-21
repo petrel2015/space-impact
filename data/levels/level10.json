@@ -1,0 +1,94 @@
+{
+  "id": 10,
+  "difficulty": 1.35,
+  "events": [
+    {
+      "t": 1,
+      "enemy": "drone",
+      "count": 12,
+      "interval": 0.18,
+      "formation": "lineV",
+      "y": 0.5
+    },
+    {
+      "t": 6,
+      "enemy": "bat",
+      "count": 8,
+      "interval": 0.25,
+      "formation": "stagger",
+      "y": 0.5
+    },
+    {
+      "t": 12,
+      "enemy": "sting",
+      "count": 6,
+      "interval": 0.4,
+      "formation": "lineH",
+      "y": 0.35
+    },
+    {
+      "t": 18,
+      "enemy": "chaser",
+      "count": 6,
+      "interval": 0.35,
+      "formation": "scatter"
+    },
+    {
+      "t": 24,
+      "enemy": "rock",
+      "count": 6,
+      "interval": 0.5,
+      "formation": "scatter"
+    },
+    {
+      "t": 30,
+      "enemy": "gunner",
+      "count": 3,
+      "interval": 1.5,
+      "formation": "single",
+      "y": 0.5
+    },
+    {
+      "t": 38,
+      "enemy": "spinner",
+      "count": 3,
+      "interval": 2.0,
+      "formation": "single",
+      "y": 0.4
+    },
+    {
+      "t": 46,
+      "enemy": "bomber",
+      "count": 3,
+      "interval": 2.5,
+      "formation": "single",
+      "y": 0.5
+    },
+    {
+      "t": 54,
+      "enemy": "mb1",
+      "count": 1,
+      "formation": "single",
+      "y": 0.35
+    },
+    {
+      "t": 62,
+      "enemy": "mb2",
+      "count": 1,
+      "formation": "single",
+      "y": 0.65
+    },
+    {
+      "t": 68,
+      "enemy": "drone",
+      "count": 16,
+      "interval": 0.12,
+      "formation": "lineV",
+      "y": 0.5
+    },
+    {
+      "t": 78,
+      "boss": "boss3"
+    }
+  ]
+}

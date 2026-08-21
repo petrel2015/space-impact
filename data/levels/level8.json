@@ -1,0 +1,92 @@
+{
+  "id": 8,
+  "difficulty": 1.2,
+  "events": [
+    {
+      "t": 1,
+      "enemy": "crab",
+      "count": 2,
+      "interval": 3.0,
+      "formation": "scatter"
+    },
+    {
+      "t": 5,
+      "enemy": "wasp",
+      "count": 8,
+      "interval": 0.3,
+      "formation": "stagger",
+      "y": 0.4
+    },
+    {
+      "t": 10,
+      "enemy": "cube",
+      "count": 3,
+      "interval": 1.2,
+      "formation": "lineV",
+      "y": 0.6
+    },
+    {
+      "t": 16,
+      "enemy": "manta",
+      "count": 4,
+      "interval": 0.6,
+      "formation": "scatter"
+    },
+    {
+      "t": 22,
+      "enemy": "spider",
+      "count": 3,
+      "interval": 1.0,
+      "formation": "scatter"
+    },
+    {
+      "t": 28,
+      "enemy": "drone",
+      "count": 12,
+      "interval": 0.2,
+      "formation": "lineV",
+      "y": 0.5
+    },
+    {
+      "t": 36,
+      "enemy": "lasher",
+      "count": 3,
+      "interval": 1.5,
+      "formation": "lineH",
+      "y": 0.4
+    },
+    {
+      "t": 42,
+      "enemy": "crab",
+      "count": 2,
+      "interval": 2.5,
+      "formation": "scatter"
+    },
+    {
+      "t": 48,
+      "enemy": "mb1",
+      "count": 1,
+      "formation": "single",
+      "y": 0.35
+    },
+    {
+      "t": 56,
+      "enemy": "mb2",
+      "count": 1,
+      "formation": "single",
+      "y": 0.6
+    },
+    {
+      "t": 62,
+      "enemy": "wasp",
+      "count": 12,
+      "interval": 0.22,
+      "formation": "lineV",
+      "y": 0.5
+    },
+    {
+      "t": 72,
+      "boss": "boss5b"
+    }
+  ]
+}
