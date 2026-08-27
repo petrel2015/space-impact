@@ -32,7 +32,7 @@ var levels = index.levels.map(function (f) {
 });
 
 var KNOWN_EVENTS = ['shoot', 'eshoot', 'hitEnemy', 'cancel', 'explode', 'bigExplode', 'hitPlayer',
-  'shieldHit', 'powerup', 'special', 'bossWarn', 'bossDie', 'lifeLost',
+  'shieldHit', 'powerup', 'special', 'missileShoot', 'bossWarn', 'bossDie', 'lifeLost',
   'levelClear', 'gameOver'];
 
 /* ── invariants while simulating a whole level ── */
@@ -266,6 +266,108 @@ levels.forEach(function (lvl) {
   }
   var boss = rt2.enemies.filter(function (e) { return e.def.boss; })[0];
   check(boss && Math.abs((boss.y + boss.h / 2) - 64) < 12, 'boss not centred on tall field');
+})();
+
+/* 11. reward weapon: homing missiles drop-pickup, own ammo pool, home in */
+(function () {
+  var rt = SI.engine.createRuntime({ defs: defs, level: levels[0], seed: 21, difficulty: 1 });
+  var input = { up: false, down: false, left: false, right: false, fire: false, special: false };
+  var fireOn = { up: false, down: false, left: false, right: false, fire: true, special: false };
+
+  /* pickup grants a capped stockpile */
+  rt.powerups.push({ x: rt.player.x + 2, y: rt.player.y + 2, type: 'missile', age: 0 });
+  SI.engine.step(rt, input, STEP);
+  check(rt.player.missiles === 12, 'missile pickup should grant 12 warheads, got ' + rt.player.missiles);
+  rt.player.missiles = 18;
+  rt.powerups.push({ x: rt.player.x + 2, y: rt.player.y + 2, type: 'missile', age: 0 });
+  SI.engine.step(rt, input, STEP);
+  check(rt.player.missiles === 20, 'missile stockpile should cap at 20, got ' + rt.player.missiles);
+
+  /* firing consumes one missile, emits missileShoot, never touches
+     the finite-round stockpile, and works with a dry bullet mag */
+  rt.player.ammo = 0;
+  rt.player.cooldown = 0;
+  SI.engine.step(rt, fireOn, STEP);
+  check(rt.player.missiles === 19, 'volley should spend one missile');
+  check(rt.events.some(function (e) { return e.type === 'missileShoot'; }), 'missileShoot event missing');
+  check(!rt.events.some(function (e) { return e.type === 'shoot'; }), 'missile volley must not also fire bullets');
+
+  /* the launched missile curves onto a target ahead and kills it */
+  rt.player.missiles = 5;
+  rt.player.cooldown = 0;
+  rt.enemies.push({
+    id: 'drone', def: defs.drone, x: rt.player.x + 60, y: rt.player.y - 14, baseY: rt.player.y - 14,
+    w: defs.drone.w, h: defs.drone.h, hp: 1, maxHp: 1,
+    speed: 0, fireInterval: Infinity, cooldown: Infinity,
+    age: 0, phase: 0, state: {}, isBoss: false
+  });
+  var missile = rt.bullets.filter(function (b) { return b.missile; })[0];
+  check(!!missile, 'no missile in flight after firing');
+  check(missile.dmg === 3, 'missile should carry heavy damage');
+  var killed = false;
+  for (var i = 0; i < 240 && !killed; i++) {
+    rt.player.invuln = 1;
+    SI.engine.step(rt, input, STEP);
+    killed = rt.events.some(function (e) { return e.type === 'explode'; });
+    rt.events.length = 0;
+  }
+  check(killed, 'off-axis homing missile never reached its target');
+
+  /* missiles plow through enemy fire instead of cancelling out */
+  rt.bullets.push({ x: 60, y: 40, vx: 60, vy: 0, w: 4, h: 3, dmg: 3, pierce: false, missile: true });
+  rt.ebullets.push({ x: 64, y: 40, vx: -30, vy: 0, w: 3, h: 3 });
+  SI.engine.step(rt, input, STEP);
+  check(rt.bullets.some(function (b) { return b.missile; }), 'missile was eaten by bullet-cancel');
+  check(rt.ebullets.length === 1, 'missile should not consume enemy bullets either');
+
+  /* stockpile exhausted → trigger falls back to normal bullets */
+  rt.player.missiles = 1;
+  rt.player.cooldown = 0;
+  rt.player.ammo = Infinity;
+  SI.engine.step(rt, fireOn, STEP);
+  rt.player.cooldown = 0;
+  SI.engine.step(rt, fireOn, STEP);
+  check(rt.player.missiles === 0, 'last missile should have been spent');
+  check(rt.events.some(function (e) { return e.type === 'shoot'; }), 'depleted missiles should revert to bullets');
+
+  /* losing a life forfeits the reward weapon, like the power level */
+  rt.player.missiles = 7;
+  rt.player.hp = 1;
+  rt.player.invuln = 0;
+  rt.ebullets.push({ x: rt.player.x + 1, y: rt.player.y + 1, vx: 0, vy: 0, w: 3, h: 3 });
+  SI.engine.step(rt, input, STEP);
+  check(rt.player.missiles === 0, 'death should drop the missile stockpile');
+})();
+
+/* 12. aim tracer geometry mirrors the real volley for every weapon mode */
+(function () {
+  var rt = SI.engine.createRuntime({ defs: defs, level: levels[0], seed: 5, difficulty: 1 });
+  var p = rt.player;
+  var cases = [
+    { mode: 'normal', weaponLevel: 1, missiles: 0, expect: 1 },
+    { mode: 'normal', weaponLevel: 2, missiles: 0, expect: 2 },
+    { mode: 'normal', weaponLevel: 3, missiles: 0, expect: 3 },
+    { mode: 'spread', weaponLevel: 1, missiles: 0, expect: 3 },
+    { mode: 'laser', weaponLevel: 1, missiles: 0, expect: 1 },
+    { mode: 'normal', weaponLevel: 1, missiles: 4, expect: 1 }
+  ];
+  cases.forEach(function (c) {
+    p.mode = c.mode; p.modeTimer = 5; p.weaponLevel = c.weaponLevel; p.missiles = c.missiles;
+    var rays = SI.engine.volleyRays(p);
+    check(rays.length === c.expect,
+      'mode ' + c.mode + ' lvl' + c.weaponLevel + ' m' + c.missiles + ': ' + rays.length + ' rays, expected ' + c.expect);
+    rays.forEach(function (r) {
+      var len = Math.sqrt(r.ux * r.ux + r.uy * r.uy);
+      check(Math.abs(len - 1) < 1e-9, 'ray direction not normalized (len=' + len + ')');
+      check(r.x > p.x && r.y >= p.y && r.y <= p.y + p.h, 'ray origin outside the muzzle');
+    });
+    /* the real volley pushes exactly as many bullets as the tracer shows */
+    p.cooldown = 0;
+    var before = rt.bullets.length;
+    SI.engine.step(rt, { up: false, down: false, left: false, right: false, fire: true, special: false }, STEP);
+    check(rt.bullets.length - before === c.expect,
+      'volley pushed ' + (rt.bullets.length - before) + ' bullets but tracer showed ' + c.expect);
+  });
 })();
 
 /* ── summary ─────────────────────────────────── */

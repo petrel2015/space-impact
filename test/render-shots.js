@@ -131,13 +131,14 @@ function shot(name, levelIdx, atSeconds, opts) {
     player: o.player
   });
   var input = o.input || { up: false, down: false, left: false, right: false, fire: true, special: false };
+  if (o.mode) { rt.player.mode = o.mode; rt.player.modeTimer = o.modeTimer || 30; }
   var steps = Math.floor(atSeconds * 60);
   for (var i = 0; i < steps; i++) {
     if (o.godmode) rt.player.invuln = 1;
     SI.engine.step(rt, input, 1 / 60);
   }
   var ctx = makeCtx(144, 80);
-  SI.render.draw(ctx, rt, { hiScore: o.hiScore || 0 });
+  SI.render.draw(ctx, rt, { hiScore: o.hiScore || 0, aim: o.aim });
   var file = '/tmp/si-shots/' + name + '.png';
   writePng(file, ctx, 4);
   console.log('wrote', file, '(t=' + rt.t.toFixed(1) + 's, score=' + rt.player.score +
@@ -157,5 +158,8 @@ if (process.argv.length >= 4) {
   shot('n5-l7-manta-dive', 6, 12, { godmode: true });
   shot('n6-l14-final-boss', 13, 96, { godmode: true });
   shot('n8-ammo-hud', 0, 12, { godmode: true, player: { ammo: 348, ammoGain: 2, maxHp: 6 } });
+  shot('n9-aim-tracer', 4, 14, { godmode: true, aim: true });
+  shot('n10-missiles', 4, 14, { godmode: true, aim: true, player: { missiles: 7, ammo: 120, ammoGain: 2, maxHp: 6 } });
+  shot('n11-aim-spread', 4, 20, { godmode: true, aim: true, mode: 'spread' });
   shot('n7-gameover', 1, 200, { input: { up: false, down: false, left: false, right: false, fire: false, special: false } });
 }

@@ -9,7 +9,7 @@
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="stylesheet" href="css/style.css?v=13">
+<link rel="stylesheet" href="css/style.css?v=14">
 </head>
 <body>
 
@@ -50,6 +50,11 @@
             <span class="field-label" data-i18n="autoFireLabel">Auto-fire</span>
             <button type="button" id="btn-autofire" class="toggle" aria-pressed="false"><span class="toggle-state">OFF</span></button>
           </div>
+
+          <div class="field">
+            <span class="field-label" data-i18n="aimLineLabel">Aim line</span>
+            <button type="button" id="btn-aim" class="toggle" aria-pressed="true"><span class="toggle-state">ON</span></button>
+          </div>
         </div>
       </div>
       <button type="button" id="lang-toggle" class="lang-toggle" aria-label="Language / 语言">中文</button>
@@ -74,7 +79,8 @@
         <ul class="how-list">
           <li data-i18n="howMove">Move: arrows / WASD · Fire: Space / J (hold for auto-fire)</li>
           <li data-i18n="howSpecial">Special: collect ⚡ energy, unleash with K / X — a screen-clearing beam</li>
-          <li data-i18n="howItem">Items: P power · S spread · L laser · + heal · E energy · G shield</li>
+          <li data-i18n="howItem">Items: P power · S spread · L laser · M missiles · + heal · E energy · G shield</li>
+          <li data-i18n="howAim">Aim tracer: faint dashed line previews where your shots land — toggle with L</li>
           <li data-i18n="howTouch">Touch: D-pad left, FIRE &amp; BOMB right</li>
         </ul>
         <button type="button" id="btn-start" class="btn-primary btn-big" data-i18n="startBtn" disabled>Start</button>
@@ -161,14 +167,14 @@
   </div>
 </div>
 
-<script src="js/i18n.js?v=13"></script>
-<script src="js/theme.js?v=13"></script>
-<script src="js/audio.js?v=13"></script>
-<script src="js/sprites.js?v=13"></script>
-<script src="js/level-template.js?v=13"></script>
-<script src="js/behaviors.js?v=13"></script>
-<script src="js/engine.js?v=13"></script>
-<script src="js/render.js?v=13"></script>
-<script src="js/app.js?v=13"></script>
+<script src="js/i18n.js?v=14"></script>
+<script src="js/theme.js?v=14"></script>
+<script src="js/audio.js?v=14"></script>
+<script src="js/sprites.js?v=14"></script>
+<script src="js/level-template.js?v=14"></script>
+<script src="js/behaviors.js?v=14"></script>
+<script src="js/engine.js?v=14"></script>
+<script src="js/render.js?v=14"></script>
+<script src="js/app.js?v=14"></script>
 </body>
 </html>

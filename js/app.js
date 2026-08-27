@@ -10,6 +10,7 @@
   var STEP = 1 / 60;
   var HISCORE_KEY = 'si-hiscore';
   var AUTOFIRE_KEY = 'si-autofire-v2';
+  var AIM_KEY = 'si-aimline';
   var DIFF_KEY = 'si-difficulty';
 
   /* Difficulty tiers: enemy stat multiplier, lives, HP, and ammo policy.
@@ -33,6 +34,8 @@
   var mode = 'menu';        /* menu | play | paused | over */
   var hiScore = 0;
   var autofire = false;
+  /* aim tracer (dashed muzzle line) — on by default, saves ammo */
+  var aimLine = true;
   var raf = 0, lastT = 0, acc = 0;
   var overHandled = false;
 
@@ -44,7 +47,7 @@
 
   /* URL params (testing / shareable links):
      ?lang=en|zh  ?theme=retro|night|paper  ?touch=1
-     ?autostart=1  ?demo=1 (attract-mode autopilot)  ?paused=1 */
+     ?autostart=1  ?demo=1 (attract-mode autopilot)  ?paused=1  ?aim=0|1 */
   var QS = (global.location && global.location.search) || '';
   function qsFlag(name) { return new RegExp('[?&]' + name + '=1\\b').test(QS); }
   function qsVal(name) {
@@ -81,6 +84,12 @@
 
     try { hiScore = parseInt(localStorage.getItem(HISCORE_KEY) || '0', 10) || 0; } catch (e) {}
     try { autofire = localStorage.getItem(AUTOFIRE_KEY) === '1'; } catch (e) {}
+    try {
+      var savedAim = localStorage.getItem(AIM_KEY);
+      if (savedAim === '0' || savedAim === '1') aimLine = savedAim === '1';
+    } catch (e) {}
+    if (qsVal('aim') === '0') aimLine = false;
+    if (qsVal('aim') === '1') aimLine = true;
     try { var savedDiff = localStorage.getItem(DIFF_KEY); if (DIFF_PRESETS[savedDiff]) difficulty = savedDiff; } catch (e) {}
 
     SI.i18n.applyToDom();
@@ -228,6 +237,7 @@
       score: rt.player.score,
       lives: rt.player.lives,
       weaponLevel: rt.player.weaponLevel,
+      missiles: rt.player.missiles,
       special: rt.player.special,
       maxHp: rt.player.maxHp,
       /* fresh stockpile scaled to the upcoming level's length */
@@ -319,7 +329,7 @@
     }
 
     if (rt && mode !== 'menu') {
-      SI.render.draw(ctx, rt, { hiScore: Math.max(hiScore, rt.player.score) });
+      SI.render.draw(ctx, rt, { hiScore: Math.max(hiScore, rt.player.score), aim: aimLine });
     }
   }
 
@@ -327,11 +337,15 @@
     shoot: 'shoot', eshoot: 'eshoot', hitEnemy: 'hitEnemy', cancel: 'cancel',
     explode: 'explode', bigExplode: 'bigExplode', hitPlayer: 'hitPlayer',
     shieldHit: 'shieldHit', powerup: 'powerup', special: 'special',
+    missileShoot: 'missileFire',
     bossWarn: 'bossWarn', bossDie: 'bigExplode', levelClear: 'levelClear',
     gameOver: 'gameOver', lifeLost: 'lifeLost'
   };
 
-  var PICKUP_SFX = { power: 'powerup', spread: 'powerup', laser: 'powerup', heal: 'heal', energy: 'energy', shield: 'shieldHit' };
+  var PICKUP_SFX = {
+    power: 'powerup', spread: 'powerup', laser: 'powerup', heal: 'heal',
+    energy: 'energy', shield: 'shieldHit', missile: 'missileGet'
+  };
 
   function drainEvents() {
     var evs = rt.events.splice(0);
@@ -423,6 +437,9 @@
       if ((e.key === 'p' || e.key === 'P' || e.key === 'Escape') && (mode === 'play' || mode === 'paused')) {
         e.preventDefault();
         if (mode === 'play') pauseGame(); else resumeGame();
+      }
+      if (e.key === 'l' || e.key === 'L') {
+        setAimLine(!aimLine);
       }
       if (e.key === 'Enter') {
         if (mode === 'menu' && levels.length) startRun();
@@ -595,6 +612,16 @@
       syncToggles();
       SI.audio.play('ui');
     });
+    $('btn-aim').addEventListener('click', function () {
+      setAimLine(!aimLine);
+      SI.audio.play('ui');
+    });
+  }
+
+  function setAimLine(on) {
+    aimLine = !!on;
+    try { localStorage.setItem(AIM_KEY, aimLine ? '1' : '0'); } catch (e) {}
+    syncToggles();
   }
 
   function syncLangButtons() {
@@ -620,6 +647,9 @@
     var af = $('btn-autofire');
     af.setAttribute('aria-pressed', String(autofire));
     af.querySelector('.toggle-state').textContent = autofire ? 'ON' : 'OFF';
+    var aim = $('btn-aim');
+    aim.setAttribute('aria-pressed', String(aimLine));
+    aim.querySelector('.toggle-state').textContent = aimLine ? 'ON' : 'OFF';
   }
 
   /* ── LCD sizing ────────────────────────────── */

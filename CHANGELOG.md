@@ -1,0 +1,63 @@
+# Changelog
+
+All notable user-visible changes to this project are documented in this file.
+
+> **Note on versioning:** this repository has no git tags and no GitHub
+> releases yet (checked with `git tag` — empty — and `gh release list`), and
+> there is no `package.json` version field. The single entry below therefore
+> aggregates the complete feature set first published on **2026-08-22**
+> (initial public commit, live on GitHub Pages) up to the current state.
+> Finer-grained history lives in the
+> [git log](https://github.com/petrel2015/space-impact/commits/main/).
+> Once the maintainer tags the first release, future entries will split
+> normally from `[Unreleased]`.
+
+## [Unreleased]
+
+### Added
+- Complete bilingual documentation system: `docs/en` + `docs/zh` page sets,
+  feature design documents (`docs/*/features/`), this changelog, and
+  `README_FOR_AI.md` for AI assistants.
+
+## [1.0.0] - 2026-08-22
+
+*First release, published 2026-08-22; this entry summarizes the complete
+feature set as of the aggregate date through the latest commit.*
+
+### Added
+- Full game: 14 levels, 27 enemy types (10 boss forms, 2 mid-bosses), final
+  boss cycles 7 attack patterns with reinforcements; endless campaign loop
+  with per-loop enemy scaling after level 14.
+- Data-driven content: enemies and levels as plain JSON (`data/enemies.json`,
+  `data/levels/*.json`), compiled and validated at load with bilingual
+  `DataError` messages; add content without engine changes.
+- Behavior primitive library: 9 movement primitives, 10 attack primitives
+  (incl. `cycle` rotation and `spawn`), 5 spawn formations.
+- Four difficulty tiers (Casual / Standard / Tight / Hardcore): HP
+  10→8→6→4, lives 4→3→3→2, finite ammo from Standard up with kill recoup.
+- Weapons & items: weapon levels 1–3, spread and piercing-laser modes, heal,
+  special energy (screen-clearing beam), shield, and homing-missile reward
+  weapon with its own ammo pool that flies through enemy fire.
+- Point-shot fire by default with an Auto-fire toggle; aim tracer (dashed
+  volley preview with impact marker) toggleable in-game.
+- Bullet-vs-bullet cancel; screen shake; parallax stars; boss HP bars and
+  warning.
+- 144×80 logical LCD with integer scaling (nod to the 3310's 84×48), 5×7
+  bitmap font; 144×128 portrait field on touch phones.
+- EN / 中文 UI with auto-detection and persistence; 3 themes (Retro LCD,
+  Night, Paper); header settings popover (auto-pauses the game when opened
+  mid-run).
+- Responsive layout with auto-shown on-screen D-pad + FIRE/BOMB on touch
+  devices and phone/tablet-sized viewports.
+- Synthesized WebAudio square-wave SFX (zero audio files).
+- Custom-level flow: download a playable level template from the start
+  screen, upload edited JSON and play instantly.
+- Attract/demo mode autopilot (`?demo=1&autostart=1`) through the same input
+  path as a human.
+- URL parameters for testing/sharing: `lang`, `theme`, `touch`, `autostart`,
+  `demo`, `paused`, `aim`, `level`.
+- Node test suites with zero dependencies: data-pack validation
+  (`data-test.js`), deterministic full-level simulation (`engine-test.js`),
+  aim/missile visual checks (`aim-visual-test.js`), headless PNG scene
+  renderer (`render-shots.js`).
+- Donations section with Alipay/WeChat QR codes.

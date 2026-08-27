@@ -20,7 +20,8 @@
   var PLAYER_SPEED = 36;
   var FIRE_COOLDOWN = 0.26;
   var MAX_HP = 8, MAX_LIVES = 3, MAX_SPECIAL = 5;
-  var POWERUP_TYPES = ['power', 'spread', 'laser', 'heal', 'energy', 'shield'];
+  var POWERUP_TYPES = ['power', 'spread', 'laser', 'heal', 'energy', 'shield', 'missile'];
+  var MISSILE_PICKUP = 12, MISSILE_MAX = 20;
 
   function DataError(key, params) {
     var e = new Error(key);
@@ -177,6 +178,8 @@
         score: carry.score || 0,
         special: carry.special || 0,
         weaponLevel: carry.weaponLevel || 1,
+        /* reward weapon: homing missiles picked up from drops */
+        missiles: carry.missiles || 0,
         mode: 'normal', modeTimer: 0,
         shield: 0,
         invuln: 2,
@@ -252,6 +255,7 @@
       p.hp = p.maxHp;
       p.invuln = 2.5;
       p.weaponLevel = 1;
+      p.missiles = 0;
       p.mode = 'normal'; p.modeTimer = 0;
       p.shield = 0;
       p.y = (rt.H - p.h) / 2;
@@ -291,11 +295,20 @@
 
   function firePlayer(rt) {
     var p = rt.player;
+    var cx = p.x + p.w, cy = p.y + p.h / 2;
+    var B = 110;
+    /* reward weapon first: homing missiles carry their own ammo and
+       never touch the finite-round stockpile */
+    if (p.missiles > 0) {
+      p.missiles--;
+      rt.bullets.push({ x: cx + 2, y: cy, vx: 55, vy: 0, w: 4, h: 3, dmg: 3, pierce: false, missile: true });
+      p.cooldown = 0.34;
+      pushEvent(rt, 'missileShoot');
+      return;
+    }
     /* finite-ammo tiers: one charge per volley, none left = dry trigger */
     if (p.ammo <= 0) return;
     if (p.ammo !== Infinity) p.ammo--;
-    var cx = p.x + p.w, cy = p.y + p.h / 2;
-    var B = 110;
     if (p.mode === 'laser') {
       rt.bullets.push({ x: cx + 4, y: cy, vx: 130, vy: 0, w: 8, h: 1, dmg: 2, pierce: true });
       p.cooldown = 0.2;
@@ -319,6 +332,25 @@
       p.cooldown = FIRE_COOLDOWN;
     }
     pushEvent(rt, 'shoot');
+  }
+
+  /* Ray geometry of the player's next volley — single source of truth
+     shared by firePlayer's patterns and the renderer's aim tracer, so
+     the dashed line always matches what leaves the muzzle. Each ray is
+     {x, y, ux, uy}: origin + unit direction. */
+  function volleyRays(p) {
+    var cx = p.x + p.w, cy = p.y + p.h / 2;
+    var out = [];
+    function add(ox, dy, a) {
+      out.push({ x: cx + ox, y: cy + dy, ux: Math.cos(a), uy: Math.sin(a) });
+    }
+    if (p.missiles > 0) add(2, 0, 0);
+    else if (p.mode === 'laser') add(4, 0, 0);
+    else if (p.mode === 'spread') [-0.35, 0, 0.35].forEach(function (a) { add(0, 0, a); });
+    else if (p.weaponLevel >= 3) [0, -3, 3].forEach(function (dy) { add(0, dy, 0); });
+    else if (p.weaponLevel === 2) [-2, 2].forEach(function (dy) { add(0, dy, 0); });
+    else add(0, 0, 0);
+    return out;
   }
 
   function fireSpecial(rt) {
@@ -349,6 +381,7 @@
       case 'heal': p.hp = Math.min(p.maxHp, p.hp + 2); break;
       case 'energy': p.special = Math.min(MAX_SPECIAL, p.special + 1); break;
       case 'shield': p.shield = 3; break;
+      case 'missile': p.missiles = Math.min(MISSILE_MAX, p.missiles + MISSILE_PICKUP); break;
     }
     pushEvent(rt, 'powerup', { type: pu.type });
   }
@@ -444,6 +477,22 @@
     /* bullets */
     for (var b1 = rt.bullets.length - 1; b1 >= 0; b1--) {
       var b = rt.bullets[b1];
+      if (b.missile) {
+        /* reward weapon: accelerate and steer toward the closest
+           enemy still ahead of the warhead */
+        var tgt = null, td = 1e9;
+        for (var mi = 0; mi < rt.enemies.length; mi++) {
+          var me = rt.enemies[mi];
+          if (me.x + me.w < b.x - 2) continue;
+          var d = Math.abs(me.x + me.w / 2 - b.x) + Math.abs(me.y + me.h / 2 - b.y) * 0.5;
+          if (d < td) { td = d; tgt = me; }
+        }
+        if (tgt) {
+          var wantVy = Math.max(-46, Math.min(46, (tgt.y + tgt.h / 2 - b.y) * 5));
+          b.vy += Math.max(-170 * dt, Math.min(170 * dt, wantVy - b.vy));
+        }
+        b.vx = Math.min(125, b.vx + 170 * dt);
+      }
       b.x += b.vx * dt; b.y += b.vy * dt;
       if (b.x - b.w / 2 > W + 4 || b.y < HUD_TOP - 4 || b.y > H + 4) rt.bullets.splice(b1, 1);
     }
@@ -466,9 +515,11 @@
       }
     }
 
-    /* classic detail: opposing bullets cancel each other out */
+    /* classic detail: opposing bullets cancel each other out
+       (homing missiles fly straight through enemy fire) */
     for (var cb = rt.bullets.length - 1; cb >= 0; cb--) {
       var pb0 = rt.bullets[cb];
+      if (pb0.missile) continue;
       for (var ce = rt.ebullets.length - 1; ce >= 0; ce--) {
         var eb0 = rt.ebullets[ce];
         if (!aabb(pb0.x - pb0.w / 2 - 1, pb0.y - pb0.h / 2 - 1, pb0.w + 2, pb0.h + 2,
@@ -529,6 +580,7 @@
     compileEnemies: compileEnemies,
     compileLevel: compileLevel,
     createRuntime: createRuntime,
+    volleyRays: volleyRays,
     step: step
   };
 })(typeof window !== 'undefined' ? window : globalThis);

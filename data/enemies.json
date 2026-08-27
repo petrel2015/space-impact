@@ -42,7 +42,8 @@
     "bulletSpeed": 30,
     "drop": {
       "spread": 0.05,
-      "heal": 0.02
+      "heal": 0.02,
+      "missile": 0.02
     }
   },
   "rock": {
@@ -75,7 +76,8 @@
     "bulletSpeed": 28,
     "drop": {
       "laser": 0.05,
-      "energy": 0.04
+      "energy": 0.04,
+      "missile": 0.02
     }
   },
   "chaser": {
@@ -129,7 +131,8 @@
     "bulletSpeed": 26,
     "drop": {
       "heal": 0.1,
-      "spread": 0.05
+      "spread": 0.05,
+      "missile": 0.04
     }
   },
   "boss1": {
@@ -334,7 +337,8 @@
     },
     "drop": {
       "spread": 0.08,
-      "heal": 0.04
+      "heal": 0.04,
+      "missile": 0.03
     }
   },
   "manta": {
@@ -405,7 +409,8 @@
     "attack": "none",
     "drop": {
       "shield": 0.08,
-      "power": 0.04
+      "power": 0.04,
+      "missile": 0.02
     }
   },
   "bastion": {
@@ -442,7 +447,8 @@
     },
     "drop": {
       "heal": 0.15,
-      "laser": 0.1
+      "laser": 0.1,
+      "missile": 0.05
     }
   },
   "mb1": {

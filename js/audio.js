@@ -137,6 +137,15 @@
         tone({ f0: f, dur: 0.07, type: 'square', vol: 0.085, at: i * 0.055 });
       });
     },
+    missileFire: function () {                /* reward weapon launch whoosh */
+      noise({ f0: 500, f1: 2400, dur: 0.2, vol: 0.08 });
+      tone({ f0: 110, f1: 260, dur: 0.18, type: 'sawtooth', vol: 0.06 });
+    },
+    missileGet: function () {                 /* warhead pickup: slide + sparkle */
+      tone({ f0: 262, f1: 524, dur: 0.16, type: 'square', vol: 0.09 });
+      tone({ f0: 784, dur: 0.08, type: 'triangle', vol: 0.08, at: 0.14 });
+      tone({ f0: 1047, dur: 0.1, type: 'triangle', vol: 0.07, at: 0.2 });
+    },
     heal: function () {                       /* soft major third chime */
       tone({ f0: 659, dur: 0.1, type: 'sine', vol: 0.1 });
       tone({ f0: 880, dur: 0.14, type: 'sine', vol: 0.09, at: 0.09 });

@@ -1,18 +1,26 @@
 # Space Impact
 
-[English](README.md) | [中文](README.zh-CN.md)
+English | [简体中文](./README.zh.md)
 
 ![Platform](https://img.shields.io/badge/platform-HTML5_Canvas-2c3417)
-![Build](https://img.shields.io/badge/build-no_step_needed-8a9a4e)
+![Version](https://img.shields.io/badge/version-1.0.0-blue)
 ![Dependencies](https://img.shields.io/badge/dependencies-zero-brightgreen)
-![i18n](https://img.shields.io/badge/lang-EN_%7C_%E4%B8%AD%E6%96%87-blue)
+![Languages](https://img.shields.io/badge/lang-EN_%7C_%E4%B8%AD%E6%96%87-blue)
 ![Tests](https://img.shields.io/badge/tests-node_test-informational)
 
 A browser remake of the classic **Space Impact** shoot-'em-up that shipped on the Nokia 3310 — the little monochrome side-scroller everyone played in class instead of Snake.
 
-No framework, no build step, no assets to download. And the twist: **levels and enemies are plain JSON files** — the front end is only an engine that interprets them. Add a monster or a whole level without touching a line of engine code.
+The whole game is one HTML page with zero framework, zero build step and zero asset downloads. The twist: **levels and enemies are plain JSON files** — the front end is only an engine that interprets them. Add a monster or a whole level without touching a line of engine code, validate it with one node command, and even upload custom levels straight from the start screen.
 
-> 💡 The 3310 classic, reborn at 144×80 — content is data, the browser is just the player.
+> AI assistants and agents: for a structured, machine-friendly description of this project, see [README_FOR_AI.md](./README_FOR_AI.md).
+
+## Live Demo
+
+**[Play it now →](https://petrel2015.github.io/space-impact/)** (GitHub Pages, runs entirely in your browser)
+
+![Start screen](docs/img/start-en.webp)
+
+![Gameplay — default Retro LCD theme](docs/img/gameplay.webp)
 
 ## Game Content
 
@@ -39,54 +47,55 @@ Regular enemies (pick your poison):
 | crab | straight | **curtain** (bullet wall with one gap) | 4 | 700 |
 | manta | hover → **dive** | — (kamikaze) | 3 | 450 |
 
-Plus 2 **mid-bosses** (boss HP bar + guaranteed heal drop, but the level goes on) and 10 boss forms — the final one cycles 7 attack patterns and spawns its own reinforcements.
+Plus 2 **mid-bosses** (boss HP bar + guaranteed heal drop, but the level goes on) and 10 boss forms — the final one cycles 7 attack patterns and spawns its own reinforcements. After level 14 the campaign loops with enemies scaled up (+40% HP, +12% speed, faster fire per loop).
 
-## Features
+## Core Features
 
-- 🎮 **Faithful feel** — 144×80 logical LCD (a nod to the 3310's 84×48), integer-scaled chunky pixels, 5×7 bitmap font, screen shake, parallax stars.
-- 📦 **Data-driven core** — enemies/levels are JSON; `node test/data-test.js` validates every reference the moment you add content.
+- 🎮 **Faithful feel** — 144×80 logical LCD (a nod to the 3310's 84×48), integer-scaled chunky pixels, 5×7 bitmap font, screen shake, parallax stars. On phones the field grows to 144×128 in portrait.
+- 📦 **Data-driven core** — enemies/levels are JSON; `node test/data-test.js` validates every reference the moment you add content. See [Data-Driven Content](docs/en/features/data-driven-content.md) and [Extending the Game](#extending-the-game) below.
 - 🌍 **EN / 中文** in one click, auto-detected and remembered.
 - 🎨 **3 themes** — Retro LCD (yellow-green, default, with pixel-grid overlay), Night (phosphor), Paper.
-- 📱 **Mobile & tablet** — responsive layout; on-screen D-pad + FIRE/BOMB appear automatically on touch devices **and** whenever the viewport is phone/tablet sized.
+- 🔥 **Four difficulty tiers** — Casual / Standard / Tight / Hardcore: HP steps down 10→8→6→4, enemies hit harder, and from Standard up your **ammo is finite** (every kill recoups a few rounds). Details in [Difficulty & Ammo](docs/en/features/difficulty-and-ammo.md) and the [usage page](docs/en/usage.md#difficulty-tiers).
+- 📱 **Mobile & tablet** — responsive layout; on-screen D-pad + FIRE/BOMB appear automatically on touch devices and phone/tablet-sized viewports.
+
+<details>
+<summary><strong>More features</strong> (aim tracer, homing missiles, bullet cancel, …)</summary>
+
 - 🔫 **Point shots by default** — one volley per FIRE press; flip the **Auto-fire** toggle in settings for hold-to-spray.
-- ⚙️ **Settings in the header** — difficulty, theme, sound & auto-fire in a popover available any time (opening it mid-game auto-pauses). How-to lives on the start screen only.
-- 🔥 **Four difficulty tiers** — Casual / Standard / Tight / Hardcore: HP steps down 10→8→6→4, enemies hit harder, and from Standard up your **ammo is finite** (plentiful → tight → barely enough; every kill recoups a few rounds).
-- ⚡ **Power-ups** — P power · S spread · L piercing laser · + heal · E special energy · G shield; the special is a screen-clearing beam.
+- ⚡ **Power-ups** — P power · S spread · L piercing laser · + heal · E special energy · G shield; the special is a screen-clearing beam ([what each item does](docs/en/usage.md#power-ups)).
+- 🚀 **Reward weapon** — M homing missiles drop from kills: 12 tracking warheads per pickup, heavy damage, their own ammo pool (never touches your bullet stock), and they fly straight through enemy fire.
+- 🎯 **Aim tracer** — a faint animated dashed line previews exactly where your next volley lands (per barrel, including spread angles) with a blinking cross on the target it would hit. Toggle with **L** or in settings.
 - 💥 **Bullet cancel** — the classic detail: your shots and enemy shots annihilate each other mid-air (the piercing laser eats through).
 - 🔊 **Synthesized SFX** — WebAudio square-wave bleeps, zero audio files.
-- 🤖 **Attract mode** — `?demo=1` autopilot plays the game through the same input path as a human.
+- ⚙️ **Settings in the header** — difficulty, theme, sound, auto-fire and aim line in a popover available any time (opening it mid-game auto-pauses).
+- 🤖 **Attract mode** — `?demo=1&autostart=1` autopilot plays the game through the same input path as a human.
+- 🧩 **Custom levels without a repo** — download a template from the start screen, edit it, upload the JSON and play it instantly ([how](docs/en/usage.md#custom-levels)).
+
+</details>
 
 ## Quick Start
 
 The engine `fetch`es its JSON data packs, so serve the folder over HTTP (double-clicking `index.html` won't work):
 
 ```bash
+git clone https://github.com/petrel2015/space-impact.git
 cd space-impact
 python3 -m http.server 8000
 # open http://localhost:8000/
 ```
 
-Controls:
+Any other static file server works too. Controls:
 
 | Action | Keyboard | Touch |
 |--------|----------|-------|
 | Move | Arrows / WASD | D-pad (bottom-left) |
 | Fire — one volley per press | Space / J | FIRE |
 | Auto-fire (hold to spray) | toggle in Settings ⚙ | Auto-fire toggle |
+| Aim tracer on/off | L | toggle in Settings ⚙ |
 | Special beam | K / X | BOMB |
 | Pause | P / Esc | ⏸ top-right |
 
-Handy URL params (testing / shareable links):
-
-| Param | Effect |
-|-------|--------|
-| `?lang=zh` / `?lang=en` | Force language |
-| `?theme=retro` / `night` / `paper` | Force theme |
-| `?touch=1` | Show on-screen controls on desktop |
-| `?autostart=1` | Start playing on load |
-| `?demo=1` | Attract-mode autopilot (with autostart) |
-| `?paused=1` | Open paused (overlay testing) |
-| `?level=14` | Start at a given level |
+Handy URL params (testing / shareable links): `?lang=zh|en` · `?theme=retro|night|paper` · `?touch=1` · `?autostart=1` · `?demo=1` (attract mode, with autostart) · `?paused=1` · `?aim=0|1` · `?level=14` — [full table](docs/en/usage.md#url-parameters).
 
 ## Extending the Game
 
@@ -112,7 +121,7 @@ One entry in `data/enemies.json` — combine primitives, tune numbers, point at 
 | `sprite` | Sprite name from `js/sprites.js` (new looks need a new string-grid there) |
 | `movement` + `params` | Movement primitive + its knobs (below) |
 | `attack` + `attackParams` | Attack primitive + its knobs; `fireRate` (s) and `bulletSpeed` tune it |
-| `drop` | Drop table `{type: probability}`, types: power/spread/laser/heal/energy/shield |
+| `drop` | Drop table `{type: probability}`, types: power/spread/laser/heal/energy/shield/missile |
 | `boss` | `true` = boss: top HP bar, guaranteed drops, death ends the level |
 | `miniboss` | With `boss: true` = mid-boss: bar + drops, but the level **continues** |
 
@@ -165,14 +174,17 @@ space-impact/
 │   ├── theme.js          # theme registry (CSS vars + LCD palettes)
 │   ├── audio.js          # WebAudio square-wave SFX
 │   ├── sprites.js        # sprite grids + 5×7 bitmap font
+│   ├── level-template.js # downloadable custom-level template
 │   ├── behaviors.js      # movement/attack/formation primitives
 │   ├── engine.js         # data validation/compile + pure simulation
 │   ├── render.js         # canvas renderer
 │   └── app.js            # input, main loop, screen flow
-└── test/
-    ├── data-test.js      # data-pack validation
-    ├── engine-test.js    # deterministic simulation tests
-    └── render-shots.js   # headless PNG scene renderer
+├── test/
+│   ├── data-test.js      # data-pack validation
+│   ├── engine-test.js    # deterministic simulation tests
+│   ├── aim-visual-test.js# aim tracer / missile rendering checks
+│   └── render-shots.js   # headless PNG scene renderer
+└── docs/                 # this documentation (en + zh)
 ```
 
 ### Running tests
@@ -180,13 +192,16 @@ space-impact/
 ```bash
 node test/data-test.js        # references, sprite grids, i18n parity
 node test/engine-test.js      # every level completable + invariants + specials
+node test/aim-visual-test.js  # aim tracer + missile trail pixel checks
 node test/render-shots.js     # PNG gallery of key moments → /tmp/si-shots/
 node test/render-shots.js 5 42  # any level, any second (dev visual check)
 ```
 
+Zero dev dependencies — any Node that runs plain `.js` CommonJS works (verified on Node 22). No build, no bundle, no lint config; see [development docs](docs/en/development.md) for details.
+
 ### Architecture notes
 
-- **Pure core** — `engine.js` is a deterministic simulation (seeded mulberry32 RNG, fixed timestep) with zero DOM/audio/render dependencies; `app.js` feeds it input, `render.js` draws state. That's why node can play whole levels in tests.
+- **Pure core** — `engine.js` is a deterministic simulation (seeded mulberry32 RNG, fixed timestep) with zero DOM/audio/render dependencies; `app.js` feeds it input, `render.js` draws state. That's why node can play whole levels in tests. [More →](docs/en/architecture.md)
 - **Compile step** — raw JSON → validated/normalized defs at load (`compileEnemies`/`compileLevel`). Broken data throws bilingual `DataError`s; the UI surfaces them.
 - **One vocabulary** — enemies are just (movement × attack × numbers) tuples over the `behaviors.js` primitive library. A genuinely new movement type is the only case that needs engine-side code.
 - **LCD discipline** — everything on-canvas is ASCII from the built-in bitmap font; Chinese lives only in the HTML UI.
@@ -194,6 +209,36 @@ node test/render-shots.js 5 42  # any level, any second (dev visual check)
 ## Tech Stack
 
 Plain ES5-flavored JavaScript · Canvas 2D (`image-rendering: pixelated`) · CSS custom properties · WebAudio · JSON data packs · node-only tests with zero dev dependencies.
+
+## Documentation
+
+| Topic | English | 中文 |
+|-------|---------|------|
+| Index | [docs/en](docs/en/index.md) | [docs/zh](docs/zh/index.md) |
+| Playing guide (difficulty, power-ups, ammo, custom levels) | [usage](docs/en/usage.md) | [玩法指南](docs/zh/usage.md) |
+| Development & tests | [development](docs/en/development.md) | [开发](docs/zh/development.md) |
+| Architecture | [architecture](docs/en/architecture.md) | [架构](docs/zh/architecture.md) |
+| Deployment (GitHub Pages etc.) | [deployment](docs/en/deployment.md) | [部署](docs/zh/deployment.md) |
+| Troubleshooting | [troubleshooting](docs/en/troubleshooting.md) | [故障排查](docs/zh/troubleshooting.md) |
+| Privacy & data storage | [privacy](docs/en/privacy.md) | [隐私](docs/zh/privacy.md) |
+| FAQ | [faq](docs/en/faq.md) | [常见问题](docs/zh/faq.md) |
+| Feature design docs | [features](docs/en/features/index.md) | [功能设计](docs/zh/features/index.md) |
+
+## Compatibility
+
+Uses Canvas 2D, WebAudio, `fetch`, `localStorage`, Pointer Events and `matchMedia` — any modern browser provides these. Verified in Chromium-based browsers (desktop + mobile emulation); no legacy/IE support.
+
+## Changelog
+
+See [CHANGELOG.md](./CHANGELOG.md). The current release is **1.0.0** (aggregated; no git tags yet — see the changelog note).
+
+## Contributing
+
+Content additions (enemies, levels) need only JSON edits plus a green `node test/data-test.js` — see [Extending the Game](#extending-the-game). Engine/behavior changes should keep the simulation deterministic so `engine-test.js` stays meaningful. Bug reports and ideas: [open an issue](https://github.com/petrel2015/space-impact/issues).
+
+## License Notes
+
+**No license file exists yet.** All rights are reserved by default until the maintainer adds one — if you plan to reuse the code, open an issue to discuss it first. (This section will be updated once a license is chosen.)
 
 ## Buy me a coffee ￥4.9
 

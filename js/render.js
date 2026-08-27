@@ -11,7 +11,7 @@
 
   var POWERUP_SPRITES = {
     power: 'pPower', spread: 'pSpread', laser: 'pLaser',
-    heal: 'pHeal', energy: 'pEnergy', shield: 'pShield'
+    heal: 'pHeal', energy: 'pEnergy', shield: 'pShield', missile: 'pMissile'
   };
 
   /* Static parallax starfield — deterministic, engine-independent. */
@@ -84,6 +84,40 @@
     text(ctx, str, x + 5, y + 4, { scale: scale, color: lcd.ink });
   }
 
+  /* Aim tracer: faint animated dashed rays from the muzzle along the
+     next volley's real trajectories (engine.volleyRays), each stopping
+     at the first enemy it would hit — a blinking cross marks impact.
+     Helps finite-ammo pilots line up before spending a round. */
+  function drawAim(ctx, rt, lcd) {
+    var rays = SI.engine.volleyRays(rt.player);
+    var phase = Math.floor(rt.t * 14);
+    var top = 9, bottom = rt.H - 9;
+    for (var r = 0; r < rays.length; r++) {
+      var ray = rays[r];
+      var hit = null;
+      ctx.fillStyle = lcd.dim;
+      for (var d = 0; d < rt.W + 8; d++) {
+        var sx = ray.x + ray.ux * d, sy = ray.y + ray.uy * d;
+        if (sx > rt.W - 1 || sy < top || sy > bottom) break;
+        for (var e = 0; e < rt.enemies.length; e++) {
+          var en = rt.enemies[e];
+          if (sx >= en.x && sx <= en.x + en.w && sy >= en.y && sy <= en.y + en.h) {
+            hit = { x: sx, y: sy };
+            break;
+          }
+        }
+        if (hit) break;
+        if ((d + phase) % 5 < 2) ctx.fillRect(Math.floor(sx), Math.floor(sy), 1, 1);
+      }
+      if (hit) {
+        ctx.fillStyle = Math.floor(rt.t * 6) % 2 === 0 ? lcd.ink : lcd.dim;
+        var hx = Math.floor(hit.x), hy = Math.floor(hit.y);
+        ctx.fillRect(hx - 1, hy, 3, 1);
+        ctx.fillRect(hx, hy - 1, 1, 3);
+      }
+    }
+  }
+
   function draw(ctx, rt, opts) {
     var o = opts || {};
     var lcd = SI.theme.def().lcd;
@@ -126,10 +160,18 @@
       sprite(ctx, en.def.sprite, Math.floor(en.x), Math.floor(en.y), { color: lcd.ink });
     }
 
-    /* player bullets */
-    ctx.fillStyle = lcd.ink;
+    /* player bullets (missiles get a warhead + flickering exhaust) */
     for (var b = 0; b < rt.bullets.length; b++) {
       var bl = rt.bullets[b];
+      if (bl.missile) {
+        ctx.fillStyle = lcd.ink;
+        ctx.fillRect(Math.floor(bl.x) - 2, Math.floor(bl.y) - 1, 4, 3);
+        ctx.fillStyle = lcd.dim;
+        var ex = Math.floor(bl.x) - 3 - (Math.floor(rt.t * 30) % 2);
+        ctx.fillRect(ex, Math.floor(bl.y), 3, 1);
+        continue;
+      }
+      ctx.fillStyle = lcd.ink;
       ctx.fillRect(Math.floor(bl.x - bl.w / 2), Math.floor(bl.y - bl.h / 2), bl.w, bl.h);
     }
 
@@ -170,6 +212,9 @@
       ctx.fillRect(0, by + 2, W, 1);
     }
 
+    /* aim tracer sits on top of the world, under HUD and overlays */
+    if (o.aim && rt.status !== 'over') drawAim(ctx, rt, lcd);
+
     ctx.restore();
 
     /* ── HUD ── */
@@ -201,6 +246,11 @@
       text(ctx, String(p.ammo), bx + 6, H - 8, { color: dry ? lcd.dim : lcd.ink });
     }
     var sx2 = W - 1 - (5 * 3 + 4);
+    /* reward-weapon stock: M + count, left of the special charges */
+    if (p.missiles > 0) {
+      var mt = 'M' + p.missiles;
+      text(ctx, mt, sx2 - 7 - measure(mt, 1) - 3, H - 8, { color: lcd.ink });
+    }
     text(ctx, 'S', sx2 - 7, H - 8, { color: lcd.dim });
     for (var sp2 = 0; sp2 < 5; sp2++) {
       ctx.fillStyle = sp2 < p.special ? lcd.ink : lcd.dim;
