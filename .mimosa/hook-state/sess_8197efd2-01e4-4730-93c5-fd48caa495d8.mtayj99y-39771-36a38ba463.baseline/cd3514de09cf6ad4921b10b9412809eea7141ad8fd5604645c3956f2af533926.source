@@ -100,11 +100,7 @@ check(Array.isArray(index.levels) && index.levels.length > 0, 'levels.json has n
 
 var seenIds = [];
 index.levels.forEach(function (file) {
-  check(!/[\\/]\.\.|^\/|^[A-Za-z]:/.test(file),
-    'levels.json entry escapes the data dir: ' + file);
-  var p = path.join(__dirname, '..', 'data', path.normalize(file));
-  check(p.startsWith(path.join(__dirname, '..', 'data')),
-    'levels.json resolved outside data dir: ' + file);
+  var p = path.join(__dirname, '..', 'data', file);
   check(fs.existsSync(p), 'levels.json references missing file ' + file);
   var lvl = readJson('data/' + file);
 

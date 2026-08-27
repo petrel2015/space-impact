@@ -250,14 +250,24 @@ main.wrap {
   flex-direction: column;
 }
 
+.screen[hidden] { display: none !important; }
+
 /* ── play screen ─────────────────────────────── */
 .game-area {
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;   /* desktop/tablet: canvas floats centered */
   gap: 14px;
-  padding: 14px 0 4px;
+  padding: 12px 0 6px;
+}
+
+/* touch layout anchors content to the top and lets the controls
+   absorb the space below instead of floating mid-air */
+body.small .game-area,
+body.touch .game-area {
+  justify-content: flex-start;
 }
 
 .lcd {
@@ -270,9 +280,9 @@ main.wrap {
   box-shadow: 6px 6px 0 var(--shadow);
 }
 
-/* portrait phone/tablet: canvas stretches to full width */
+/* portrait fill mode: js sizes the box to ~42vh, aspect-locked */
 .lcd.fill { display: block; max-width: 100%; }
-.lcd.fill #game-canvas { width: 100%; height: auto; }
+.lcd.fill #game-canvas { display: block; }
 
 #game-canvas {
   display: block;
@@ -299,13 +309,14 @@ html[data-theme="retro"] .lcd-grid {
 
 .btn-pause {
   position: absolute;
-  top: 4px;
-  right: 4px;
-  padding: 2px 8px;
+  top: -15px;
+  right: -7px;
+  padding: 1px 8px;
   font-size: 12px;
   font-weight: 700;
   box-shadow: none;
   background: var(--panel);
+  z-index: 3;
 }
 
 /* overlays inside the LCD */
@@ -353,18 +364,19 @@ html[data-theme="retro"] .lcd-grid {
 .touch-controls {
   display: none;
   width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
   flex: 1;
-  max-width: 640px;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  padding: 4px 8px calc(10px + env(safe-area-inset-bottom, 0px));
+  gap: 8px;
+  padding: 6px 8px calc(10px + env(safe-area-inset-bottom, 0px));
   user-select: none;
   -webkit-user-select: none;
 }
 
-/* shown after a real touch, via ?touch=1, or automatically when the
-   viewport is phone/tablet sized (body.small, set by js/app.js) */
+/* shown after a real touch, via ?touch=1, or automatically on
+   coarse-pointer / phone-sized viewports (body.small from js/app.js) */
 @media (pointer: coarse) {
   .touch-controls { display: flex; }
 }
@@ -372,11 +384,14 @@ html[data-theme="retro"] .lcd-grid {
 body.touch .touch-controls,
 body.small .touch-controls { display: flex; }
 
+/* elastic sizing: everything scales with viewport width so the row
+   always fits — no overflow on any phone, no giant blocks on tablets */
 .dpad {
+  --dp: clamp(40px, 11.5vw, 60px);
   display: grid;
-  grid-template-columns: repeat(3, 56px);
-  grid-template-rows: repeat(3, 56px);
-  gap: 3px;
+  grid-template-columns: repeat(3, var(--dp));
+  grid-template-rows: repeat(3, var(--dp));
+  gap: 4px;
   touch-action: none;
 }
 
@@ -417,13 +432,13 @@ body.small .touch-controls { display: flex; }
 .dpad .right { grid-column: 3; grid-row: 2; }
 .dpad .down  { grid-column: 2; grid-row: 3; }
 
-.actions { display: flex; gap: 14px; align-items: flex-end; }
+.actions { display: flex; gap: clamp(8px, 2.5vw, 14px); align-items: flex-end; }
 
 .act {
-  width: 84px;
-  height: 84px;
+  width: clamp(54px, 17vw, 88px);
+  height: clamp(54px, 17vw, 88px);
   border-radius: 50%;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.06em;
   box-shadow: 3px 3px 0 var(--shadow);
@@ -432,26 +447,21 @@ body.small .touch-controls { display: flex; }
   -webkit-user-select: none;
 }
 
-.act-fire { width: 96px; height: 96px; }
+.act-fire { width: clamp(62px, 20vw, 102px); height: clamp(62px, 20vw, 102px); }
 .act.pressed { background: var(--ink); color: var(--bg); transform: translate(2px, 2px); box-shadow: none; }
 
-@media (max-height: 560px) {
-  .touch-controls { max-width: 520px; }
-  .dpad { grid-template-columns: repeat(3, 44px); grid-template-rows: repeat(3, 44px); }
-  .act { width: 62px; height: 62px; font-size: 12px; }
-  .act-fire { width: 70px; height: 70px; }
+/* short landscape (phone sideways): shrink to keep the canvas visible */
+@media (orientation: landscape) and (max-height: 520px) {
+  .dpad { --dp: 38px; }
+  .act { width: 50px; height: 50px; font-size: 11px; }
+  .act-fire { width: 58px; height: 58px; }
+  .touch-controls { max-width: 480px; padding-bottom: calc(6px + env(safe-area-inset-bottom, 0px)); }
 }
 
-/* phone portrait: full-width canvas + compact footer; oversized
-   controls absorb the leftover height so there is no dead band */
+/* phone: tighter chrome around the game */
 @media (max-width: 560px) {
-  .game-area { gap: 8px; padding: 8px 0 2px; }
-  .dpad {
-    grid-template-columns: repeat(3, min(68px, 10vh));
-    grid-template-rows: repeat(3, min(68px, 10vh));
-  }
-  .act { width: min(94px, 14vh); height: min(94px, 14vh); }
-  .act-fire { width: min(108px, 16vh); height: min(108px, 16vh); }
+  .wrap { padding: 0 8px; }
+  .game-area { gap: 8px; padding: 6px 0 2px; }
   .site-foot { padding: 6px 0; font-size: 11px; }
   .hero { padding: 20px 0 14px; }
   .panel { padding: 12px; }

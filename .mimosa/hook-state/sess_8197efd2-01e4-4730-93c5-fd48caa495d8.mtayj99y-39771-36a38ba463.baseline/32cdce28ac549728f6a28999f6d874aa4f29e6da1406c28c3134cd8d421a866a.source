@@ -354,6 +354,13 @@
            document.body.classList.contains('small');
   }
 
+  /* Portrait touch layout runs a taller 144×128 field. */
+  function portraitRes() {
+    return touchMode() &&
+           document.body.classList.contains('portrait') &&
+           global.innerWidth <= 820;
+  }
+
   function currentInput() {
     var useTouch = touchMode();
     if (demoActive && mode === 'play') return demoInput();
@@ -585,14 +592,14 @@
     var LW = rt ? rt.W : (canvas.width || 144);
     var LH = rt ? rt.H : (canvas.height || 80);
 
-    /* phone/tablet portrait: aspect-locked box of ~42% viewport height —
-       screen on top, controls below, consistent on every device */
+    /* phone/tablet portrait: stretch the canvas to full width — the
+       d-pad takes the space below, so the page has no dead zones */
     if (touch && portrait && global.innerWidth <= 820) {
       lcd.classList.add('fill');
-      var w = Math.min(global.innerWidth - 12, global.innerHeight * 0.42 * (LW / LH), 640);
-      canvas.style.width = w + 'px';
-      canvas.style.height = (w * LH / LW) + 'px';
-      lcd.style.setProperty('--px', (w / LW) + 'px');
+      canvas.style.width = '100%';
+      canvas.style.height = 'auto';
+      /* pixel-grid overlay needs the actual rendered scale */
+      lcd.style.setProperty('--px', (canvas.clientWidth / LW) + 'px');
       return;
     }
 
