@@ -114,6 +114,13 @@ button:active {
   box-shadow: none;
 }
 
+button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
 button:focus-visible {
   outline: 2px dashed var(--ink);
   outline-offset: 2px;
@@ -236,6 +243,9 @@ button:focus-visible {
 }
 
 .data-status.is-error { color: var(--ink); background: var(--bg); }
+
+#btn-reload-data { margin-top: 10px; display: block; width: 100%; padding: 9px; }
+#btn-reload-data[hidden] { display: none; }
 
 /* ── page skeleton: main fills the viewport, footer sits at the bottom ── */
 main.wrap {

@@ -124,6 +124,8 @@
     status.hidden = false;
     status.classList.remove('is-error');
     status.textContent = SI.i18n.t('loadingText');
+    $('btn-start').disabled = true;
+    $('btn-reload-data').hidden = true;
 
     fetchJson('data/enemies.json').then(function (enemiesRaw) {
       defs = SI.engine.compileEnemies(enemiesRaw);
@@ -146,12 +148,16 @@
       status.classList.add('is-error');
       status.textContent = SI.i18n.t('errorTitle') + '\n' + SI.i18n.t('errorHelp') +
         (err && err.key ? '\n' + SI.i18n.t(err.key, err.params) : '');
+      /* stay disabled but offer a retry action */
       $('btn-start').disabled = true;
+      $('btn-reload-data').hidden = false;
     });
   }
 
   /* ── game flow ─────────────────────────────── */
   function startRun() {
+    /* data packs not loaded (or failed) yet — Start stays disabled */
+    if (!defs || !levels.length) return;
     var startIdx = 0;
     if (OPTS.level) {
       var want = parseInt(OPTS.level, 10);
@@ -471,10 +477,17 @@
   /* ── UI wiring ─────────────────────────────── */
   function wireUi() {
     $('btn-start').addEventListener('click', function () {
+      if (this.disabled) return;
       SI.audio.unlock();
       SI.audio.play('ui');
       closeSettings();
       startRun();
+    });
+
+    /* data load failed → the retry button re-runs the loader */
+    $('btn-reload-data').addEventListener('click', function () {
+      SI.audio.play('ui');
+      loadData();
     });
 
     /* header settings popover: opening mid-game auto-pauses */
