@@ -139,12 +139,16 @@ Verified against the source code:
   `si-hiscore`, `si-autofire-v2`, `si-aimline`, `si-difficulty` — plain
   settings/high score only, never cleared automatically, no personal data.
 - **Network at runtime:** same-origin `fetch` of the game's own JSON packs
-  (`data/enemies.json`, `data/levels.json`, `data/levels/*.json`) and
-  preloading of the two local donate QR PNGs. No analytics, no telemetry,
-  no third-party requests.
-- **Donate interaction:** on mobile, the Alipay button attempts the
-  `alipays://` URL scheme before falling back to a QR-code modal. This is
-  the only outbound URL in the codebase and only on explicit user tap.
+  (`data/enemies.json`, `data/levels.json`, `data/levels/*.json`). The
+  donate QR library (`js/vendor/qrcode-generator.js`, same-origin) loads
+  lazily, only after the donate dialog is first opened. No analytics, no
+  telemetry, no third-party requests.
+- **Donate interaction:** the footer entry opens a dialog with Alipay /
+  WeChat Pay tabs; QR codes are generated in the browser from the raw
+  receive-money links (no static QR images exist). On mobile, tapping
+  through with Alipay selected opens the official `qr.alipay.com` receive
+  page in a new tab (`noopener`), once per dialog session, with the QR
+  always visible as fallback. No custom URL scheme is used.
 - **Uploads:** custom level JSON is read locally in the browser; it is never
   sent anywhere.
 - Hosting-provider access logs are outside this project's control.
@@ -221,10 +225,10 @@ difficulty_tiers: casual, standard, tight, hardcore
 finite_ammo_tiers: standard, tight, hardcore
 resolution_logical: 144x80 (144x128 portrait on touch phones)
 localstorage_keys: si-lang, si-theme, si-sound, si-hiscore, si-autofire-v2, si-aimline, si-difficulty
-network_calls: same-origin JSON fetch only (+ alipays:// scheme on explicit donate tap, mobile)
+network_calls: same-origin JSON fetch only (+ lazy same-origin QR lib after donate dialog opens; official qr.alipay.com link on explicit donate tap, mobile)
 analytics: none
 offline_pwa: false
-tests: node test/data-test.js; node test/engine-test.js; node test/aim-visual-test.js; node test/render-shots.js
+tests: node test/data-test.js; node test/engine-test.js; node test/aim-visual-test.js; node test/render-shots.js; node test/donation-test.js; node test/qr-roundtrip.test.js
 version: 1.0.0
 git_tags: none
 license: none (all rights reserved until declared)

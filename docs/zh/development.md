@@ -83,18 +83,22 @@ space-impact/
 │   ├── behaviors.js      # 移动/攻击/编队原语库
 │   ├── engine.js         # 编译（校验）+ 纯确定性模拟
 │   ├── render.js         # Canvas 渲染（LCD 色板、HUD、特效）
-│   └── app.js            # 输入、主循环、界面流转、持久化
+│   ├── app.js            # 输入、主循环、界面流转、持久化
+│   ├── donation.js       # Footer 捐赠组件（弹窗、懒加载 QR、实时生成）
+│   └── vendor/           # 第三方库（qrcode-generator.js，MIT）
 ├── test/                 # node 测试套件 + 资产生成器
-├── docs/                 # 本套文档（中英双语）
-└── donate/               # 支付宝/微信收款码 PNG
+└── docs/                 # 本套文档（中英双语）
 ```
 
 ## 资产脚本（开发工具，非运行时）
 
 - `node test/make-icons.js` —— 用游戏自己的精灵网格重新生成
   `favicon-16/32.png` 和 `apple-touch-icon.png`（零依赖）。
-- `sh test/make-donate-qr.sh` —— 重新生成收款码 PNG（用 `npx`）；
-  仅当收款链接变更时需要。
+
+收款二维码没有资产脚本也没有图片文件——`js/donation.js` 在弹窗
+打开后用 vendored QR 库按收款链接实时生成。收款链接变更时只改
+`js/donation.js` 里的 `DONATION_CONFIG`（并跑
+`node test/donation-test.js`）。
 
 ## 改内容 vs 改引擎
 

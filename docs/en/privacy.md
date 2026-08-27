@@ -36,15 +36,17 @@ Verified against the source, the complete list of runtime network activity:
 1. **Same-origin data fetches at load:** `data/enemies.json`,
    `data/levels.json` and the 14 `data/levels/level*.json` files (sent with
    `cache: 'no-cache'`).
-2. **Same-origin static assets:** the CSS/JS/images the page loads,
-   including the two donate QR PNGs (`donate/alipay-qr.png`,
-   `donate/wechat-qr.png`), which are preloaded so the donate modal opens
-   instantly.
-3. **Alipay app scheme (mobile only, tap only):** if you tap the Alipay
-   donate button on a phone, the page attempts to open the Alipay app via
-   the `alipays://` URL scheme; if nothing happens within 1.5 s it falls
-   back to showing the QR-code modal. This is the only outbound URL in the
-   codebase and it only happens on your explicit tap.
+2. **Same-origin static assets:** the CSS/JS/images the page loads. The
+   donate QR codes are not stored as image files — the browser generates
+   them live from the receive-money links once the donate dialog opens;
+   the QR library (`js/vendor/qrcode-generator.js`, same-origin) is also
+   lazy-loaded on first dialog open, so the start screen pays nothing.
+3. **Alipay receive page (mobile only, tap only):** opening the donate
+   dialog with Alipay selected on a phone opens Alipay's official receive
+   link (`qr.alipay.com`) in a new tab (`noopener`, at most once per
+   dialog session); Alipay's own page handles the app handoff, and the QR
+   code stays visible as the fallback. This is the only outbound URL in
+   the codebase and it only happens on your explicit tap.
 
 There is **no** analytics/tracking script, no font/CDN embed, no ad SDK,
 no fetch to any API, and no cookies. The game works the same offline once

@@ -95,18 +95,22 @@ space-impact/
 │   ├── behaviors.js      # movement/attack/formation primitive library
 │   ├── engine.js         # compile (validate) + pure deterministic sim
 │   ├── render.js         # canvas renderer (LCD palette, HUD, effects)
-│   └── app.js            # input, main loop, screen flow, persistence
+│   ├── app.js            # input, main loop, screen flow, persistence
+│   ├── donation.js       # footer donate widget (dialog, lazy QR, live render)
+│   └── vendor/           # vendored libs (qrcode-generator.js, MIT)
 ├── test/                 # node-run test suites + asset generators
-├── docs/                 # this documentation (en + zh)
-└── donate/               # Alipay/WeChat QR PNGs
+└── docs/                 # this documentation (en + zh)
 ```
 
 ## Asset Scripts (dev tools, not runtime)
 
 - `node test/make-icons.js` — regenerates `favicon-16/32.png` and
   `apple-touch-icon.png` from the game's own sprite grids (zero deps).
-- `sh test/make-donate-qr.sh` — regenerates the donate QR PNGs (uses `npx`);
-  only needed when the receive-money links change.
+
+There is no donate-QR asset script and no QR image file — `js/donation.js`
+renders the codes live from the receive-money links with the vendored QR
+library after the dialog opens. If a link changes, edit `DONATION_CONFIG`
+in `js/donation.js` only (and run `node test/donation-test.js`).
 
 ## Working on Content vs. Engine
 

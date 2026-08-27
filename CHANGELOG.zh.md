@@ -16,6 +16,18 @@
   （`docs/*/features/`）、本更新日志，以及面向 AI 助手的
   `README_FOR_AI.md`。
 
+### 变更
+- 重做打赏流程：Footer 改为单一低干扰入口（`☕ 请作者喝杯咖啡 /
+  ☕ Buy me a coffee`），弹窗内切换支付宝 / 微信支付；二维码改为浏览器
+  按收款链接实时生成（深色码 + 白底、纠错 M、静区 ≥ 4），不再提交
+  PNG 图片。QR 库（`js/vendor/qrcode-generator.js`）在弹窗首次打开时
+  才懒加载——首屏零开销。手机端支付宝以新标签页（`noopener`）打开
+  官方 `qr.alipay.com` 收款页（每次弹窗会话至多一次），二维码常驻
+  兜底；移除旧的 `alipays://` scheme 尝试与 1.5 秒超时。新增
+  `test/donation-test.js`（合同断言 + jsdom 交互）与
+  `test/qr-roundtrip.test.js`（jsQR 解码回环）；删除 `donate/*.png`
+  与 `test/make-donate-qr.sh`。
+
 ## [1.0.0] - 2026-08-22
 
 *首次发布于 2026-08-22；本条目汇总至当前版本的完整功能集。*

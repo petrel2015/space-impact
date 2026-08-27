@@ -59,12 +59,17 @@
 
       footerNote: 'Runs entirely in your browser · levels & enemies are data-driven JSON',
 
-      donateTag: 'Buy me a coffee ￥4.9',
+      donateEntry: '☕ Buy me a coffee',
+      donateTitle: 'Buy me a coffee ☕',
+      donateSubtitle: 'If this little tool helped you, you can buy the author a coffee.',
       donateAlipay: 'Alipay',
-      donateWechat: 'WeChat',
+      donateWechatPay: 'WeChat Pay',
+      donateScanAlipay: 'Scan with Alipay',
+      donateScanWechat: 'Scan with WeChat',
+      donateFallbackHint: 'Didn’t open automatically? Scan the QR code instead.',
       donateQrAlt: '{channel} tip QR code',
-      donateAlipayHint: 'Long-press or save the QR, then scan with Alipay',
-      donateWechatHint: 'Long-press or save the QR, then scan with WeChat',
+      donateQrError: 'QR code failed to load — close and retry.',
+      donateClose: 'Close',
 
       errEnemyRef: 'Level “{lvl}” references unknown enemy “{id}”.',
       errSpriteRef: 'Enemy “{id}” references unknown sprite “{sp}”.',
@@ -123,12 +128,17 @@
 
       footerNote: '纯前端运行 · 关卡与怪物均为 JSON 数据驱动',
 
-      donateTag: '请我喝杯咖啡 ￥4.9',
+      donateEntry: '☕ 请作者喝杯咖啡',
+      donateTitle: '请作者喝杯咖啡 ☕',
+      donateSubtitle: '如果这个小工具帮到了你，可以请作者喝杯咖啡。',
       donateAlipay: '支付宝',
-      donateWechat: '微信',
+      donateWechatPay: '微信支付',
+      donateScanAlipay: '打开支付宝扫一扫',
+      donateScanWechat: '打开微信扫一扫',
+      donateFallbackHint: '没有自动打开？请使用支付宝 / 微信扫码',
       donateQrAlt: '{channel}收款码',
-      donateAlipayHint: '长按或保存二维码，打开支付宝扫一扫',
-      donateWechatHint: '长按或保存二维码，打开微信扫一扫',
+      donateQrError: '二维码生成失败，请关闭后重试。',
+      donateClose: '关闭',
 
 
       errEnemyRef: '关卡「{lvl}」引用了未知怪物「{id}」。',
@@ -180,6 +190,10 @@
     lang = next;
     try { global.localStorage && global.localStorage.setItem(STORE_KEY, lang); } catch (e) {}
     applyToDom();
+    /* widgets whose strings are set dynamically (not via data-i18n) follow this */
+    if (global.document && typeof global.document.dispatchEvent === 'function') {
+      global.document.dispatchEvent(new Event('langchange'));
+    }
   }
 
   lang = detect();

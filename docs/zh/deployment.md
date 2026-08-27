@@ -34,7 +34,8 @@
 - `index.html` 以相对 URL 加载 `css/style.css`、`js/*.js`；
 - `app.js` 相对页面 fetch `data/enemies.json`、`data/levels.json`
   与 `data/levels/*.json`；
-- `donate/` 下的收款码图也是相对路径；
+- `donation.js` 懒加载的 QR 库 `js/vendor/qrcode-generator.js`
+  也是相对路径；
 - 没有 `<base>`、没有绝对 `/…` 路径、没有硬编码域名。
 
 因此任何子路径（或域名根）都无需配置直接可用。切勿在

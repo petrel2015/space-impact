@@ -240,10 +240,8 @@ Content additions (enemies, levels) need only JSON edits plus a green `node test
 
 **No license file exists yet.** All rights are reserved by default until the maintainer adds one — if you plan to reuse the code, open an issue to discuss it first. (This section will be updated once a license is chosen.)
 
-## Buy me a coffee ￥4.9
+## Buy me a coffee ☕
 
-如果这个小游戏给你带来了几分钟的快乐，可以请作者喝杯速溶咖啡 ☕
-
-| Alipay | WeChat |
-|--------|--------|
-| ![Alipay](donate/alipay-qr.png) | ![WeChat](donate/wechat-qr.png) |
+如果这个小游戏给你带来了几分钟的快乐，可以通过页面 Footer 的
+「☕ Buy me a coffee / ☕ 请作者喝杯咖啡」入口请作者喝杯速溶咖啡 ——
+弹窗内可切换 Alipay / WeChat Pay，二维码由浏览器实时生成。

@@ -45,7 +45,8 @@
 | `js/behaviors.js` | 原语词表：9 移动、10 攻击、5 编队——敌人行为逻辑的唯一居所 | 无 |
 | `js/sprites.js` | 精灵字符串网格（`X`/`.`）与 5×7 ASCII 点阵字体 | 无 |
 | `js/render.js` | 用主题 LCD 色板把 `rt` 画上画布；HUD、视差、特效 | sprites、theme |
-| `js/app.js` | 一切「不纯」的东西：输入接线、主循环、界面流转、localStorage、URL 参数、关卡上传、捐赠 | 以上全部 |
+| `js/app.js` | 一切「不纯」的东西：输入接线、主循环、界面流转、localStorage、URL 参数、关卡上传 | 以上全部 |
+| `js/donation.js` | Footer 捐赠组件：弹窗、支付宝/微信切换、QR 库懒加载 + 按收款链接实时生成二维码、手机端支付宝跳官方收款页 | i18n、audio |
 | `js/i18n.js` | 中英词典、`data-i18n` DOM 应用、持久化 | 无（node 安全） |
 | `js/theme.js` | 三套主题 = 页面 CSS 自定义属性 + LCD 色板 | 无（node 安全） |
 | `js/audio.js` | WebAudio 方波音效合成、手势解锁 | 无（node 安全） |

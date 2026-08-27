@@ -33,12 +33,14 @@ English version: [Privacy](../en/privacy.md).
 1. **加载时的同源数据请求：** `data/enemies.json`、
    `data/levels.json` 与 14 个 `data/levels/level*.json`
    （带 `cache: 'no-cache'`）。
-2. **同源静态资源：** 页面加载的 CSS/JS/图片，含两张收款码 PNG
-   （`donate/alipay-qr.png`、`donate/wechat-qr.png`，预加载为了让
-   捐赠弹窗秒开）。
-3. **支付宝 App 唤起（仅手机、仅点击时）：** 在手机上点支付宝捐赠
-   按钮时，页面尝试通过 `alipays://` URL scheme 拉起支付宝 App；
-   1.5 秒内没反应就回退为展示二维码弹窗。这是代码库里唯一的对外
+2. **同源静态资源：** 页面加载的 CSS/JS/图片。收款二维码不落地为
+   图片文件——由浏览器在捐赠弹窗打开后按收款链接实时生成；QR 库
+   （`js/vendor/qrcode-generator.js`，同源）也只在弹窗首次打开时
+   懒加载，首屏零开销。
+3. **支付宝收款页（仅手机、仅点击时）：** 在手机上打开捐赠弹窗且
+   选中支付宝时，页面会以新标签页（`noopener`）打开支付宝官方收款
+   链接（`qr.alipay.com`，每次弹窗会话至多一次），由支付宝页面自行
+   处理 App 唤起；二维码始终可见作为兜底。这是代码库里唯一的对外
    URL，且只在你明确点击时发生。
 
 **没有**分析/埋点脚本、没有字体/CDN 外链、没有广告 SDK、没有对任何

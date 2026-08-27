@@ -46,7 +46,8 @@ play the whole game in node.
 | `js/behaviors.js` | The primitive vocabulary: 9 movements, 10 attacks, 5 formations — the only place enemy behavior logic lives | none |
 | `js/sprites.js` | Sprite string-grids (`X`/`.`) and the 5×7 ASCII bitmap font | none |
 | `js/render.js` | Draws `rt` to canvas with the theme's LCD palette; HUD, parallax, effects | sprites, theme |
-| `js/app.js` | Everything impure: input wiring, main loop, screen flow, localStorage, URL params, level upload, donate | all of the above |
+| `js/app.js` | Everything impure: input wiring, main loop, screen flow, localStorage, URL params, level upload | all of the above |
+| `js/donation.js` | Footer donate widget: dialog, Alipay/WeChat tabs, lazy QR library + live QR from the receive links, mobile Alipay opens the official receive page | i18n, audio |
 | `js/i18n.js` | EN/zh dictionaries, `data-i18n` DOM application, persistence | none (node-safe) |
 | `js/theme.js` | 3 themes = page CSS custom properties + LCD palettes | none (node-safe) |
 | `js/audio.js` | WebAudio square-wave SFX synth, gesture unlock | none (node-safe) |

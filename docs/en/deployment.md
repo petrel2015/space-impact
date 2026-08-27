@@ -37,7 +37,8 @@ works there because **every reference is relative**:
 - `index.html` loads `css/style.css`, `js/*.js` via relative URLs;
 - `app.js` fetches `data/enemies.json`, `data/levels.json` and
   `data/levels/*.json` relative to the page;
-- QR images under `donate/` are relative too;
+- the QR library that `donation.js` lazy-loads,
+  `js/vendor/qrcode-generator.js`, is relative too;
 - there is no `<base>`, no absolute `/…` path, and no hardcoded origin.
 
 So any subpath (or domain root) works without configuration. Do not

@@ -19,6 +19,19 @@ All notable user-visible changes to this project are documented in this file.
   feature design documents (`docs/*/features/`), this changelog, and
   `README_FOR_AI.md` for AI assistants.
 
+### Changed
+- Donate flow rebuilt: a single low-key footer entry (`☕ Buy me a coffee /
+  ☕ 请作者喝杯咖啡`) opens a dialog with Alipay / WeChat Pay tabs; QR codes
+  are now generated in the browser from the raw receive-money links (dark on
+  white, ECC M, quiet zone ≥ 4) instead of using committed PNG files. The QR
+  library (`js/vendor/qrcode-generator.js`) lazy-loads on first dialog open —
+  zero start-screen cost. On mobile, Alipay opens the official `qr.alipay.com`
+  receive page in a new tab (`noopener`, once per dialog session) with the QR
+  always visible as fallback; the previous `alipays://` scheme attempt and the
+  1.5 s timeout were removed. Added `test/donation-test.js` (contract +
+  jsdom interaction) and `test/qr-roundtrip.test.js` (jsQR decode roundtrip);
+  removed `donate/*.png` and `test/make-donate-qr.sh`.
+
 ## [1.0.0] - 2026-08-22
 
 *First release, published 2026-08-22; this entry summarizes the complete
