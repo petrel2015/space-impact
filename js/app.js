@@ -12,13 +12,16 @@
   var AUTOFIRE_KEY = 'si-autofire';
   var DIFF_KEY = 'si-difficulty';
 
-  /* Difficulty presets: stat multiplier + starting lives. */
+  /* Difficulty tiers: enemy stat multiplier, lives, HP, and ammo policy.
+     Tier 1 has unlimited ammo; higher tiers carry finite rounds with
+     per-second top-up at level start plus a small recoup per kill. */
   var DIFF_PRESETS = {
-    easy: { mult: 0.8, lives: 4 },
-    normal: { mult: 1.0, lives: 3 },
-    hard: { mult: 1.3, lives: 2 }
+    casual:   { mult: 0.8,  lives: 4, hp: 10, ammoPerSec: 0,   ammoBase: 0,   ammoGain: 0 },
+    standard: { mult: 1.0,  lives: 3, hp: 8,  ammoPerSec: 1.6, ammoBase: 60,  ammoGain: 2 },
+    tight:    { mult: 1.15, lives: 3, hp: 6,  ammoPerSec: 1.0, ammoBase: 40,  ammoGain: 1 },
+    hardcore: { mult: 1.3,  lives: 2, hp: 4,  ammoPerSec: 0.6, ammoBase: 30,  ammoGain: 1 }
   };
-  var difficulty = 'normal';
+  var difficulty = 'standard';
 
   var $ = function (id) { return document.getElementById(id); };
 
@@ -174,20 +177,34 @@
     return touchMode() && global.innerWidth < global.innerHeight && global.innerWidth <= 820;
   }
 
+  function ammoStock(idx, preset) {
+    return preset.ammoPerSec > 0
+      ? Math.ceil(preset.ammoBase + preset.ammoPerSec * (levels[idx].duration || 180))
+      : Infinity;
+  }
+
   function startLevel(idx, loop, carry) {
     levelIdx = idx;
     loopCount = loop;
-    var preset = DIFF_PRESETS[difficulty] || DIFF_PRESETS.normal;
+    var preset = DIFF_PRESETS[difficulty] || DIFF_PRESETS.standard;
     var lvlDiff = (levels[idx].difficulty || 1) * preset.mult * (1 + 0.35 * loop);
     var tall = portraitRes();
     rt = SI.engine.createRuntime({
       defs: defs,
       level: levels[idx],
-      seed: Math.floor(Math.random() * 1e9),
+      seed: (global.crypto && global.crypto.getRandomValues)
+        ? global.crypto.getRandomValues(new Uint32Array(1))[0]
+        : (Date.now() & 0x7fffffff),
       difficulty: lvlDiff,
       W: 144,
       H: tall ? 128 : 80,
-      player: carry ? carry : { lives: preset.lives }
+      player: carry ? carry : {
+        lives: preset.lives,
+        maxHp: preset.hp,
+        /* finite tiers scale their stockpile with the level length */
+        ammo: ammoStock(idx, preset),
+        ammoGain: preset.ammoGain
+      }
     });
     canvas.width = rt.W;
     canvas.height = rt.H;
@@ -202,15 +219,20 @@
   }
 
   function advanceLevel() {
+    var preset = DIFF_PRESETS[difficulty] || DIFF_PRESETS.standard;
+    var next = levelIdx + 1;
+    var loop = loopCount;
+    if (next >= levels.length) { next = 0; loop++; }
     var carry = {
       score: rt.player.score,
       lives: rt.player.lives,
       weaponLevel: rt.player.weaponLevel,
-      special: rt.player.special
+      special: rt.player.special,
+      maxHp: rt.player.maxHp,
+      /* fresh stockpile scaled to the upcoming level's length */
+      ammo: ammoStock(next, preset),
+      ammoGain: rt.player.ammoGain
     };
-    var next = levelIdx + 1;
-    var loop = loopCount;
-    if (next >= levels.length) { next = 0; loop++; }
     saveHiScore(rt.player.score);
     startLevel(next, loop, carry);
   }
@@ -301,7 +323,7 @@
   }
 
   var AUDIO_MAP = {
-    shoot: 'shoot', eshoot: 'eshoot', hitEnemy: 'hitEnemy',
+    shoot: 'shoot', eshoot: 'eshoot', hitEnemy: 'hitEnemy', cancel: 'cancel',
     explode: 'explode', bigExplode: 'bigExplode', hitPlayer: 'hitPlayer',
     shieldHit: 'shieldHit', powerup: 'powerup', special: 'special',
     bossWarn: 'bossWarn', bossDie: 'bigExplode', levelClear: 'levelClear',
@@ -545,7 +567,7 @@
     Array.prototype.forEach.call(document.querySelectorAll('#diff-seg button'), function (btn) {
       btn.addEventListener('click', function () {
         difficulty = btn.getAttribute('data-diff');
-        if (!DIFF_PRESETS[difficulty]) difficulty = 'normal';
+        if (!DIFF_PRESETS[difficulty]) difficulty = 'standard';
         try { localStorage.setItem(DIFF_KEY, difficulty); } catch (e) {}
         syncDiffButtons();
         SI.audio.play('ui');

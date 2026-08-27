@@ -156,5 +156,6 @@ if (process.argv.length >= 4) {
   shot('n4-l6-curtain', 5, 10, { godmode: true });
   shot('n5-l7-manta-dive', 6, 12, { godmode: true });
   shot('n6-l14-final-boss', 13, 96, { godmode: true });
+  shot('n8-ammo-hud', 0, 12, { godmode: true, player: { ammo: 348, ammoGain: 2, maxHp: 6 } });
   shot('n7-gameover', 1, 200, { input: { up: false, down: false, left: false, right: false, fire: false, special: false } });
 }

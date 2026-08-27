@@ -31,7 +31,7 @@ var levels = index.levels.map(function (f) {
   return SI.engine.compileLevel(readJson('data/' + f), defs);
 });
 
-var KNOWN_EVENTS = ['shoot', 'eshoot', 'hitEnemy', 'explode', 'bigExplode', 'hitPlayer',
+var KNOWN_EVENTS = ['shoot', 'eshoot', 'hitEnemy', 'cancel', 'explode', 'bigExplode', 'hitPlayer',
   'shieldHit', 'powerup', 'special', 'bossWarn', 'bossDie', 'lifeLost',
   'levelClear', 'gameOver'];
 
@@ -76,18 +76,19 @@ var NO_INPUT = { up: false, down: false, left: false, right: false, fire: false,
 
 /* 1. every level completable: scripted invincible player, autofire */
 levels.forEach(function (lvl) {
+  var cap = (lvl.duration || 180) + 150;
   var rt = simulate(lvl, 42, function () {
     return { up: false, down: false, left: false, right: false, fire: true, special: false };
-  }, 240, true);
+  }, cap, true);
   check(rt.status === 'clear',
-    'level ' + lvl.id + ' not completed within 240s (status=' + rt.status + ', t=' + rt.t.toFixed(1) + ')');
+    'level ' + lvl.id + ' not completed within ' + cap + 's (status=' + rt.status + ', t=' + rt.t.toFixed(1) + ')');
 });
 
 /* 2. mid-boss death must NOT clear the level (level 8 has mb1 + end boss) */
 (function () {
   var rt = SI.engine.createRuntime({ defs: defs, level: levels[7], seed: 11, difficulty: 1.2 });
   var sawBigDie = false;
-  var steps = Math.floor(70 / STEP);
+  var steps = Math.floor(150 / STEP);   /* mb1 shows up around t≈137 */
   for (var i = 0; i < steps; i++) {
     rt.player.invuln = 1;
     SI.engine.step(rt, { up: false, down: false, left: false, right: false, fire: true, special: false }, STEP);
@@ -179,11 +180,70 @@ levels.forEach(function (lvl) {
   check(threw && threw.key === 'errSpriteRef', 'unknown sprite should throw errSpriteRef');
 })();
 
-/* 8. tall portrait resolution (144×128): spawns remap into the field */
+/* 8. opposing bullets cancel each other out */
+(function () {
+  var rt = SI.engine.createRuntime({ defs: defs, level: levels[0], seed: 9, difficulty: 1 });
+  rt.bullets.push({ x: 60, y: 40, vx: 110, vy: 0, w: 3, h: 2, dmg: 1, pierce: false });
+  rt.ebullets.push({ x: 70, y: 40, vx: -30, vy: 0, w: 3, h: 3 });
+  var sawCancel = false;
+  for (var i = 0; i < 10; i++) {
+    SI.engine.step(rt, NO_INPUT, STEP);
+    if (rt.events.some(function (e) { return e.type === 'cancel'; })) sawCancel = true;
+    rt.events.length = 0;
+  }
+  check(sawCancel, 'bullet-vs-bullet cancel event never fired');
+  check(rt.bullets.every(function (b) { return b.x > 75; }), 'player bullet survived the collision');
+  check(!rt.ebullets.some(function (b) { return b.y === 40 && b.x > 60 && b.x < 80; }),
+    'enemy bullet survived the collision');
+})();
+
+/* 9. finite ammo: volleys cost one round, dry trigger blocks fire, kills recoup */
+(function () {
+  var rt = SI.engine.createRuntime({
+    defs: defs, level: levels[0], seed: 9, difficulty: 1,
+    player: { ammo: 3, ammoGain: 2, maxHp: 6 }
+  });
+  check(rt.player.maxHp === 6, 'difficulty maxHp not applied');
+  var input = { up: false, down: false, left: false, right: false, fire: true, special: false };
+  var shots = 0;
+  for (var i = 0; i < 200; i++) {
+    SI.engine.step(rt, input, STEP);
+    rt.events.forEach(function (e) { if (e.type === 'shoot') shots++; });
+    rt.events.length = 0;
+  }
+  check(shots === 3, 'expected exactly 3 volleys from 3 rounds, got ' + shots);
+  check(rt.player.ammo === 0, 'ammo should hit 0 and stay');
+  /* feed one kill's worth of rounds and confirm firing resumes */
+  rt.player.ammo = 2;
+  var more = 0;
+  for (var j = 0; j < 120; j++) {
+    SI.engine.step(rt, input, STEP);
+    rt.events.forEach(function (e) { if (e.type === 'shoot') more++; });
+    rt.events.length = 0;
+  }
+  check(more === 2, 'refilled rounds should fire exactly twice, got ' + more);
+  /* kills recoup ammo on gain tiers: level 6 opens with a crab at t=5 */
+  var crabRt = SI.engine.createRuntime({ defs: defs, level: levels[5], seed: 5, difficulty: 1 });
+  crabRt.player.ammo = 200;
+  crabRt.player.ammoGain = 2;
+  var recouped = false, killed = false, prev;
+  for (var k = 0; k < 600 && !recouped; k++) {
+    crabRt.player.invuln = 1;
+    prev = crabRt.player.ammo;
+    SI.engine.step(crabRt, input, STEP);
+    if (crabRt.events.some(function (e) { return e.type === 'explode' || e.type === 'bigExplode'; })) killed = true;
+    if (crabRt.player.ammo > prev) recouped = true;   /* ammo only ever rises via kills */
+    rt.events.length = 0;
+  }
+  check(killed, 'crab never died — test setup wrong');
+  check(recouped, 'kill did not recoup ammo on a gain tier');
+})();
+
+/* 10. tall portrait resolution (144×128): spawns remap into the field */
 (function () {
   var rt = SI.engine.createRuntime({ defs: defs, level: levels[0], seed: 3, difficulty: 1, W: 144, H: 128 });
   check(rt.W === 144 && rt.H === 128, 'portrait runtime resolution not applied');
-  for (var i = 0; i < Math.floor(5 * 60); i++) {
+  for (var i = 0; i < Math.floor(7 * 60); i++) {   /* first wave lands at t=5 (+float slack) */
     rt.player.invuln = 1;
     SI.engine.step(rt, { up: false, down: false, left: false, right: false, fire: true, special: false }, STEP);
     rt.events.length = 0;
@@ -193,9 +253,10 @@ levels.forEach(function (lvl) {
     check(e.y >= 8 && e.y + e.h <= 128 - 8, 'enemy leaks out of tall field: ' + e.id + ' y=' + e.y.toFixed(1));
   });
   check(rt.player.y + rt.player.h <= 128 - 8, 'player outside tall field');
-  /* boss recentres vertically on the tall field */
+  /* boss recentres vertically on the tall field (level 1 boss at t≈178) */
   var rt2 = SI.engine.createRuntime({ defs: defs, level: levels[0], seed: 4, difficulty: 1, W: 144, H: 128 });
-  for (var j = 0; j < Math.floor(41 * 60); j++) {
+  var bossAt = levels[0].duration - 2;
+  for (var j = 0; j < Math.floor((bossAt + 2) * 60); j++) {
     rt2.player.invuln = 1;
     SI.engine.step(rt2, { up: false, down: false, left: false, right: false, fire: false, special: false }, STEP);
   }

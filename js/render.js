@@ -192,6 +192,14 @@
       ctx.fillStyle = hp < p.hp ? lcd.ink : lcd.dim;
       ctx.fillRect(bx + hp * 4, H - 6, 3, 4);
     }
+    /* ammo counter (finite-ammo difficulty tiers only) */
+    if (p.ammo !== Infinity) {
+      bx += p.maxHp * 4 + 5;
+      var dry = p.ammo <= 0;
+      ctx.fillStyle = dry ? lcd.dim : lcd.ink;
+      ctx.fillRect(bx, H - 4, 4, 2);
+      text(ctx, String(p.ammo), bx + 6, H - 8, { color: dry ? lcd.dim : lcd.ink });
+    }
     var sx2 = W - 1 - (5 * 3 + 4);
     text(ctx, 'S', sx2 - 7, H - 8, { color: lcd.dim });
     for (var sp2 = 0; sp2 < 5; sp2++) {

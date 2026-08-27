@@ -3,14 +3,15 @@
   "difficulty": 1.2,
   "events": [
     {
-      "t": 1,
+      "t": 5.0,
       "enemy": "crab",
       "count": 2,
       "interval": 3.0,
-      "formation": "scatter"
+      "formation": "scatter",
+      "y": 0.3
     },
     {
-      "t": 5,
+      "t": 21.0,
       "enemy": "wasp",
       "count": 8,
       "interval": 0.3,
@@ -18,7 +19,7 @@
       "y": 0.4
     },
     {
-      "t": 10,
+      "t": 35.0,
       "enemy": "cube",
       "count": 3,
       "interval": 1.2,
@@ -26,21 +27,23 @@
       "y": 0.6
     },
     {
-      "t": 16,
+      "t": 50.0,
       "enemy": "manta",
       "count": 4,
       "interval": 0.6,
-      "formation": "scatter"
+      "formation": "scatter",
+      "y": 0.3
     },
     {
-      "t": 22,
+      "t": 64.0,
       "enemy": "spider",
       "count": 3,
       "interval": 1.0,
-      "formation": "scatter"
+      "formation": "scatter",
+      "y": 0.5
     },
     {
-      "t": 28,
+      "t": 78.0,
       "enemy": "drone",
       "count": 12,
       "interval": 0.2,
@@ -48,7 +51,7 @@
       "y": 0.5
     },
     {
-      "t": 36,
+      "t": 91.0,
       "enemy": "lasher",
       "count": 3,
       "interval": 1.5,
@@ -56,28 +59,31 @@
       "y": 0.4
     },
     {
-      "t": 42,
+      "t": 106.0,
       "enemy": "crab",
       "count": 2,
       "interval": 2.5,
-      "formation": "scatter"
+      "formation": "scatter",
+      "y": 0.5
     },
     {
-      "t": 48,
+      "t": 120.0,
       "enemy": "mb1",
       "count": 1,
+      "interval": 1,
       "formation": "single",
       "y": 0.35
     },
     {
-      "t": 56,
+      "t": 135.0,
       "enemy": "mb2",
       "count": 1,
+      "interval": 1,
       "formation": "single",
       "y": 0.6
     },
     {
-      "t": 62,
+      "t": 149.0,
       "enemy": "wasp",
       "count": 12,
       "interval": 0.22,
@@ -85,7 +91,79 @@
       "y": 0.5
     },
     {
-      "t": 72,
+      "t": 163.0,
+      "enemy": "cube",
+      "count": 4,
+      "interval": 1.0,
+      "formation": "stagger",
+      "y": 0.5
+    },
+    {
+      "t": 177.0,
+      "enemy": "manta",
+      "count": 6,
+      "interval": 0.5,
+      "formation": "scatter",
+      "y": 0.3
+    },
+    {
+      "t": 191.0,
+      "enemy": "spider",
+      "count": 4,
+      "interval": 0.8,
+      "formation": "scatter",
+      "y": 0.5
+    },
+    {
+      "t": 205.0,
+      "enemy": "crab",
+      "count": 3,
+      "interval": 2.0,
+      "formation": "scatter",
+      "y": 0.7
+    },
+    {
+      "t": 219.0,
+      "enemy": "wasp",
+      "count": 12,
+      "interval": 0.25,
+      "formation": "scatter",
+      "y": 0.3
+    },
+    {
+      "t": 232.0,
+      "enemy": "crab",
+      "count": 2,
+      "interval": 3.0,
+      "formation": "scatter",
+      "y": 0.5
+    },
+    {
+      "t": 248.0,
+      "enemy": "wasp",
+      "count": 8,
+      "interval": 0.3,
+      "formation": "stagger",
+      "y": 0.4
+    },
+    {
+      "t": 262.0,
+      "enemy": "cube",
+      "count": 3,
+      "interval": 1.2,
+      "formation": "lineV",
+      "y": 0.6
+    },
+    {
+      "t": 277.0,
+      "enemy": "manta",
+      "count": 4,
+      "interval": 0.6,
+      "formation": "scatter",
+      "y": 0.5
+    },
+    {
+      "t": 298,
       "boss": "boss5b"
     }
   ]

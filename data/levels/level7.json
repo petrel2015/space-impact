@@ -3,28 +3,31 @@
   "difficulty": 1.15,
   "events": [
     {
-      "t": 1,
+      "t": 5.0,
       "enemy": "manta",
       "count": 3,
       "interval": 0.8,
-      "formation": "scatter"
+      "formation": "scatter",
+      "y": 0.3
     },
     {
-      "t": 6,
+      "t": 20.0,
       "enemy": "manta",
       "count": 3,
       "interval": 0.8,
-      "formation": "scatter"
+      "formation": "scatter",
+      "y": 0.5
     },
     {
-      "t": 10,
+      "t": 34.0,
       "enemy": "chaser",
       "count": 4,
       "interval": 0.4,
-      "formation": "scatter"
+      "formation": "scatter",
+      "y": 0.7
     },
     {
-      "t": 14,
+      "t": 48.0,
       "enemy": "wasp",
       "count": 8,
       "interval": 0.3,
@@ -32,7 +35,7 @@
       "y": 0.3
     },
     {
-      "t": 20,
+      "t": 62.0,
       "enemy": "manta",
       "count": 4,
       "interval": 0.6,
@@ -40,14 +43,15 @@
       "y": 0.6
     },
     {
-      "t": 26,
+      "t": 77.0,
       "enemy": "spider",
       "count": 2,
       "interval": 1.5,
-      "formation": "scatter"
+      "formation": "scatter",
+      "y": 0.7
     },
     {
-      "t": 32,
+      "t": 91.0,
       "enemy": "lasher",
       "count": 2,
       "interval": 2.0,
@@ -55,28 +59,47 @@
       "y": 0.5
     },
     {
-      "t": 38,
-      "enemy": "mb2",
-      "count": 1,
-      "formation": "single",
-      "y": 0.5
-    },
-    {
-      "t": 50,
+      "t": 106.0,
       "enemy": "manta",
       "count": 6,
       "interval": 0.5,
-      "formation": "scatter"
+      "formation": "scatter",
+      "y": 0.5
     },
     {
-      "t": 58,
+      "t": 120.0,
       "enemy": "spider",
       "count": 3,
       "interval": 1.0,
-      "formation": "scatter"
+      "formation": "scatter",
+      "y": 0.7
     },
     {
-      "t": 68,
+      "t": 134.0,
+      "enemy": "wasp",
+      "count": 10,
+      "interval": 0.25,
+      "formation": "lineV",
+      "y": 0.5
+    },
+    {
+      "t": 148.0,
+      "enemy": "manta",
+      "count": 4,
+      "interval": 0.6,
+      "formation": "stagger",
+      "y": 0.4
+    },
+    {
+      "t": 162.0,
+      "enemy": "chaser",
+      "count": 6,
+      "interval": 0.35,
+      "formation": "scatter",
+      "y": 0.7
+    },
+    {
+      "t": 178,
       "boss": "boss5"
     }
   ]

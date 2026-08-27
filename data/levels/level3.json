@@ -1,21 +1,106 @@
 {
   "id": 3,
-  "scrollSpeed": 14,
+  "difficulty": 1.1,
   "events": [
-    { "t": 0.5,  "enemy": "bat",     "count": 4, "interval": 0.3,  "formation": "stagger", "y": 0.5 },
-    { "t": 5,    "enemy": "sting",   "count": 3, "interval": 0.5,  "formation": "lineH",   "y": 0.3 },
-    { "t": 9,    "enemy": "sting",   "count": 3, "interval": 0.5,  "formation": "lineH",   "y": 0.7 },
-    { "t": 14,   "enemy": "chaser",  "count": 4, "interval": 0.4,  "formation": "scatter" },
-    { "t": 19,   "enemy": "bomber",  "count": 1,                    "formation": "single",  "y": 0.3 },
-    { "t": 24,   "enemy": "bomber",  "count": 1,                    "formation": "single",  "y": 0.7 },
-    { "t": 29,   "enemy": "gunner",  "count": 1,                    "formation": "single",  "y": 0.25 },
-    { "t": 30,   "enemy": "gunner",  "count": 1,                    "formation": "single",  "y": 0.75 },
-    { "t": 34,   "enemy": "spinner", "count": 1,                    "formation": "single",  "y": 0.3 },
-    { "t": 38,   "enemy": "spinner", "count": 1,                    "formation": "single",  "y": 0.7 },
-    { "t": 43,   "enemy": "rock",    "count": 4, "interval": 0.5,  "formation": "scatter" },
-    { "t": 48,   "enemy": "drone",   "count": 8, "interval": 0.25, "formation": "lineV",   "y": 0.5 },
-    { "t": 54,   "enemy": "bat",     "count": 5, "interval": 0.3,  "formation": "stagger", "y": 0.5 },
-    { "t": 60,   "enemy": "sting",   "count": 4, "interval": 0.4,  "formation": "lineH",   "y": 0.5 },
-    { "t": 70,   "boss": "boss2b" }
+    {
+      "t": 5.0,
+      "enemy": "bat",
+      "count": 4,
+      "interval": 0.3,
+      "formation": "stagger",
+      "y": 0.5
+    },
+    {
+      "t": 20.0,
+      "enemy": "sting",
+      "count": 3,
+      "interval": 0.5,
+      "formation": "lineH",
+      "y": 0.3
+    },
+    {
+      "t": 34.0,
+      "enemy": "sting",
+      "count": 3,
+      "interval": 0.5,
+      "formation": "lineH",
+      "y": 0.7
+    },
+    {
+      "t": 48.0,
+      "enemy": "chaser",
+      "count": 4,
+      "interval": 0.4,
+      "formation": "scatter",
+      "y": 0.3
+    },
+    {
+      "t": 61.0,
+      "enemy": "bomber",
+      "count": 1,
+      "interval": 1,
+      "formation": "single",
+      "y": 0.3
+    },
+    {
+      "t": 76.0,
+      "enemy": "bomber",
+      "count": 1,
+      "interval": 1,
+      "formation": "single",
+      "y": 0.7
+    },
+    {
+      "t": 92.0,
+      "enemy": "gunner",
+      "count": 1,
+      "interval": 1,
+      "formation": "single",
+      "y": 0.25
+    },
+    {
+      "t": 107.0,
+      "enemy": "gunner",
+      "count": 1,
+      "interval": 1,
+      "formation": "single",
+      "y": 0.75
+    },
+    {
+      "t": 120.0,
+      "enemy": "spinner",
+      "count": 1,
+      "interval": 1,
+      "formation": "single",
+      "y": 0.3
+    },
+    {
+      "t": 135.0,
+      "enemy": "spinner",
+      "count": 1,
+      "interval": 1,
+      "formation": "single",
+      "y": 0.7
+    },
+    {
+      "t": 149.0,
+      "enemy": "rock",
+      "count": 4,
+      "interval": 0.5,
+      "formation": "scatter",
+      "y": 0.5
+    },
+    {
+      "t": 163.0,
+      "enemy": "drone",
+      "count": 8,
+      "interval": 0.25,
+      "formation": "lineV",
+      "y": 0.5
+    },
+    {
+      "t": 178,
+      "boss": "boss2b"
+    }
   ]
 }

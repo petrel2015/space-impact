@@ -111,6 +111,9 @@
       tone({ f0: 210, f1: 170, dur: 0.03, type: 'triangle', vol: 0.05 });
       noise({ f0: 2600, f1: 900, dur: 0.025, vol: 0.03 });
     },
+    cancel: function () {                     /* bullet-vs-bullet zap */
+      tone({ f0: 1500, f1: 700, dur: 0.04, type: 'square', vol: 0.035 });
+    },
     explode: function () {                    /* crunchy small boom */
       noise({ f0: 1400, f1: 160, dur: 0.22, vol: 0.15 });
       tone({ f0: 190, f1: 42, dur: 0.2, type: 'square', vol: 0.08 });
@@ -187,7 +190,7 @@
   };
 
   /* same-sound throttle: auto-fire / bullet storms stay readable */
-  var GAPS = { shoot: 0.05, eshoot: 0.06, hitEnemy: 0.06 };
+  var GAPS = { shoot: 0.05, eshoot: 0.06, hitEnemy: 0.06, cancel: 0.05 };
 
   function play(name) {
     if (!ctx || !enabled) return;

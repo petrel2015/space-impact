@@ -128,7 +128,8 @@
 
     queue.sort(function (a, b) { return a.t - b.t; });
     var diff = typeof raw.difficulty === 'number' ? Math.min(3, Math.max(0.5, raw.difficulty)) : 1;
-    return { id: raw.id, scrollSpeed: raw.scrollSpeed || 0, difficulty: diff, queue: queue };
+    var duration = queue.length ? queue[queue.length - 1].t : 0;
+    return { id: raw.id, scrollSpeed: raw.scrollSpeed || 0, difficulty: diff, duration: duration, queue: queue };
   }
 
   /* ── runtime ──────────────────────────────── */
@@ -170,7 +171,7 @@
       player: {
         x: 12, y: (H - 7) / 2,
         w: SI.sprites.get('player').w, h: SI.sprites.get('player').h,
-        hp: MAX_HP, maxHp: MAX_HP,
+        hp: carry.maxHp || MAX_HP, maxHp: carry.maxHp || MAX_HP,
         lives: carry.lives != null ? carry.lives : MAX_LIVES,
         score: carry.score || 0,
         special: carry.special || 0,
@@ -178,7 +179,10 @@
         mode: 'normal', modeTimer: 0,
         shield: 0,
         invuln: 2,
-        cooldown: 0
+        cooldown: 0,
+        /* finite-ammo difficulty tiers carry a number; Infinity = casual */
+        ammo: carry.ammo != null ? carry.ammo : Infinity,
+        ammoGain: carry.ammoGain || 0
       }
     };
     return rt;
@@ -261,6 +265,10 @@
   function killEnemy(rt, e, idx) {
     rt.enemies.splice(idx, 1);
     rt.player.score += e.def.score;
+    /* limited-ammo tiers recoup a little on every kill */
+    if (rt.player.ammoGain > 0 && rt.player.ammo !== Infinity) {
+      rt.player.ammo += rt.player.ammoGain;
+    }
     explode(rt, e.x + e.w / 2, e.y + e.h / 2, e.def.boss || e.def.score >= 500);
     pushEvent(rt, e.def.boss ? 'bigExplode' : 'explode');
     if (e.def.boss && e.def.miniboss) {
@@ -282,6 +290,9 @@
 
   function firePlayer(rt) {
     var p = rt.player;
+    /* finite-ammo tiers: one charge per volley, none left = dry trigger */
+    if (p.ammo <= 0) return;
+    if (p.ammo !== Infinity) p.ammo--;
     var cx = p.x + p.w, cy = p.y + p.h / 2;
     var B = 110;
     if (p.mode === 'laser') {
@@ -451,6 +462,20 @@
       if (aabb(pu.x - 3, pu.y - 3, 7, 7, p.x, p.y, p.w, p.h)) {
         applyPowerup(rt, pu);
         rt.powerups.splice(pu1, 1);
+      }
+    }
+
+    /* classic detail: opposing bullets cancel each other out */
+    for (var cb = rt.bullets.length - 1; cb >= 0; cb--) {
+      var pb0 = rt.bullets[cb];
+      for (var ce = rt.ebullets.length - 1; ce >= 0; ce--) {
+        var eb0 = rt.ebullets[ce];
+        if (!aabb(pb0.x - pb0.w / 2 - 1, pb0.y - pb0.h / 2 - 1, pb0.w + 2, pb0.h + 2,
+                  eb0.x - 1, eb0.y - 1, 3, 3)) continue;
+        rt.ebullets.splice(ce, 1);
+        if (!pb0.pierce) { rt.bullets.splice(cb, 1); }
+        pushEvent(rt, 'cancel');
+        break;
       }
     }
 

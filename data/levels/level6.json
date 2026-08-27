@@ -3,21 +3,23 @@
   "difficulty": 1.1,
   "events": [
     {
-      "t": 1,
+      "t": 5.0,
       "enemy": "crab",
       "count": 1,
+      "interval": 1,
       "formation": "single",
       "y": 0.4
     },
     {
-      "t": 5,
+      "t": 21.0,
       "enemy": "crab",
       "count": 1,
+      "interval": 1,
       "formation": "single",
       "y": 0.7
     },
     {
-      "t": 9,
+      "t": 35.0,
       "enemy": "wasp",
       "count": 6,
       "interval": 0.35,
@@ -25,28 +27,31 @@
       "y": 0.5
     },
     {
-      "t": 15,
+      "t": 50.0,
       "enemy": "lasher",
       "count": 1,
+      "interval": 1,
       "formation": "single",
       "y": 0.3
     },
     {
-      "t": 18,
+      "t": 64.0,
       "enemy": "lasher",
       "count": 1,
+      "interval": 1,
       "formation": "single",
       "y": 0.7
     },
     {
-      "t": 22,
+      "t": 79.0,
       "enemy": "crab",
       "count": 2,
       "interval": 2.5,
-      "formation": "scatter"
+      "formation": "scatter",
+      "y": 0.7
     },
     {
-      "t": 28,
+      "t": 94.0,
       "enemy": "cube",
       "count": 3,
       "interval": 1.0,
@@ -54,7 +59,7 @@
       "y": 0.5
     },
     {
-      "t": 35,
+      "t": 108.0,
       "enemy": "drone",
       "count": 10,
       "interval": 0.3,
@@ -62,14 +67,15 @@
       "y": 0.5
     },
     {
-      "t": 42,
+      "t": 122.0,
       "enemy": "crab",
       "count": 2,
       "interval": 3.0,
-      "formation": "scatter"
+      "formation": "scatter",
+      "y": 0.7
     },
     {
-      "t": 48,
+      "t": 137.0,
       "enemy": "lasher",
       "count": 3,
       "interval": 1.2,
@@ -77,14 +83,15 @@
       "y": 0.5
     },
     {
-      "t": 54,
-      "enemy": "mb1",
-      "count": 1,
-      "formation": "single",
-      "y": 0.5
+      "t": 151.0,
+      "enemy": "wasp",
+      "count": 8,
+      "interval": 0.3,
+      "formation": "stagger",
+      "y": 0.4
     },
     {
-      "t": 66,
+      "t": 178,
       "boss": "boss4b"
     }
   ]

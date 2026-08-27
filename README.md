@@ -49,8 +49,9 @@ Plus 2 **mid-bosses** (boss HP bar + guaranteed heal drop, but the level goes on
 - 🎨 **3 themes** — Retro LCD (yellow-green, default, with pixel-grid overlay), Night (phosphor), Paper.
 - 📱 **Mobile & tablet** — responsive layout; on-screen D-pad + FIRE/BOMB appear automatically on touch devices **and** whenever the viewport is phone/tablet sized, with an auto-fire toggle.
 - ⚙️ **Settings in the header** — difficulty, theme, sound & auto-fire in a popover available any time (opening it mid-game auto-pauses). How-to lives on the start screen only.
-- 🔥 **Difficulty** — Easy / Normal / Hard presets stack with per-level coefficients and loop multipliers.
+- 🔥 **Four difficulty tiers** — Casual / Standard / Tight / Hardcore: HP steps down 10→8→6→4, enemies hit harder, and from Standard up your **ammo is finite** (plentiful → tight → barely enough; every kill recoups a few rounds).
 - ⚡ **Power-ups** — P power · S spread · L piercing laser · + heal · E special energy · G shield; the special is a screen-clearing beam.
+- 💥 **Bullet cancel** — the classic detail: your shots and enemy shots annihilate each other mid-air (the piercing laser eats through).
 - 🔊 **Synthesized SFX** — WebAudio square-wave bleeps, zero audio files.
 - 🤖 **Attract mode** — `?demo=1` autopilot plays the game through the same input path as a human.
 
