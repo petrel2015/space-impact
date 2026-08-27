@@ -146,6 +146,11 @@
       tone({ f0: 784, dur: 0.08, type: 'triangle', vol: 0.08, at: 0.14 });
       tone({ f0: 1047, dur: 0.1, type: 'triangle', vol: 0.07, at: 0.2 });
     },
+    oneUp: function () {                      /* extra-ship fanfare */
+      [523, 659, 784, 1047, 1319].forEach(function (f, i) {
+        tone({ f0: f, dur: 0.09, type: 'square', vol: 0.09, at: i * 0.07 });
+      });
+    },
     heal: function () {                       /* soft major third chime */
       tone({ f0: 659, dur: 0.1, type: 'sine', vol: 0.1 });
       tone({ f0: 880, dur: 0.14, type: 'sine', vol: 0.09, at: 0.09 });

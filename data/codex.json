@@ -145,6 +145,21 @@
       "name": { "en": "Homing missiles", "zh": "追踪导弹" },
       "desc": { "en": "+12 homing missiles (max 20), damage 3, fly straight through enemy fire.", "zh": "追踪导弹 +12 枚（上限 20），伤害 3，直穿敌方子弹。" },
       "review": { "en": "Fire-and-forget luxury — your aim line can retire early.", "zh": "发射后不管的奢侈品——瞄准线可以提前退休。" }
+    },
+    "boomerang": {
+      "name": { "en": "Boomerang", "zh": "回旋镖" },
+      "desc": { "en": "For 10 seconds volleys fly out and curve back, piercing on both legs and shredding enemy fire en route.", "zh": "10 秒内子弹飞出后折返，去、回两程均穿透伤害，途中还会削掉敌方子弹。" },
+      "review": { "en": "Park beside a boss and let the return leg do the filing.", "zh": "贴着 Boss 站桩，返程那一刀最疼。" }
+    },
+    "option": {
+      "name": { "en": "Wingman", "zh": "僚机" },
+      "desc": { "en": "+1 escort drone (max 2) that volleys with you — missile launches included. Lost on death.", "zh": "僚机 +1 台（上限 2），随每次开火齐射——连发射导弹时也不例外。坠机后清空。" },
+      "review": { "en": "Two little shadows doing half your paperwork.", "zh": "两道小影子，替你分担一半的火力输出。" }
+    },
+    "life": {
+      "name": { "en": "1UP", "zh": "备用机" },
+      "desc": { "en": "+1 spare ship (max 5); at full strength it converts to 500 points.", "zh": "备用机体 +1（上限 5 台）；满编时转化为 500 分。" },
+      "review": { "en": "The rarest glint on the field — always worth the detour.", "zh": "全场最稀有的一闪——绕路也值得捡。" }
     }
   }
 }

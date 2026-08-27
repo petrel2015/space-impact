@@ -64,7 +64,7 @@ Plus 2 **mid-bosses** (boss HP bar + guaranteed heal drop, but the level goes on
 <summary><strong>More features</strong> (aim tracer, homing missiles, bullet cancel, …)</summary>
 
 - 🔫 **Point shots by default** — one volley per FIRE press; flip the **Auto-fire** toggle in settings for hold-to-spray.
-- ⚡ **Power-ups** — P power · S spread · L piercing laser · + heal · E special energy · G shield; the special is a screen-clearing beam ([what each item does](docs/en/usage.md#power-ups)).
+- ⚡ **Power-ups** — P power · S spread · L piercing laser · + heal · E special energy · G shield · B boomerang · W wingman · 1UP; the special is a screen-clearing beam ([what each item does](docs/en/usage.md#power-ups)).
 - 🚀 **Reward weapon** — M homing missiles drop from kills: 12 tracking warheads per pickup, heavy damage, their own ammo pool (never touches your bullet stock), and they fly straight through enemy fire.
 - 🎯 **Aim tracer** — a faint animated dashed line previews exactly where your next volley lands (per barrel, including spread angles) with a blinking cross on the target it would hit. Toggle with **L** or in settings.
 - 💥 **Bullet cancel** — the classic detail: your shots and enemy shots annihilate each other mid-air (the piercing laser eats through).
@@ -123,7 +123,7 @@ One entry in `data/enemies.json` — combine primitives, tune numbers, point at 
 | `sprite` | Sprite name from `js/sprites.js` (new looks need a new string-grid there) |
 | `movement` + `params` | Movement primitive + its knobs (below) |
 | `attack` + `attackParams` | Attack primitive + its knobs; `fireRate` (s) and `bulletSpeed` tune it |
-| `drop` | Drop table `{type: probability}`, types: power/spread/laser/heal/energy/shield/missile |
+| `drop` | Drop table `{type: probability}`, types: power/spread/laser/heal/energy/shield/missile/boomerang/option/life |
 | `boss` | `true` = boss: top HP bar, guaranteed drops, death ends the level |
 | `miniboss` | With `boss: true` = mid-boss: bar + drops, but the level **continues** |
 

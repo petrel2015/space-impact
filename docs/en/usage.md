@@ -79,9 +79,12 @@ Drops drift left; fly into them to collect.
 | **E** energy | +1 special charge (max 5) |
 | **G** shield | Absorbs the next 3 hits |
 | **M** missile | +12 homing missiles (cap 20) — heavy damage (3× a normal shot), auto-track the nearest enemy ahead, fly straight through enemy bullets |
+| **B** boomerang | 10 s of boomerang volleys — the blade flies out, turns back toward your row, and pierces on both legs; it also shreds enemy bullets it touches |
+| **W** wingman | +1 escort drone (max 2) firing a straight shot with every volley — missile launches included. Lost on death, carried across levels and saves |
+| **1UP** life | +1 spare ship (max 5). At full strength: +500 score instead |
 
 Bosses always drop heal + energy when killed; mid-bosses always drop a heal.
-Losing a life resets weapon level to 1 and clears your missile stockpile.
+Losing a life resets weapon level to 1 and clears your missile stockpile and wingmen.
 
 ## Aim Tracer
 

@@ -28,7 +28,7 @@ var SNAP = {
   levelId: 5,
   loop: 1,
   difficulty: 'tight',
-  carry: { score: 12345, lives: 2, weaponLevel: 3, missiles: 8, special: 2, maxHp: 6 },
+  carry: { score: 12345, lives: 2, weaponLevel: 3, missiles: 8, special: 2, maxHp: 6, options: 1 },
   savedAt: 1700000000000
 };
 
@@ -50,7 +50,8 @@ var back = SI.Save.read(2);
 check(back && back.levelId === 5 && back.loop === 1 && back.difficulty === 'tight',
   'roundtrip should preserve level/loop/difficulty');
 check(back.carry.score === 12345 && back.carry.lives === 2 && back.carry.weaponLevel === 3 &&
-  back.carry.missiles === 8 && back.carry.special === 2 && back.carry.maxHp === 6,
+  back.carry.missiles === 8 && back.carry.special === 2 && back.carry.maxHp === 6 &&
+  back.carry.options === 1,
   'roundtrip should preserve the whole carry block');
 check(back.savedAt === SNAP.savedAt, 'roundtrip should preserve savedAt');
 check(SI.Save.hasAny() === true, 'hasAny should be true after a write');

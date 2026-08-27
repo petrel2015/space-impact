@@ -8,7 +8,8 @@
     "attack": "none",
     "drop": {
       "power": 0.05,
-      "energy": 0.02
+      "energy": 0.02,
+      "boomerang": 0.03
     }
   },
   "bat": {
@@ -24,7 +25,8 @@
     "attack": "none",
     "drop": {
       "power": 0.05,
-      "heal": 0.02
+      "heal": 0.02,
+      "boomerang": 0.03
     }
   },
   "sting": {
@@ -43,7 +45,8 @@
     "drop": {
       "spread": 0.05,
       "heal": 0.02,
-      "missile": 0.02
+      "missile": 0.02,
+      "option": 0.02
     }
   },
   "rock": {
@@ -58,7 +61,8 @@
     "attack": "none",
     "drop": {
       "heal": 0.06,
-      "shield": 0.03
+      "shield": 0.03,
+      "boomerang": 0.05
     }
   },
   "gunner": {
@@ -77,7 +81,8 @@
     "drop": {
       "laser": 0.05,
       "energy": 0.04,
-      "missile": 0.02
+      "missile": 0.02,
+      "life": 0.004
     }
   },
   "chaser": {
@@ -92,7 +97,8 @@
     "attack": "none",
     "drop": {
       "shield": 0.06,
-      "power": 0.03
+      "power": 0.03,
+      "option": 0.02
     }
   },
   "spinner": {
@@ -110,7 +116,9 @@
     "bulletSpeed": 22,
     "drop": {
       "energy": 0.08,
-      "spread": 0.04
+      "spread": 0.04,
+      "boomerang": 0.04,
+      "life": 0.004
     },
     "attackParams": {
       "step": 0.8
@@ -132,7 +140,9 @@
     "drop": {
       "heal": 0.1,
       "spread": 0.05,
-      "missile": 0.04
+      "missile": 0.04,
+      "option": 0.03,
+      "life": 0.005
     }
   },
   "boss1": {
@@ -448,7 +458,8 @@
     "drop": {
       "heal": 0.15,
       "laser": 0.1,
-      "missile": 0.05
+      "missile": 0.05,
+      "life": 0.01
     }
   },
   "mb1": {

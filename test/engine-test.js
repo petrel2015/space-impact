@@ -52,7 +52,7 @@ function simulate(level, seed, inputFn, maxSeconds, godMode) {
     SI.engine.step(rt, input, STEP);
 
     check(rt.player.hp >= 0 && rt.player.hp <= rt.player.maxHp, 'hp out of range');
-    check(rt.player.lives >= 0 && rt.player.lives <= 4, 'lives out of range');
+    check(rt.player.lives >= 0 && rt.player.lives <= 5, 'lives out of range');
     check(rt.player.score >= score, 'score decreased');
     score = rt.player.score;
     check(rt.player.special >= 0 && rt.player.special <= 5, 'special charges out of range');
@@ -344,22 +344,28 @@ levels.forEach(function (lvl) {
   var rt = SI.engine.createRuntime({ defs: defs, level: levels[0], seed: 5, difficulty: 1 });
   var p = rt.player;
   var cases = [
-    { mode: 'normal', weaponLevel: 1, missiles: 0, expect: 1 },
-    { mode: 'normal', weaponLevel: 2, missiles: 0, expect: 2 },
-    { mode: 'normal', weaponLevel: 3, missiles: 0, expect: 3 },
-    { mode: 'spread', weaponLevel: 1, missiles: 0, expect: 3 },
-    { mode: 'laser', weaponLevel: 1, missiles: 0, expect: 1 },
-    { mode: 'normal', weaponLevel: 1, missiles: 4, expect: 1 }
+    { mode: 'normal', weaponLevel: 1, missiles: 0, options: 0, expect: 1 },
+    { mode: 'normal', weaponLevel: 2, missiles: 0, options: 0, expect: 2 },
+    { mode: 'normal', weaponLevel: 3, missiles: 0, options: 0, expect: 3 },
+    { mode: 'spread', weaponLevel: 1, missiles: 0, options: 0, expect: 3 },
+    { mode: 'laser', weaponLevel: 1, missiles: 0, options: 0, expect: 1 },
+    { mode: 'boomerang', weaponLevel: 1, missiles: 0, options: 0, expect: 1 },
+    { mode: 'normal', weaponLevel: 1, missiles: 4, options: 0, expect: 1 },
+    { mode: 'normal', weaponLevel: 1, missiles: 0, options: 1, expect: 2 },
+    { mode: 'normal', weaponLevel: 1, missiles: 4, options: 2, expect: 3 }
   ];
   cases.forEach(function (c) {
     p.mode = c.mode; p.modeTimer = 5; p.weaponLevel = c.weaponLevel; p.missiles = c.missiles;
+    p.options = c.options; p.optionY.length = 0;
+    for (var oi = 0; oi < p.options; oi++) p.optionY.push(p.y + p.h / 2);
+    rt.bullets.length = 0;
     var rays = SI.engine.volleyRays(p);
     check(rays.length === c.expect,
-      'mode ' + c.mode + ' lvl' + c.weaponLevel + ' m' + c.missiles + ': ' + rays.length + ' rays, expected ' + c.expect);
+      'mode ' + c.mode + ' lvl' + c.weaponLevel + ' m' + c.missiles + ' o' + c.options + ': ' + rays.length + ' rays, expected ' + c.expect);
     rays.forEach(function (r) {
       var len = Math.sqrt(r.ux * r.ux + r.uy * r.uy);
       check(Math.abs(len - 1) < 1e-9, 'ray direction not normalized (len=' + len + ')');
-      check(r.x > p.x && r.y >= p.y && r.y <= p.y + p.h, 'ray origin outside the muzzle');
+      check(r.x > p.x - 14 && r.y >= p.y - 1 && r.y <= p.y + p.h + 1, 'ray origin outside the formation');
     });
     /* the real volley pushes exactly as many bullets as the tracer shows */
     p.cooldown = 0;
@@ -368,6 +374,114 @@ levels.forEach(function (lvl) {
     check(rt.bullets.length - before === c.expect,
       'volley pushed ' + (rt.bullets.length - before) + ' bullets but tracer showed ' + c.expect);
   });
+})();
+
+/* 13. 1UP: rare pickup grants a spare ship, converts to points at full strength */
+(function () {
+  var rt = SI.engine.createRuntime({ defs: defs, level: levels[0], seed: 5, difficulty: 1 });
+  rt.player.lives = 3;
+  rt.powerups.push({ x: rt.player.x + 2, y: rt.player.y + 2, type: 'life', age: 0 });
+  SI.engine.step(rt, NO_INPUT, STEP);
+  check(rt.player.lives === 4, '1UP should grant one spare ship');
+  var score = rt.player.score;
+  rt.player.lives = SI.engine.LIFE_MAX;
+  rt.powerups.push({ x: rt.player.x + 2, y: rt.player.y + 2, type: 'life', age: 0 });
+  SI.engine.step(rt, NO_INPUT, STEP);
+  check(rt.player.lives === SI.engine.LIFE_MAX, 'lives must cap at LIFE_MAX');
+  check(rt.player.score === score + 500,
+    'overflow 1UP should convert to 500 points, got +' + (rt.player.score - score));
+})();
+
+/* 14. boomerang: outbound pierce, turn-around, return catch, second hit */
+(function () {
+  var rt = SI.engine.createRuntime({ defs: defs, level: levels[0], seed: 5, difficulty: 1 });
+  var input = NO_INPUT;
+  var fireOn = { up: false, down: false, left: false, right: false, fire: true, special: false };
+
+  rt.powerups.push({ x: rt.player.x + 2, y: rt.player.y + 2, type: 'boomerang', age: 0 });
+  SI.engine.step(rt, input, STEP);
+  check(rt.player.mode === 'boomerang', 'boomerang pickup should switch the weapon mode');
+
+  /* a tanky target on the pilot's row: the blade must pierce it both ways */
+  var cy = rt.player.y + rt.player.h / 2;
+  rt.enemies.push({
+    id: 'drone', def: defs.drone, x: rt.player.x + 40, y: rt.player.y, baseY: rt.player.y,
+    w: defs.drone.w, h: defs.drone.h, hp: 60, maxHp: 60,
+    speed: 0, fireInterval: Infinity, cooldown: Infinity,
+    age: 0, phase: 0, state: {}, isBoss: false
+  });
+  rt.player.cooldown = 0;
+  rt.player.ammo = Infinity;
+  SI.engine.step(rt, fireOn, STEP);
+  var rang = rt.bullets.filter(function (b) { return b.boomerang; })[0];
+  check(!!rang && rang.pierce && rang.vx > 0, 'volley should launch a piercing outbound boomerang');
+
+  var flipped = false, recovered = false, hpAfterOut = null, minD = 1e9;
+  for (var i = 0; i < 600; i++) {
+    rt.player.invuln = 1;
+    SI.engine.step(rt, input, STEP);
+    rt.events.length = 0;
+    var r2 = rt.bullets.filter(function (b) { return b.boomerang; })[0];
+    if (!r2) { recovered = true; break; }
+    if (!flipped && r2.vx < 0) {
+      flipped = true;
+      hpAfterOut = rt.enemies.length ? rt.enemies[0].hp : 60;
+    }
+    if (flipped) {
+      var d = Math.abs(r2.x - rt.player.x - rt.player.w / 2) + Math.abs(r2.y - cy);
+      if (d < minD) minD = d;
+    }
+  }
+  check(flipped, 'boomerang never turned around');
+  check(recovered, 'returning boomerang was never caught');
+  check(minD < 12, 'return leg never came back to the ship (closest ' + minD.toFixed(1) + 'px)');
+  check(hpAfterOut !== null && hpAfterOut < 60, 'outbound leg should pierce the target');
+  var finalHp = rt.enemies.length ? rt.enemies[0].hp : 60;
+  check(finalHp < hpAfterOut, 'return leg should hit again (hp ' + finalHp + ' after ' + hpAfterOut + ')');
+
+  /* the mode expires back to the normal trigger */
+  rt.player.mode = 'boomerang'; rt.player.modeTimer = 0.01;
+  SI.engine.step(rt, input, STEP);
+  check(rt.player.mode === 'normal', 'boomerang mode should expire');
+})();
+
+/* 15. wingmen: count caps, escort every weapon, death scatters, carry re-arms */
+(function () {
+  var rt = SI.engine.createRuntime({ defs: defs, level: levels[0], seed: 5, difficulty: 1 });
+  var input = NO_INPUT;
+  var fireOn = { up: false, down: false, left: false, right: false, fire: true, special: false };
+
+  for (var k = 0; k < 3; k++) {
+    rt.powerups.push({ x: rt.player.x + 2, y: rt.player.y + 2, type: 'option', age: 0 });
+    SI.engine.step(rt, input, STEP);
+  }
+  check(rt.player.options === SI.engine.OPTION_MAX, 'wingmen should cap at ' + SI.engine.OPTION_MAX);
+  check(rt.player.optionY.length === SI.engine.OPTION_MAX, 'every wingman needs a tracked row');
+
+  /* a full escort still fires alongside homing missile launches */
+  rt.player.missiles = 3;
+  rt.player.cooldown = 0;
+  rt.bullets.length = 0;
+  SI.engine.step(rt, fireOn, STEP);
+  check(rt.bullets.length === 3 && rt.bullets.filter(function (b) { return b.missile; }).length === 1,
+    'missile volley should be escorted by two wingman bullets');
+
+  /* losing a life forfeits the escorts, like the missile stockpile
+     (clear the lane first so escort bullets can't cancel the kill shot) */
+  rt.bullets.length = 0;
+  rt.player.hp = 1;
+  rt.player.invuln = 0;
+  rt.ebullets.push({ x: rt.player.x + 1, y: rt.player.y + 1, vx: 0, vy: 0, w: 3, h: 3 });
+  SI.engine.step(rt, input, STEP);
+  check(rt.player.options === 0 && rt.player.optionY.length === 0, 'death should scatter the wingmen');
+
+  /* the carry block re-arms them on the next level / save load */
+  var rt2 = SI.engine.createRuntime({
+    defs: defs, level: levels[0], seed: 5, difficulty: 1,
+    player: { options: 2 }
+  });
+  SI.engine.step(rt2, input, STEP);
+  check(rt2.player.options === 2 && rt2.player.optionY.length === 2, 'carry.options should re-arm the wingmen');
 })();
 
 /* ── summary ─────────────────────────────────── */

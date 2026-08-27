@@ -7,7 +7,7 @@ browser-local save slots with continue-from-save. 中文版见
 ## Codex (bestiary + item catalog)
 
 Two tabs — **Enemies** (all 27 entries from `data/enemies.json`) and
-**Items** (the 7 pickup types). Entries start as dim silhouettes with a
+**Items** (the 10 pickup types). Entries start as dim silhouettes with a
 `???` name and a "first appears in level N" hint; an entry unlocks the
 moment you actually meet it in play (an enemy counts when it appears on
 the field; an item when you pick it up). Unlocked enemy cards show live

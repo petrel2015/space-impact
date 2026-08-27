@@ -62,7 +62,7 @@
 <summary><strong>更多特性</strong>（瞄准虚线、追踪导弹、子弹对消……）</summary>
 
 - 🔫 **默认点射** —— 每按一次 FIRE 发一轮；设置里打开「**自动连发**」即恢复按住连射。
-- ⚡ **道具** —— P 火力 · S 散弹 · L 穿透激光 · + 回血 · E 大招能量 · G 护盾；大招是清屏激光（[各类道具效果](docs/zh/usage.md#道具)）。
+- ⚡ **道具** —— P 火力 · S 散弹 · L 穿透激光 · + 回血 · E 大招能量 · G 护盾 · B 回旋镖 · W 僚机 · 1UP 备用机；大招是清屏激光（[各类道具效果](docs/zh/usage.md#道具)）。
 - 🚀 **奖励武器** —— 击杀敌人概率掉落 M 追踪导弹：每拾取 12 发，伤害高、自动锁定目标，独立弹药不占子弹库存，且直接穿过敌方弹幕。
 - 🎯 **瞄准虚线** —— 一条淡淡的流动虚线实时预示下一轮弹道落点（按每根炮管分别显示，散弹连角度都有），命中点闪烁十字标记——对准再开火，省子弹。按 **L** 或在设置里开关。
 - 💥 **子弹对消** —— 经典细节：双方子弹空中对撞同归于尽（穿透激光可硬吃）。
@@ -121,7 +121,7 @@ python3 -m http.server 8000
 | `sprite` | `js/sprites.js` 里的精灵名（新造型需在 sprites.js 加字符串网格） |
 | `movement` + `params` | 移动原语及参数（见下） |
 | `attack` + `attackParams` | 攻击原语及参数；`fireRate`（秒）与 `bulletSpeed` 调节节奏 |
-| `drop` | 掉落表 `{类型: 概率}`，类型：power/spread/laser/heal/energy/shield/missile |
+| `drop` | 掉落表 `{类型: 概率}`，类型：power/spread/laser/heal/energy/shield/missile/boomerang/option/life |
 | `boss` | `true` = Boss：顶栏血条、必掉奖励、死亡结束关卡 |
 | `miniboss` | 与 `boss: true` 同用 = 中 Boss：有血条和掉落，但关卡**继续** |
 

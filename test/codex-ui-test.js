@@ -130,7 +130,7 @@ function run() {
       check(cards.length === 27, 'T2 27 enemy cards rendered, got ' + cards.length);
       check(d.querySelectorAll('#codex-body .codex-card.is-locked').length === 27,
         'T2 all cards locked on a fresh profile');
-      check($('codex-progress').textContent === 'Enemies 0/27 · Items 0/7',
+      check($('codex-progress').textContent === 'Enemies 0/27 · Items 0/10',
         'T2 progress text: ' + $('codex-progress').textContent);
       check(cards[0].textContent.indexOf('first appears in level 1') >= 0,
         'T2 locked card carries the first-appearance hint');
@@ -140,9 +140,9 @@ function run() {
       /* ── T3 items tab + zh rendering ── */
       $('codex-tab-items').click();
       var items = d.querySelectorAll('#codex-body .codex-card');
-      check(items.length === 7, 'T3 7 item cards rendered, got ' + items.length);
+      check(items.length === 10, 'T3 10 item cards rendered, got ' + items.length);
       w.SI.i18n.setLang('zh');
-      check($('codex-progress').textContent === '敌人 0/27 · 道具 0/7',
+      check($('codex-progress').textContent === '敌人 0/27 · 道具 0/10',
         'T3 zh progress via langchange: ' + $('codex-progress').textContent);
 
       /* ── T4 discovery unlocks entries ── */

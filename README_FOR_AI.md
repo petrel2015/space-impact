@@ -61,8 +61,13 @@ content requires no engine code changes.
 5. **Power-ups & weapons** — power (weapon level up to 3), spread (12 s),
    piercing laser (10 s), heal (+2 HP), energy (special charge, max 5),
    shield (3 hits), homing missiles (12 per pickup, cap 20, own ammo pool,
-   immune to bullet-cancel); special = screen-clearing beam (30 dmg to
-   bosses, 10 to others, wipes enemy bullets).
+   immune to bullet-cancel), boomerang (10 s mode: out-and-back blade that
+   pierces on both legs and shreds enemy bullets; caught back at the ship),
+   wingman (up to 2 escort drones firing with every volley incl. missile
+   launches, carried across levels and save slots, lost on death), 1UP
+   (ultra-rare drop, +1 spare ship, cap 5, over-cap converts to 500 score);
+   special = screen-clearing beam (30 dmg to bosses, 10 to others, wipes
+   enemy bullets).
 6. **Classic mechanics** — bullet-vs-bullet cancel, screen shake, parallax
    stars, boss HP bars, mid-bosses that do not end the level, endless
    campaign loop after level 14 (+40% enemy HP, +12% speed per loop).

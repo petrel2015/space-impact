@@ -11,7 +11,8 @@
 
   var POWERUP_SPRITES = {
     power: 'pPower', spread: 'pSpread', laser: 'pLaser',
-    heal: 'pHeal', energy: 'pEnergy', shield: 'pShield', missile: 'pMissile'
+    heal: 'pHeal', energy: 'pEnergy', shield: 'pShield', missile: 'pMissile',
+    boomerang: 'pBoomerang', option: 'pOption', life: 'pLife'
   };
 
   /* Static parallax starfield — deterministic, engine-independent. */
@@ -171,6 +172,19 @@
         ctx.fillRect(ex, Math.floor(bl.y), 3, 1);
         continue;
       }
+      if (bl.boomerang) {
+        /* spinning blade: horizontal ↔ vertical bar swap reads as rotation */
+        var rgx = Math.floor(bl.x), rgy = Math.floor(bl.y);
+        ctx.fillStyle = lcd.ink;
+        if (Math.floor(rt.t * 20) % 2 === 0) {
+          ctx.fillRect(rgx - 2, rgy, 5, 1);
+          ctx.fillRect(rgx, rgy - 1, 1, 3);
+        } else {
+          ctx.fillRect(rgx, rgy - 2, 1, 5);
+          ctx.fillRect(rgx - 1, rgy, 3, 1);
+        }
+        continue;
+      }
       ctx.fillStyle = lcd.ink;
       ctx.fillRect(Math.floor(bl.x - bl.w / 2), Math.floor(bl.y - bl.h / 2), bl.w, bl.h);
     }
@@ -190,6 +204,14 @@
         ctx.fillRect(Math.floor(p.x) - 2, Math.floor(p.y) + p.h + 1, p.w + 4, 1);
         ctx.fillRect(Math.floor(p.x) - 2, Math.floor(p.y) - 2, 1, p.h + 4);
         ctx.fillRect(Math.floor(p.x) + p.w + 1, Math.floor(p.y) - 2, 1, p.h + 4);
+      }
+    }
+
+    /* wingmen trail the ship (mini hulls, y eased by the engine) */
+    if (rt.status !== 'over') {
+      for (var wo = 0; wo < p.options; wo++) {
+        var wpos = SI.engine.optionPos(p, wo);
+        sprite(ctx, 'playerMini', Math.floor(wpos.x), Math.floor(wpos.y) - 1, { color: lcd.ink });
       }
     }
 

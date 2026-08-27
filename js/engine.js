@@ -19,9 +19,10 @@
   var HUD_TOP = 8, HUD_BOTTOM = 8;
   var PLAYER_SPEED = 36;
   var FIRE_COOLDOWN = 0.26;
-  var MAX_HP = 8, MAX_LIVES = 3, MAX_SPECIAL = 5;
-  var POWERUP_TYPES = ['power', 'spread', 'laser', 'heal', 'energy', 'shield', 'missile'];
-  var MISSILE_PICKUP = 12, MISSILE_MAX = 20;
+  var MAX_HP = 8, MAX_LIVES = 3, MAX_SPECIAL = 5, LIFE_MAX = 5;
+  var POWERUP_TYPES = ['power', 'spread', 'laser', 'heal', 'energy', 'shield', 'missile',
+    'boomerang', 'option', 'life'];
+  var MISSILE_PICKUP = 12, MISSILE_MAX = 20, OPTION_MAX = 2;
 
   function DataError(key, params) {
     var e = new Error(key);
@@ -180,6 +181,8 @@
         weaponLevel: carry.weaponLevel || 1,
         /* reward weapon: homing missiles picked up from drops */
         missiles: carry.missiles || 0,
+        /* wingmen: escort drones that volley with the ship */
+        options: carry.options || 0, optionY: [],
         mode: 'normal', modeTimer: 0,
         shield: 0,
         invuln: 2,
@@ -256,6 +259,7 @@
       p.invuln = 2.5;
       p.weaponLevel = 1;
       p.missiles = 0;
+      p.options = 0; p.optionY.length = 0;
       p.mode = 'normal'; p.modeTimer = 0;
       p.shield = 0;
       p.y = (rt.H - p.h) / 2;
@@ -293,6 +297,23 @@
     }
   }
 
+  /* wingmen trail the ship at a fixed x offset; their y eases toward
+     the pilot's row in step(), so they swing like a tail */
+  function optionPos(p, i) {
+    return {
+      x: Math.max(1, p.x - 5 - i * 6),
+      y: p.optionY[i] != null ? p.optionY[i] : p.y + p.h / 2
+    };
+  }
+
+  function fireOptions(rt) {
+    var p = rt.player;
+    for (var i = 0; i < p.options; i++) {
+      var pos = optionPos(p, i);
+      rt.bullets.push({ x: pos.x + 4, y: pos.y, vx: 110, vy: 0, w: 3, h: 2, dmg: 1, pierce: false });
+    }
+  }
+
   function firePlayer(rt) {
     var p = rt.player;
     var cx = p.x + p.w, cy = p.y + p.h / 2;
@@ -300,6 +321,7 @@
     /* reward weapon first: homing missiles carry their own ammo and
        never touch the finite-round stockpile */
     if (p.missiles > 0) {
+      fireOptions(rt);
       p.missiles--;
       rt.bullets.push({ x: cx + 2, y: cy, vx: 55, vy: 0, w: 4, h: 3, dmg: 3, pierce: false, missile: true });
       p.cooldown = 0.34;
@@ -309,6 +331,7 @@
     /* finite-ammo tiers: one charge per volley, none left = dry trigger */
     if (p.ammo <= 0) return;
     if (p.ammo !== Infinity) p.ammo--;
+    fireOptions(rt);
     if (p.mode === 'laser') {
       rt.bullets.push({ x: cx + 4, y: cy, vx: 130, vy: 0, w: 8, h: 1, dmg: 2, pierce: true });
       p.cooldown = 0.2;
@@ -316,6 +339,9 @@
       [-0.35, 0, 0.35].forEach(function (a) {
         rt.bullets.push({ x: cx, y: cy, vx: Math.cos(a) * B, vy: Math.sin(a) * B, w: 3, h: 2, dmg: 1, pierce: false });
       });
+      p.cooldown = 0.3;
+    } else if (p.mode === 'boomerang') {
+      rt.bullets.push({ x: cx + 2, y: cy, vx: 120, vy: 0, w: 5, h: 5, dmg: 1, pierce: true, boomerang: true });
       p.cooldown = 0.3;
     } else if (p.weaponLevel >= 3) {
       [0, -3, 3].forEach(function (dy) {
@@ -344,9 +370,14 @@
     function add(ox, dy, a) {
       out.push({ x: cx + ox, y: cy + dy, ux: Math.cos(a), uy: Math.sin(a) });
     }
+    for (var oi = 0; oi < p.options; oi++) {
+      var pos = optionPos(p, oi);
+      out.push({ x: pos.x + 4, y: pos.y, ux: 1, uy: 0 });
+    }
     if (p.missiles > 0) add(2, 0, 0);
     else if (p.mode === 'laser') add(4, 0, 0);
     else if (p.mode === 'spread') [-0.35, 0, 0.35].forEach(function (a) { add(0, 0, a); });
+    else if (p.mode === 'boomerang') add(2, 0, 0);
     else if (p.weaponLevel >= 3) [0, -3, 3].forEach(function (dy) { add(0, dy, 0); });
     else if (p.weaponLevel === 2) [-2, 2].forEach(function (dy) { add(0, dy, 0); });
     else add(0, 0, 0);
@@ -382,6 +413,17 @@
       case 'energy': p.special = Math.min(MAX_SPECIAL, p.special + 1); break;
       case 'shield': p.shield = 3; break;
       case 'missile': p.missiles = Math.min(MISSILE_MAX, p.missiles + MISSILE_PICKUP); break;
+      case 'boomerang': p.mode = 'boomerang'; p.modeTimer = 10; break;
+      case 'option':
+        if (p.options < OPTION_MAX) {
+          p.options++;
+          p.optionY.push(p.y + p.h / 2);
+        } else p.score += 300;
+        break;
+      case 'life':
+        if (p.lives < LIFE_MAX) p.lives++;
+        else p.score += 500;
+        break;
     }
     pushEvent(rt, 'powerup', { type: pu.type });
   }
@@ -432,6 +474,11 @@
     p.y += dy * PLAYER_SPEED * dt;
     p.x = Math.max(0, Math.min(W - p.w, p.x));
     p.y = Math.max(HUD_TOP, Math.min(H - HUD_BOTTOM - p.h, p.y));
+    /* wingmen spawn-point sync + eased pursuit of the pilot's row */
+    while (p.optionY.length < p.options) p.optionY.push(p.y + p.h / 2);
+    for (var oi = 0; oi < p.optionY.length; oi++) {
+      p.optionY[oi] += (p.y + p.h / 2 - p.optionY[oi]) * Math.min(1, 10 * dt);
+    }
     p.invuln = Math.max(0, p.invuln - dt);
     p.cooldown -= dt;
     if (p.modeTimer > 0) {
@@ -493,8 +540,23 @@
         }
         b.vx = Math.min(125, b.vx + 170 * dt);
       }
+      if (b.boomerang) {
+        /* decelerate out, then fly home: the return leg seeks the
+           pilot's row so the blade can be caught back in hand */
+        b.vx -= 120 * dt;
+        if (b.vx < -100) b.vx = -100;
+        if (b.vx < 0) {
+          var wy = Math.max(-40, Math.min(40, (p.y + p.h / 2 - b.y) * 3));
+          b.vy += Math.max(-120 * dt, Math.min(120 * dt, wy - b.vy));
+        }
+      }
       b.x += b.vx * dt; b.y += b.vy * dt;
-      if (b.x - b.w / 2 > W + 4 || b.y < HUD_TOP - 4 || b.y > H + 4) rt.bullets.splice(b1, 1);
+      if (b.boomerang && b.vx < 0 &&
+          aabb(b.x - b.w / 2, b.y - b.h / 2, b.w, b.h, p.x, p.y, p.w, p.h)) {
+        rt.bullets.splice(b1, 1);   /* caught on the return leg */
+        continue;
+      }
+      if (b.x - b.w / 2 > W + 4 || b.x - b.w / 2 < -2 || b.y < HUD_TOP - 4 || b.y > H + 4) rt.bullets.splice(b1, 1);
     }
     for (var b2 = rt.ebullets.length - 1; b2 >= 0; b2--) {
       var eb = rt.ebullets[b2];
@@ -573,10 +635,11 @@
 
   SI.engine = {
     W: W, H: H, HUD_TOP: HUD_TOP, HUD_BOTTOM: HUD_BOTTOM,
-    MAX_HP: MAX_HP, MAX_SPECIAL: MAX_SPECIAL,
+    MAX_HP: MAX_HP, MAX_SPECIAL: MAX_SPECIAL, LIFE_MAX: LIFE_MAX, OPTION_MAX: OPTION_MAX,
     DataError: DataError,
     mulberry32: mulberry32,
     aabb: aabb,
+    optionPos: optionPos,
     compileEnemies: compileEnemies,
     compileLevel: compileLevel,
     createRuntime: createRuntime,

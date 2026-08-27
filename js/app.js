@@ -231,7 +231,8 @@
       difficulty: difficulty,
       carry: {
         score: p.score, lives: p.lives, weaponLevel: p.weaponLevel,
-        missiles: p.missiles, special: p.special, maxHp: p.maxHp
+        missiles: p.missiles, special: p.special, maxHp: p.maxHp,
+        options: p.options
       },
       savedAt: Date.now()
     };
@@ -315,6 +316,7 @@
       missiles: rt.player.missiles,
       special: rt.player.special,
       maxHp: rt.player.maxHp,
+      options: rt.player.options,
       /* fresh stockpile scaled to the upcoming level's length */
       ammo: ammoStock(next, preset),
       ammoGain: rt.player.ammoGain
@@ -427,7 +429,8 @@
 
   var PICKUP_SFX = {
     power: 'powerup', spread: 'powerup', laser: 'powerup', heal: 'heal',
-    energy: 'energy', shield: 'shieldHit', missile: 'missileGet'
+    energy: 'energy', shield: 'shieldHit', missile: 'missileGet',
+    boomerang: 'powerup', option: 'powerup', life: 'oneUp'
   };
 
   function drainEvents() {

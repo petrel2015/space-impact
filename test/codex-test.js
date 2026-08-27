@@ -39,7 +39,8 @@ function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
 var enemies = readJson('data/enemies.json');
 var codexData = readJson('data/codex.json');
 var defs = SI.engine.compileEnemies(enemies);
-var POWERUP_TYPES = ['power', 'spread', 'laser', 'heal', 'energy', 'shield', 'missile'];
+var POWERUP_TYPES = ['power', 'spread', 'laser', 'heal', 'energy', 'shield', 'missile',
+  'boomerang', 'option', 'life'];
 
 /* ── codex.json ↔ enemies.json parity ────────── */
 var ek = Object.keys(enemies), ck = Object.keys(codexData.enemies);
@@ -56,7 +57,7 @@ ek.forEach(function (id) {
   });
 });
 
-/* ── items: exactly the engine's 7 pickup types ── */
+/* ── items: exactly the engine's 10 pickup types ── */
 var ik = Object.keys(codexData.items);
 check(ik.length === POWERUP_TYPES.length, 'expected ' + POWERUP_TYPES.length + ' item entries, got ' + ik.length);
 POWERUP_TYPES.forEach(function (type) {

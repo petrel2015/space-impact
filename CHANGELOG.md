@@ -15,6 +15,15 @@ All notable user-visible changes to this project are documented in this file.
 ## [Unreleased]
 
 ### Added
+- Three new pickups (7 → 10 total): **W wingman** (+1 escort drone, max 2,
+  fires a straight shot with every volley — missile launches included;
+  carried across levels and save slots, lost on death), **B boomerang**
+  (10 s weapon mode: the blade flies out, turns back toward your row and
+  pierces on both legs, shredding enemy bullets it touches), and **1UP**
+  (ultra-rare drop, +1 spare ship, cap 5, over-cap converts to 500 score).
+  Ships with three 7×7 icons, bilingual codex entries, drop tables on nine
+  enemies, a new `oneUp` pickup fanfare, a wingman field in the save carry,
+  and full engine-test coverage.
 - Complete bilingual documentation system: `docs/en` + `docs/zh` page sets,
   feature design documents (`docs/*/features/`), this changelog, and
   `README_FOR_AI.md` for AI assistants.

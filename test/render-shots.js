@@ -137,6 +137,14 @@ function shot(name, levelIdx, atSeconds, opts) {
     if (o.godmode) rt.player.invuln = 1;
     SI.engine.step(rt, input, 1 / 60);
   }
+  /* optional state injection (pickups on field, wingmen, modes) plus
+     extra simulated seconds after it, e.g. a blade mid-flight */
+  if (o.setup) o.setup(rt);
+  var tail = Math.floor((o.tail || 0) * 60);
+  for (var t2 = 0; t2 < tail; t2++) {
+    if (o.godmode) rt.player.invuln = 1;
+    SI.engine.step(rt, input, 1 / 60);
+  }
   var ctx = makeCtx(144, 80);
   SI.render.draw(ctx, rt, { hiScore: o.hiScore || 0, aim: o.aim });
   var file = '/tmp/si-shots/' + name + '.png';
@@ -161,5 +169,30 @@ if (process.argv.length >= 4) {
   shot('n9-aim-tracer', 4, 14, { godmode: true, aim: true });
   shot('n10-missiles', 4, 14, { godmode: true, aim: true, player: { missiles: 7, ammo: 120, ammoGain: 2, maxHp: 6 } });
   shot('n11-aim-spread', 4, 20, { godmode: true, aim: true, mode: 'spread' });
+  shot('p1-new-pickups', 4, 14, {
+    godmode: true, aim: true,
+    setup: function (rt) {
+      rt.player.y = 46;
+      rt.powerups.push({ x: 60, y: 30, type: 'boomerang', age: 0 });
+      rt.powerups.push({ x: 85, y: 46, type: 'option', age: 0.3 });
+      rt.powerups.push({ x: 110, y: 62, type: 'life', age: 0.6 });
+    }
+  });
+  shot('p2-wingmen', 4, 14, {
+    godmode: true, aim: true, tail: 0.5,
+    setup: function (rt) {
+      rt.player.y = 30;
+      rt.player.options = 2;
+      rt.player.optionY = [33.5, 52];
+    }
+  });
+  shot('p3-boomerang', 4, 14, {
+    godmode: true, aim: true, tail: 0.35,
+    setup: function (rt) {
+      rt.player.mode = 'boomerang';
+      rt.player.modeTimer = 9;
+      rt.player.cooldown = 0;
+    }
+  });
   shot('n7-gameover', 1, 200, { input: { up: false, down: false, left: false, right: false, fire: false, special: false } });
 }
