@@ -158,12 +158,12 @@
   }
 
   /* ── game flow ─────────────────────────────── */
-  function startRun() {
+  function startRun(wantId) {
     /* data packs not loaded (or failed) yet — Start stays disabled */
     if (!defs || !levels.length) return;
     var startIdx = 0;
-    if (OPTS.level) {
-      var want = parseInt(OPTS.level, 10);
+    var want = wantId != null ? wantId : (OPTS.level ? parseInt(OPTS.level, 10) : null);
+    if (want != null) {
       for (var i = 0; i < levels.length; i++) {
         if (levels[i].id === want) { startIdx = i; break; }
       }
@@ -521,6 +521,7 @@
       loadData();
     });
 
+    wireLevelFiles();
     wireDonate();
 
     /* header settings popover: opening mid-game auto-pauses */
@@ -557,12 +558,11 @@
     });
     $('btn-menu').addEventListener('click', toMenu);
 
-    [$('lang-en'), $('lang-zh')].forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        SI.i18n.setLang(btn.getAttribute('data-lang'));
-        syncLangButtons();
-        SI.audio.play('ui');
-      });
+    /* one language button — shows the current language, click toggles */
+    $('lang-toggle').addEventListener('click', function () {
+      SI.i18n.setLang(SI.i18n.lang === 'zh' ? 'en' : 'zh');
+      syncLangButtons();
+      SI.audio.play('ui');
     });
 
     Array.prototype.forEach.call(document.querySelectorAll('#theme-seg button'), function (btn) {
@@ -598,8 +598,7 @@
   }
 
   function syncLangButtons() {
-    $('lang-en').setAttribute('aria-pressed', String(SI.i18n.lang === 'en'));
-    $('lang-zh').setAttribute('aria-pressed', String(SI.i18n.lang === 'zh'));
+    $('lang-toggle').textContent = SI.i18n.lang === 'zh' ? '中文' : 'EN';
   }
 
   function syncThemeButtons() {
@@ -632,10 +631,12 @@
     var LH = rt ? rt.H : (canvas.height || 80);
 
     /* phone/tablet portrait: aspect-locked box of ~42% viewport height —
-       screen on top, controls below, consistent on every device */
+       screen on top, controls below, consistent on every device.
+       Width budget subtracts the wrap padding (16) plus the LCD frame
+       (4px borders + 5px outline per side) so it never overflows. */
     if (touch && portrait && global.innerWidth <= 820) {
       lcd.classList.add('fill');
-      var w = Math.min(global.innerWidth - 12, global.innerHeight * 0.42 * (LW / LH), 640);
+      var w = Math.min(global.innerWidth - 38, global.innerHeight * 0.42 * (LW / LH), 640);
       canvas.style.width = w + 'px';
       canvas.style.height = (w * LH / LW) + 'px';
       lcd.style.setProperty('--px', (w / LW) + 'px');
@@ -651,6 +652,59 @@
     canvas.style.width = LW * scale + 'px';
     canvas.style.height = LH * scale + 'px';
     lcd.style.setProperty('--px', scale + 'px');
+  }
+
+  /* ── custom level template (download / upload) ── */
+  function wireLevelFiles() {
+    var status = $('data-status');
+    var fileInput = $('file-level');
+
+    $('btn-download-tpl').addEventListener('click', function () {
+      SI.audio.play('ui');
+      var blob = new Blob([JSON.stringify(SI.levelTemplate, null, 2)],
+        { type: 'application/json' });
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'space-impact-level-template.json';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(function () { URL.revokeObjectURL(a.href); }, 2000);
+    });
+
+    $('btn-upload-level').addEventListener('click', function () {
+      SI.audio.unlock();
+      SI.audio.play('ui');
+      fileInput.click();
+    });
+
+    fileInput.addEventListener('change', function () {
+      var file = fileInput.files && fileInput.files[0];
+      fileInput.value = '';
+      if (!file) return;
+      file.text().then(function (text) {
+        var raw = JSON.parse(text);               /* syntax errors → catch */
+        if (typeof raw.id !== 'number') raw.id = 90;
+        var compiled = SI.engine.compileLevel(raw, defs);
+        /* replace an earlier upload with the same id, else append */
+        var at = -1;
+        for (var i = 0; i < levels.length; i++) {
+          if (levels[i].id === compiled.id) { at = i; break; }
+        }
+        if (at >= 0) levels[at] = compiled; else { levels.push(compiled); levels.sort(function (a, b) { return a.id - b.id; }); }
+        status.hidden = false;
+        status.classList.remove('is-error');
+        status.textContent = SI.i18n.t('uploadOk');
+        SI.audio.play('powerup');
+        startRun(compiled.id);                    /* straight into the action */
+      }).catch(function (err) {
+        status.hidden = false;
+        status.classList.add('is-error');
+        status.textContent = SI.i18n.t('errorTitle') + '\n' +
+          (err && err.key ? SI.i18n.t(err.key, err.params) : String(err && err.message || err));
+        SI.audio.play('hitPlayer');
+      });
+    });
   }
 
   /* ── donate (footer) ───────────────────────── */

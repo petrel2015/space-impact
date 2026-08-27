@@ -44,7 +44,11 @@ function simulate(level, seed, inputFn, maxSeconds, godMode) {
   var steps = Math.floor(maxSeconds / STEP);
   for (var i = 0; i < steps; i++) {
     var input = inputFn(rt, i * STEP);
-    if (godMode) rt.player.invuln = 1; /* test hook: never take damage */
+    if (godMode) {
+      rt.player.invuln = 1;                 /* test hook: never take damage */
+      /* and never lose rounds to bullet-cancel: scripted shots pierce */
+      rt.bullets.forEach(function (b) { b.pierce = true; });
+    }
     SI.engine.step(rt, input, STEP);
 
     check(rt.player.hp >= 0 && rt.player.hp <= rt.player.maxHp, 'hp out of range');

@@ -12,19 +12,23 @@
   var SPRITES = {
 
     /* ── player ─────────────────────────────── */
+    /* Faithful to the Nokia original: swept X-wings, spine fuselage,
+       long nose pointing right, split tail fins. */
     player: [
-      '......X...',
-      '.....XX...',
-      '....XXXX..',
-      'XXXXXXXXXX',
-      '....XXXX..',
-      '.....XX...',
-      '......X...'
+      'X............',
+      '.X.......X...',
+      '..X.....X....',
+      '...XXXXXXXX..',
+      '.XXXXXXXXXXXX',
+      '...XXXXXXXX..',
+      '..X.....X....',
+      '.X.......X...',
+      'X............'
     ],
     playerMini: [
-      '....X',
-      'XXXXX',
-      '....X'
+      '..X.',
+      'XXXX',
+      '..X.'
     ],
 
     /* ── bullets ────────────────────────────── */

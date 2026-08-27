@@ -9,7 +9,7 @@
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="stylesheet" href="css/style.css?v=12">
+<link rel="stylesheet" href="css/style.css?v=13">
 </head>
 <body>
 
@@ -18,11 +18,11 @@
     <span class="brand">SPACE·IMPACT</span>
     <div class="head-actions">
       <div class="settings-wrap">
-        <button type="button" id="btn-settings" aria-expanded="false" aria-controls="settings-pop" aria-label="Settings / 设置">⚙</button>
+        <button type="button" id="btn-settings" aria-expanded="false" aria-controls="settings-pop" aria-label="Settings / 设置">⚙︎</button>
         <div class="settings-pop" id="settings-pop" hidden>
           <h2 class="rule-title" data-i18n="settingsTitle">Settings</h2>
 
-          <div class="field field--block">
+          <div class="field">
             <span class="field-label" data-i18n="difficultyLabel">Difficulty</span>
             <div class="segmented" id="diff-seg" role="group" aria-label="Difficulty / 难度">
               <button type="button" data-diff="casual" data-i18n="diffCasual">Casual</button>
@@ -32,7 +32,7 @@
             </div>
           </div>
 
-          <div class="field field--block">
+          <div class="field">
             <span class="field-label" data-i18n="themeLabel">Theme</span>
             <div class="segmented" id="theme-seg" role="group" aria-label="Theme / 主题">
               <button type="button" data-theme="retro" data-i18n="themeRetro">Retro LCD</button>
@@ -47,15 +47,12 @@
           </div>
 
           <div class="field">
-            <span class="field-label" data-i18n="autoFireLabel">Touch auto-fire</span>
-            <button type="button" id="btn-autofire" class="toggle" aria-pressed="true"><span class="toggle-state">ON</span></button>
+            <span class="field-label" data-i18n="autoFireLabel">Auto-fire</span>
+            <button type="button" id="btn-autofire" class="toggle" aria-pressed="false"><span class="toggle-state">OFF</span></button>
           </div>
         </div>
       </div>
-      <div class="lang-switch" role="group" aria-label="Language / 语言">
-        <button type="button" id="lang-en" data-lang="en" aria-pressed="false">EN</button>
-        <button type="button" id="lang-zh" data-lang="zh" aria-pressed="false">中文</button>
-      </div>
+      <button type="button" id="lang-toggle" class="lang-toggle" aria-label="Language / 语言">中文</button>
     </div>
   </div>
 </header>
@@ -81,6 +78,11 @@
           <li data-i18n="howTouch">Touch: D-pad left, FIRE &amp; BOMB right</li>
         </ul>
         <button type="button" id="btn-start" class="btn-primary btn-big" data-i18n="startBtn" disabled>Start</button>
+        <div class="file-row">
+          <button type="button" id="btn-download-tpl" data-i18n="downloadTpl">Download level template</button>
+          <button type="button" id="btn-upload-level" data-i18n="uploadLevel">Upload level JSON</button>
+          <input type="file" id="file-level" accept=".json,application/json" hidden>
+        </div>
         <p class="data-status" id="data-status" hidden></p>
         <button type="button" id="btn-reload-data" class="btn-big" data-i18n="errorRetry" hidden>Retry</button>
       </section>
@@ -159,13 +161,14 @@
   </div>
 </div>
 
-<script src="js/i18n.js?v=12"></script>
-<script src="js/theme.js?v=12"></script>
-<script src="js/audio.js?v=12"></script>
-<script src="js/sprites.js?v=12"></script>
-<script src="js/behaviors.js?v=12"></script>
-<script src="js/engine.js?v=12"></script>
-<script src="js/render.js?v=12"></script>
-<script src="js/app.js?v=12"></script>
+<script src="js/i18n.js?v=13"></script>
+<script src="js/theme.js?v=13"></script>
+<script src="js/audio.js?v=13"></script>
+<script src="js/sprites.js?v=13"></script>
+<script src="js/level-template.js?v=13"></script>
+<script src="js/behaviors.js?v=13"></script>
+<script src="js/engine.js?v=13"></script>
+<script src="js/render.js?v=13"></script>
+<script src="js/app.js?v=13"></script>
 </body>
 </html>

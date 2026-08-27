@@ -144,6 +144,10 @@ Create `data/levels/level15.json`:
 
 Then register `"levels/level15.json"` in `data/levels.json` (ids must increase) and run `node test/data-test.js` — typos in ids, formations or sprites fail instantly.
 
+### Or just: download the template, upload your level
+
+The start screen has **Download level template** (a ready-to-edit, playable sample with field hints in `_help`) and **Upload level JSON** — pick your edited file and the level is validated, compiled and launched on the spot. No server, no repo commit needed.
+
 ## Development
 
 ### Project structure

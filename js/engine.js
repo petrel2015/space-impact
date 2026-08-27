@@ -170,7 +170,8 @@
       prevSpecial: false,
       player: {
         x: 12, y: (H - 7) / 2,
-        w: SI.sprites.get('player').w, h: SI.sprites.get('player').h,
+        /* hitbox trims the outer wing-tip rows of the 13×9 sprite */
+        w: SI.sprites.get('player').w, h: SI.sprites.get('player').h - 2,
         hp: carry.maxHp || MAX_HP, maxHp: carry.maxHp || MAX_HP,
         lives: carry.lives != null ? carry.lives : MAX_LIVES,
         score: carry.score || 0,

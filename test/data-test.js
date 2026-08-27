@@ -8,6 +8,7 @@ global.window = global;
 require('../js/sprites.js');
 require('../js/behaviors.js');
 require('../js/i18n.js');
+require('../js/level-template.js');
 
 var fs = require('fs');
 var path = require('path');
@@ -137,6 +138,19 @@ index.levels.forEach(function (file) {
 });
 check(seenIds.every(function (v, i) { return i === 0 || v > seenIds[i - 1]; }),
   'level ids must be strictly increasing: ' + seenIds.join(','));
+
+/* ── level template: compiles against the real engine vocabulary ── */
+global.window = global;
+require('../js/engine.js');
+var compiled = SI.engine.compileLevel(
+  JSON.parse(JSON.stringify(SI.levelTemplate)),
+  SI.engine.compileEnemies(enemies)
+);
+check(compiled.id === 90, 'template id should survive compilation');
+check(compiled.duration > 0, 'template should have positive duration');
+check(SI.levelTemplate.events.every(function (ev) {
+  return !('enemy' in ev) || !!enemies[ev.enemy];
+}), 'template references unknown enemy');
 
 /* ── i18n parity + markup coverage ───────────── */
 var en = SI.i18n.DICT.en, zh = SI.i18n.DICT.zh;

@@ -78,7 +78,29 @@ body {
 
 .settings-pop[hidden] { display: none; }
 
-.settings-pop .field { margin: 10px 0; }
+/* every setting reads the same: label on its own line, control below */
+.settings-pop .field { margin: 12px 0 2px; }
+
+.settings-pop .field-label {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.settings-pop .segmented { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.lang-toggle { min-width: 64px; font-weight: 700; }
+
+.file-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.file-row button {
+  flex: 1;
+  font-size: 11px;
+  padding: 8px 4px;
+}
 
 .brand {
   font-weight: 700;

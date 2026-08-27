@@ -51,6 +51,9 @@
       errorTitle: 'Failed to load game data',
       errorHelp: 'The browser blocked reading local JSON (file://). Run “python3 -m http.server” inside the space-impact folder, then open http://localhost:8000/',
       errorRetry: 'Retry',
+      downloadTpl: 'Download level template',
+      uploadLevel: 'Upload level JSON',
+      uploadOk: 'Custom level loaded — good luck, pilot!',
 
       footerNote: 'Runs entirely in your browser · levels & enemies are data-driven JSON',
 
@@ -110,6 +113,9 @@
       errorTitle: '游戏数据加载失败',
       errorHelp: '浏览器限制了 file:// 下读取本地 JSON。请在 space-impact 目录运行 python3 -m http.server，然后访问 http://localhost:8000/',
       errorRetry: '重试',
+      downloadTpl: '下载关卡模板',
+      uploadLevel: '上传关卡 JSON',
+      uploadOk: '自定义关卡已加载，飞行员祝你好运！',
 
       footerNote: '纯前端运行 · 关卡与怪物均为 JSON 数据驱动',
 
