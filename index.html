@@ -9,7 +9,7 @@
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="stylesheet" href="css/style.css?v=15">
+<link rel="stylesheet" href="css/style.css?v=16">
 </head>
 <body>
 
@@ -83,7 +83,11 @@
           <li data-i18n="howAim">Aim tracer: faint dashed line previews where your shots land — toggle with L</li>
           <li data-i18n="howTouch">Touch: D-pad left, FIRE &amp; BOMB right</li>
         </ul>
-        <button type="button" id="btn-start" class="btn-primary btn-big" data-i18n="startBtn" disabled>Start</button>
+        <div class="start-actions">
+          <button type="button" id="btn-start" class="btn-primary btn-big" data-i18n="startBtn" disabled>Start</button>
+          <button type="button" id="btn-codex" class="btn-big" data-i18n="codexBtn" disabled>Codex</button>
+        </div>
+        <button type="button" id="btn-continue" class="btn-big" data-i18n="continueBtn" hidden>Continue</button>
         <div class="file-row">
           <button type="button" id="btn-download-tpl" data-i18n="downloadTpl">Download level template</button>
           <button type="button" id="btn-upload-level" data-i18n="uploadLevel">Upload level JSON</button>
@@ -109,6 +113,8 @@
             <h2 data-i18n="pauseTitle">Paused</h2>
             <div class="btn-col">
               <button type="button" id="btn-resume" class="btn-primary" data-i18n="resumeBtn">Resume</button>
+              <button type="button" id="btn-save" data-i18n="saveBtn">Save progress</button>
+              <button type="button" id="btn-codex-game" data-i18n="codexBtn">Codex</button>
               <button type="button" id="btn-restart" data-i18n="restartBtn">Restart</button>
               <button type="button" id="btn-quit" data-i18n="menuBtn">Menu</button>
             </div>
@@ -154,6 +160,32 @@
   <div class="wrap" data-i18n="footerNote">Runs entirely in your browser · levels &amp; enemies are data-driven JSON</div>
 </footer>
 
+<!-- ═══ Codex dialog (enemies + items bestiary) ═══ -->
+<div class="codex-overlay" id="codex-dialog" hidden>
+  <div class="codex-dialog" role="dialog" aria-modal="true" aria-label="Codex / 图鉴">
+    <button type="button" class="codex-close" id="codex-close" aria-label="Close / 关闭">×</button>
+    <h3 class="codex-title" data-i18n="codexTitle">Codex</h3>
+    <div class="segmented codex-tabs" role="group" aria-label="Codex sections / 图鉴分类">
+      <button type="button" id="codex-tab-enemies" data-i18n="codexTabEnemies" aria-pressed="true">Enemies</button>
+      <button type="button" id="codex-tab-items" data-i18n="codexTabItems" aria-pressed="false">Items</button>
+    </div>
+    <p class="codex-progress" id="codex-progress"></p>
+    <div class="codex-body" id="codex-body"></div>
+    <p class="codex-foot" data-i18n="codexFootnote"></p>
+  </div>
+</div>
+
+<!-- ═══ Save slot picker (save / continue) ═══ -->
+<div class="save-overlay" id="save-dialog" hidden>
+  <div class="save-dialog" role="dialog" aria-modal="true" aria-label="Save slots / 存档">
+    <button type="button" class="codex-close" id="save-close" aria-label="Close / 关闭">×</button>
+    <h3 class="codex-title" id="save-title">Save progress</h3>
+    <p class="save-hint" id="save-hint"></p>
+    <div class="save-slots" id="save-slots"></div>
+    <p class="save-toast" id="save-toast" hidden></p>
+  </div>
+</div>
+
 <div class="donation-overlay" id="donation-dialog" hidden>
   <div class="donation-dialog" role="dialog" aria-modal="true" aria-label="Buy me a coffee / 请作者喝杯咖啡">
     <button type="button" class="donate-close" id="donation-close" aria-label="Close / 关闭">×</button>
@@ -168,15 +200,17 @@
   </div>
 </div>
 
-<script src="js/i18n.js?v=15"></script>
-<script src="js/theme.js?v=15"></script>
-<script src="js/audio.js?v=15"></script>
-<script src="js/sprites.js?v=15"></script>
-<script src="js/level-template.js?v=15"></script>
-<script src="js/behaviors.js?v=15"></script>
-<script src="js/engine.js?v=15"></script>
-<script src="js/render.js?v=15"></script>
-<script src="js/app.js?v=15"></script>
-<script src="js/donation.js?v=15"></script>
+<script src="js/i18n.js?v=16"></script>
+<script src="js/theme.js?v=16"></script>
+<script src="js/audio.js?v=16"></script>
+<script src="js/sprites.js?v=16"></script>
+<script src="js/level-template.js?v=16"></script>
+<script src="js/behaviors.js?v=16"></script>
+<script src="js/engine.js?v=16"></script>
+<script src="js/render.js?v=16"></script>
+<script src="js/codex.js?v=16"></script>
+<script src="js/save.js?v=16"></script>
+<script src="js/app.js?v=16"></script>
+<script src="js/donation.js?v=16"></script>
 </body>
 </html>

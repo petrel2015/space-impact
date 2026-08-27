@@ -57,6 +57,8 @@ Plus 2 **mid-bosses** (boss HP bar + guaranteed heal drop, but the level goes on
 - 🎨 **3 themes** — Retro LCD (yellow-green, default, with pixel-grid overlay), Night (phosphor), Paper.
 - 🔥 **Four difficulty tiers** — Casual / Standard / Tight / Hardcore: HP steps down 10→8→6→4, enemies hit harder, and from Standard up your **ammo is finite** (every kill recoups a few rounds). Details in [Difficulty & Ammo](docs/en/features/difficulty-and-ammo.md) and the [usage page](docs/en/usage.md#difficulty-tiers).
 - 📱 **Mobile & tablet** — responsive layout; on-screen D-pad + FIRE/BOMB appear automatically on touch devices and phone/tablet-sized viewports.
+- 📖 **Codex** — enemy/item bestiary with fog-of-war: unseen entries are dim silhouettes with a first-appearance hint; meet one in play and it unlocks with live stats (read straight from the data packs, never duplicated) plus a bilingual one-line review. Open it from the start screen or the pause menu. Details in [Codex & Save Slots](docs/en/features/codex-and-save-slots.md).
+- 💾 **Save slots** — three browser-local save slots: pause → **Save progress**, then **Continue** from the start screen to resume a run (level, loop, score, weapon state) on any device with the same browser. Custom levels are welcome — a save pointing at one that's no longer loaded says so instead of breaking.
 
 <details>
 <summary><strong>More features</strong> (aim tracer, homing missiles, bullet cancel, …)</summary>
@@ -193,8 +195,11 @@ space-impact/
 node test/data-test.js        # references, sprite grids, i18n parity
 node test/engine-test.js      # every level completable + invariants + specials
 node test/aim-visual-test.js  # aim tracer + missile trail pixel checks
+node test/codex-test.js       # codex content parity + attack/movement templates
+node test/save-test.js        # save-slot roundtrip, isolation, corruption
 node test/render-shots.js     # PNG gallery of key moments → /tmp/si-shots/
 node test/render-shots.js 5 42  # any level, any second (dev visual check)
+NODE_PATH=<dir with jsdom> node test/codex-ui-test.js   # jsdom end-to-end (optional)
 ```
 
 Zero dev dependencies — any Node that runs plain `.js` CommonJS works (verified on Node 22). No build, no bundle, no lint config; see [development docs](docs/en/development.md) for details.

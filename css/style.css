@@ -597,3 +597,209 @@ body.small .touch-controls { display: flex; }
   .panel { padding: 12px; }
   .how-list { font-size: 12px; }
 }
+
+/* ── start screen: Start + Codex side by side, Continue below ── */
+.start-actions { display: flex; gap: 8px; }
+
+.start-actions .btn-big { flex: 1; }
+
+#btn-continue { margin-top: 8px; padding: 9px; font-size: 14px; }
+
+#btn-continue[hidden] { display: none; }
+
+/* pause menu grew to five buttons — keep them compact inside the LCD */
+#ov-pause .btn-col button { padding: 4px 8px; font-size: 12px; }
+
+/* ── codex + save dialogs (donation-overlay pattern) ── */
+.codex-overlay,
+.save-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 24, 12, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 16px;
+}
+
+.codex-overlay[hidden],
+.save-overlay[hidden] { display: none; }
+
+.codex-dialog,
+.save-dialog {
+  position: relative;
+  background: var(--panel);
+  border: 2px solid var(--ink);
+  box-shadow: 5px 5px 0 var(--shadow);
+  padding: 18px 16px 12px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 48px);
+}
+
+.codex-dialog { width: min(640px, calc(100vw - 32px)); }
+.save-dialog { width: min(420px, calc(100vw - 32px)); }
+
+.codex-close {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  padding: 1px 9px;
+  font-size: 15px;
+  font-weight: 700;
+  box-shadow: none;
+}
+
+.codex-title {
+  margin: 0 0 8px;
+  font-size: 14px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.codex-tabs { justify-content: center; margin: 0 0 8px; }
+
+.codex-progress {
+  margin: 0 0 10px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* the app's first scrollable region */
+.codex-body {
+  overflow-y: auto;
+  min-height: 120px;
+  max-height: min(56vh, 520px);
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 10px;
+  padding: 2px;
+}
+
+.codex-foot {
+  margin: 10px 0 0;
+  font-size: 11px;
+  line-height: 1.6;
+  color: var(--muted);
+  text-align: center;
+}
+
+.codex-card {
+  border: 2px solid var(--ink);
+  background: var(--bg);
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.codex-card.is-locked { border-style: dashed; opacity: 0.8; }
+
+.codex-card-head { display: flex; align-items: center; gap: 10px; }
+
+.codex-sprite {
+  flex: none;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+}
+
+.codex-card-title { min-width: 0; }
+
+.codex-name-row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+
+.codex-name { font-weight: 700; font-size: 13px; letter-spacing: 0.04em; }
+
+.codex-tag {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  border: 1px solid var(--ink);
+  padding: 1px 5px;
+  background: var(--panel);
+}
+
+.codex-locknote {
+  margin: 4px 0 0;
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.codex-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border-top: 1px dashed var(--ink);
+  padding-top: 6px;
+}
+
+.codex-stat { display: flex; justify-content: space-between; gap: 10px; font-size: 11px; }
+
+.codex-stat-k { color: var(--muted); letter-spacing: 0.06em; }
+
+.codex-stat-v { text-align: right; }
+
+.codex-desc { margin: 0; font-size: 12px; line-height: 1.6; }
+
+.codex-review {
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.6;
+  color: var(--muted);
+  font-style: italic;
+  border-top: 1px dashed var(--ink);
+  padding-top: 6px;
+}
+
+/* ── save slot picker ─────────────────────────── */
+.save-hint {
+  margin: 0 0 12px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.save-slots { display: flex; flex-direction: column; gap: 8px; }
+
+.save-slot { position: relative; }
+
+.save-slot-main {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  width: 100%;
+  text-align: left;
+  padding: 8px 34px 8px 10px;
+}
+
+.slot-no {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.slot-meta { font-size: 13px; font-weight: 700; }
+
+.slot-time { font-size: 11px; color: var(--muted); }
+
+.save-slot.is-empty .slot-meta { font-weight: 400; color: var(--muted); }
+
+.save-slot-del {
+  position: absolute;
+  top: 50%;
+  right: 6px;
+  transform: translateY(-50%);
+  padding: 0 7px;
+  font-size: 14px;
+  box-shadow: none;
+}
+
+.save-toast { margin: 10px 0 0; text-align: center; font-size: 12px; min-height: 1em; }
+
+.save-toast[hidden] { display: none; }

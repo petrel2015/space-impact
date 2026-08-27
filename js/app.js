@@ -29,6 +29,7 @@
   /* ── state ─────────────────────────────────── */
   var defs = null;          /* compiled enemy defs */
   var levels = [];          /* compiled levels */
+  var firstSeen = {};       /* enemy id → first built-in level id (codex hint) */
   var levelIdx = 0, loopCount = 0;
   var rt = null;
   var mode = 'menu';        /* menu | play | paused | over */
@@ -148,8 +149,18 @@
     }).then(function (levelRaws) {
       levels = levelRaws.map(function (raw) { return SI.engine.compileLevel(raw, defs); });
       levels.sort(function (a, b) { return a.id - b.id; });
+      buildFirstSeen();
+      /* codex text content is display-only — a broken file must never
+         block the game, so init with whatever we got */
+      fetchJson('data/codex.json').then(function (codexRaw) {
+        SI.Codex.init({ data: codexRaw, defs: defs, firstSeen: firstSeen });
+      }).catch(function () {
+        SI.Codex.init({ data: {}, defs: defs, firstSeen: firstSeen });
+      });
       status.hidden = true;
       $('btn-start').disabled = false;
+      $('btn-codex').disabled = false;
+      refreshContinueBtn();
       if (OPTS.autostart) {
         demoActive = OPTS.demo;
         startRun();
@@ -178,6 +189,70 @@
       }
     }
     startLevel(startIdx, 0, null);
+  }
+
+  /* ── codex + save support ──────────────────── */
+
+  /* snapshot of the built-in levels at load time: enemy id → lowest
+     level id it appears in (later uploads must not rewrite codex hints) */
+  function buildFirstSeen() {
+    firstSeen = {};
+    levels.forEach(function (lvl) {
+      lvl.queue.forEach(function (q) {
+        if (firstSeen[q.enemy] == null || lvl.id < firstSeen[q.enemy]) {
+          firstSeen[q.enemy] = lvl.id;
+        }
+      });
+    });
+  }
+
+  function setDifficulty(key) {
+    if (!DIFF_PRESETS[key]) key = 'standard';
+    difficulty = key;
+    try { localStorage.setItem(DIFF_KEY, difficulty); } catch (e) {}
+    syncDiffButtons();
+  }
+
+  function levelIndexById(id) {
+    for (var i = 0; i < levels.length; i++) {
+      if (levels[i].id === id) return i;
+    }
+    return -1;
+  }
+
+  /* level-boundary snapshot: the same carry shape advanceLevel() builds */
+  function makeSnapshot() {
+    if (!rt || !levels[levelIdx]) return null;
+    var p = rt.player;
+    return {
+      v: 1,
+      levelId: levels[levelIdx].id,
+      loop: loopCount,
+      difficulty: difficulty,
+      carry: {
+        score: p.score, lives: p.lives, weaponLevel: p.weaponLevel,
+        missiles: p.missiles, special: p.special, maxHp: p.maxHp
+      },
+      savedAt: Date.now()
+    };
+  }
+
+  function applySave(snap) {
+    var idx = levelIndexById(snap.levelId);
+    if (idx < 0) return false;
+    setDifficulty(snap.difficulty);
+    var preset = DIFF_PRESETS[difficulty] || DIFF_PRESETS.standard;
+    var carry = snap.carry;
+    /* finite-ammo tiers get a fresh stockpile scaled to the level */
+    carry.ammo = ammoStock(idx, preset);
+    carry.ammoGain = preset.ammoGain;
+    closeSettings();
+    startLevel(idx, snap.loop, carry);
+    return true;
+  }
+
+  function refreshContinueBtn() {
+    $('btn-continue').hidden = !SI.Save.hasAny();
   }
 
   /* Portrait touch mode runs a taller 144×128 field so the canvas can
@@ -279,6 +354,7 @@
     hideOverlays();
     showScreen('start');
     updateHiScoreUi();
+    refreshContinueBtn();
   }
 
   function showScreen(name) {
@@ -320,6 +396,13 @@
         acc -= STEP;
       }
       drainEvents();
+      /* codex discovery: an enemy counts as seen once it is on the field
+         (the attract-mode autopilot does not fill the bestiary) */
+      if (!demoActive) {
+        for (var ci = 0; ci < rt.enemies.length; ci++) {
+          SI.Codex.markEnemySeen(rt.enemies[ci].id);
+        }
+      }
       if (rt.status === 'clear' && rt.clearTimer <= 0) advanceLevel();
       if (rt.status === 'over' && !overHandled) {
         overHandled = true;
@@ -351,7 +434,9 @@
     var evs = rt.events.splice(0);
     for (var i = 0; i < evs.length; i++) {
       if (evs[i].type === 'powerup') {
-        SI.audio.play(PICKUP_SFX[evs[i].data && evs[i].data.type] || 'powerup');
+        var puType = evs[i].data && evs[i].data.type;
+        SI.audio.play(PICKUP_SFX[puType] || 'powerup');
+        if (!demoActive && puType) SI.Codex.markItemSeen(puType);
         continue;
       }
       var a = AUDIO_MAP[evs[i].type];
@@ -532,6 +617,36 @@
       startRun();
     });
 
+    $('btn-codex').addEventListener('click', function () {
+      if (this.disabled) return;
+      SI.audio.unlock();
+      SI.audio.play('ui');
+      SI.Codex.open();
+    });
+
+    $('btn-continue').addEventListener('click', function () {
+      SI.audio.unlock();
+      SI.audio.play('ui');
+      SI.SaveUI.open('load');
+    });
+
+    /* pause menu: save slots + codex (both reachable on mobile & desktop) */
+    $('btn-save').addEventListener('click', function () {
+      SI.audio.play('ui');
+      SI.SaveUI.open('save');
+    });
+    $('btn-codex-game').addEventListener('click', function () {
+      SI.audio.play('ui');
+      SI.Codex.open();
+    });
+
+    SI.SaveUI.init({
+      snapshot: makeSnapshot,
+      resolveLevel: levelIndexById,
+      onLoad: applySave,
+      onChange: refreshContinueBtn
+    });
+
     /* data load failed → the retry button re-runs the loader */
     $('btn-reload-data').addEventListener('click', function () {
       SI.audio.play('ui');
@@ -591,10 +706,7 @@
 
     Array.prototype.forEach.call(document.querySelectorAll('#diff-seg button'), function (btn) {
       btn.addEventListener('click', function () {
-        difficulty = btn.getAttribute('data-diff');
-        if (!DIFF_PRESETS[difficulty]) difficulty = 'standard';
-        try { localStorage.setItem(DIFF_KEY, difficulty); } catch (e) {}
-        syncDiffButtons();
+        setDifficulty(btn.getAttribute('data-diff'));
         SI.audio.play('ui');
       });
     });
