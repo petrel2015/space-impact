@@ -187,3 +187,11 @@ node test/render-shots.js 5 42  # 任意关卡任意秒（开发目检用）
 ## 技术栈
 
 原生 JavaScript（ES5 风格）· Canvas 2D（`image-rendering: pixelated`）· CSS 自定义属性 · WebAudio · JSON 数据包 · 零依赖的 node 测试。
+
+## 请我喝杯咖啡 ￥4.9
+
+如果这个小游戏给你带来了几分钟的快乐，可以请作者喝杯速溶咖啡 ☕
+
+| 支付宝 | 微信 |
+|--------|--------|
+| ![支付宝](donate/alipay-qr.png) | ![微信](donate/wechat-qr.png) |

@@ -187,3 +187,11 @@ node test/render-shots.js 5 42  # any level, any second (dev visual check)
 ## Tech Stack
 
 Plain ES5-flavored JavaScript · Canvas 2D (`image-rendering: pixelated`) · CSS custom properties · WebAudio · JSON data packs · node-only tests with zero dev dependencies.
+
+## Buy me a coffee ￥4.9
+
+如果这个小游戏给你带来了几分钟的快乐，可以请作者喝杯速溶咖啡 ☕
+
+| Alipay | WeChat |
+|--------|--------|
+| ![Alipay](donate/alipay-qr.png) | ![WeChat](donate/wechat-qr.png) |

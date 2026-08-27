@@ -134,6 +134,75 @@ button:focus-visible {
   color: var(--muted);
 }
 
+/* ── donate section (footer) ────────────────── */
+.donate-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 0 14px;
+}
+
+.donate-tag {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--ink);
+}
+
+.donate-triggers { display: flex; gap: 10px; }
+
+.donate-trigger { min-width: 96px; }
+
+.donate-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 24, 12, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 16px;
+}
+
+.donate-modal-overlay[hidden] { display: none; }
+
+.donate-modal {
+  position: relative;
+  background: var(--panel);
+  border: 2px solid var(--ink);
+  box-shadow: 5px 5px 0 var(--shadow);
+  padding: 18px 18px 14px;
+  text-align: center;
+  max-width: 320px;
+}
+
+.donate-modal h3 {
+  margin: 0 0 6px;
+  font-size: 14px;
+  letter-spacing: 0.08em;
+}
+
+.donate-modal .donate-qr {
+  display: block;
+  width: min(260px, 72vw);
+  height: auto;
+  margin: 8px auto;
+  border: 2px solid var(--ink);
+}
+
+.donate-modal small { color: var(--muted); font-size: 11px; line-height: 1.6; }
+
+.donate-close {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  padding: 1px 9px;
+  font-size: 15px;
+  font-weight: 700;
+  box-shadow: none;
+}
+
 /* ── start screen ────────────────────────────── */
 .hero { text-align: center; padding: 34px 0 22px; }
 

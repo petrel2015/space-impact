@@ -9,7 +9,7 @@
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="stylesheet" href="css/style.css?v=9">
+<link rel="stylesheet" href="css/style.css?v=10">
 </head>
 <body>
 
@@ -139,16 +139,32 @@
 </main>
 
 <footer class="site-foot">
+  <div class="wrap donate-section">
+    <span class="donate-tag" data-i18n="donateTag">请我喝杯咖啡 ￥4.9</span>
+    <div class="donate-triggers">
+      <button type="button" class="donate-trigger" id="btn-donate-alipay" data-i18n="donateAlipay">支付宝</button>
+      <button type="button" class="donate-trigger" id="btn-donate-wechat" data-i18n="donateWechat">微信</button>
+    </div>
+  </div>
   <div class="wrap" data-i18n="footerNote">Runs entirely in your browser · levels &amp; enemies are data-driven JSON</div>
 </footer>
 
-<script src="js/i18n.js?v=9"></script>
-<script src="js/theme.js?v=9"></script>
-<script src="js/audio.js?v=9"></script>
-<script src="js/sprites.js?v=9"></script>
-<script src="js/behaviors.js?v=9"></script>
-<script src="js/engine.js?v=9"></script>
-<script src="js/render.js?v=9"></script>
-<script src="js/app.js?v=9"></script>
+<div class="donate-modal-overlay" id="donate-modal" hidden>
+  <div class="donate-modal" role="dialog" aria-modal="true">
+    <button type="button" class="donate-close" id="donate-close" aria-label="关闭 / Close">×</button>
+    <h3 data-i18n="donateTag">请我喝杯咖啡 ￥4.9</h3>
+    <img class="donate-qr" id="donate-qr-img" src="" alt="">
+    <small id="donate-hint"></small>
+  </div>
+</div>
+
+<script src="js/i18n.js?v=10"></script>
+<script src="js/theme.js?v=10"></script>
+<script src="js/audio.js?v=10"></script>
+<script src="js/sprites.js?v=10"></script>
+<script src="js/behaviors.js?v=10"></script>
+<script src="js/engine.js?v=10"></script>
+<script src="js/render.js?v=10"></script>
+<script src="js/app.js?v=10"></script>
 </body>
 </html>

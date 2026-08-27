@@ -53,6 +53,12 @@
 
       footerNote: 'Runs entirely in your browser · levels & enemies are data-driven JSON',
 
+      donateTag: 'Buy me a coffee ￥4.9',
+      donateAlipay: 'Alipay',
+      donateWechat: 'WeChat',
+      donateQrAlt: '{channel} tip QR code',
+      donateAlipayHint: 'Long-press or save the QR, then scan with Alipay',
+      donateWechatHint: 'Long-press or save the QR, then scan with WeChat',
 
       errEnemyRef: 'Level “{lvl}” references unknown enemy “{id}”.',
       errSpriteRef: 'Enemy “{id}” references unknown sprite “{sp}”.',
@@ -104,6 +110,13 @@
       errorRetry: '重试',
 
       footerNote: '纯前端运行 · 关卡与怪物均为 JSON 数据驱动',
+
+      donateTag: '请我喝杯咖啡 ￥4.9',
+      donateAlipay: '支付宝',
+      donateWechat: '微信',
+      donateQrAlt: '{channel}收款码',
+      donateAlipayHint: '长按或保存二维码，打开支付宝扫一扫',
+      donateWechatHint: '长按或保存二维码，打开微信扫一扫',
 
 
       errEnemyRef: '关卡「{lvl}」引用了未知怪物「{id}」。',
