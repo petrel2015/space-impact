@@ -47,7 +47,8 @@ Plus 2 **mid-bosses** (boss HP bar + guaranteed heal drop, but the level goes on
 - 📦 **Data-driven core** — enemies/levels are JSON; `node test/data-test.js` validates every reference the moment you add content.
 - 🌍 **EN / 中文** in one click, auto-detected and remembered.
 - 🎨 **3 themes** — Retro LCD (yellow-green, default, with pixel-grid overlay), Night (phosphor), Paper.
-- 📱 **Mobile & tablet** — responsive layout; on-screen D-pad + FIRE/BOMB appear automatically on touch devices **and** whenever the viewport is phone/tablet sized, with an auto-fire toggle.
+- 📱 **Mobile & tablet** — responsive layout; on-screen D-pad + FIRE/BOMB appear automatically on touch devices **and** whenever the viewport is phone/tablet sized.
+- 🔫 **Point shots by default** — one volley per FIRE press; flip the **Auto-fire** toggle in settings for hold-to-spray.
 - ⚙️ **Settings in the header** — difficulty, theme, sound & auto-fire in a popover available any time (opening it mid-game auto-pauses). How-to lives on the start screen only.
 - 🔥 **Four difficulty tiers** — Casual / Standard / Tight / Hardcore: HP steps down 10→8→6→4, enemies hit harder, and from Standard up your **ammo is finite** (plentiful → tight → barely enough; every kill recoups a few rounds).
 - ⚡ **Power-ups** — P power · S spread · L piercing laser · + heal · E special energy · G shield; the special is a screen-clearing beam.
@@ -70,7 +71,8 @@ Controls:
 | Action | Keyboard | Touch |
 |--------|----------|-------|
 | Move | Arrows / WASD | D-pad (bottom-left) |
-| Fire (hold = auto) | Space / J | FIRE (auto-fire on by default) |
+| Fire — one volley per press | Space / J | FIRE |
+| Auto-fire (hold to spray) | toggle in Settings ⚙ | Auto-fire toggle |
 | Special beam | K / X | BOMB |
 | Pause | P / Esc | ⏸ top-right |
 

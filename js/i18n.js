@@ -18,7 +18,7 @@
 
       startBtn: 'Start',
       howTitle: 'How to play',
-      howMove: 'Move: arrows / WASD. Fire: Space / J (hold to auto-fire). P / Esc to pause.',
+      howMove: 'Move: arrows / WASD · Fire: Space / J — one volley per press (enable Auto-fire in settings to hold-and-spray) · Pause: P / Esc.',
       howSpecial: 'Special: collect ⚡ energy blocks, unleash with K / X — a screen-clearing beam.',
       howItem: 'Items: P power up · S spread · L laser · + heal · E energy · G shield.',
       howTouch: 'Touch: D-pad bottom-left, FIRE & BOMB bottom-right.',
@@ -33,7 +33,7 @@
       themeNight: 'Night',
       themePaper: 'Paper',
       soundLabel: 'Sound',
-      autoFireLabel: 'Touch auto-fire',
+      autoFireLabel: 'Auto-fire (hold to spray)',
       highScoreLabel: 'High score',
 
       pauseTitle: 'Paused',
@@ -77,7 +77,7 @@
 
       startBtn: '开始游戏',
       howTitle: '玩法',
-      howMove: '移动：方向键 / WASD；射击：空格 / J（按住连发）；暂停：P / Esc。',
+      howMove: '移动：方向键 / WASD；射击：空格 / J —— 点按单发（设置里可开“自动连发”按住连射）；暂停：P / Esc。',
       howSpecial: '大招：吃 ⚡ 能量块充能，按 K / X 释放清屏激光。',
       howItem: '道具：P 火力 · S 散弹 · L 激光 · + 回血 · E 能量 · G 护盾。',
       howTouch: '触屏：左下方向键，右下 FIRE 射击 / BOMB 大招。',
@@ -92,7 +92,7 @@
       themeNight: '暗夜',
       themePaper: '纸墨',
       soundLabel: '音效',
-      autoFireLabel: '触屏自动连发',
+      autoFireLabel: '自动连发（按住连射）',
       highScoreLabel: '最高分',
 
       pauseTitle: '已暂停',

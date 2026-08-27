@@ -9,7 +9,7 @@
   var SI = global.SI;
   var STEP = 1 / 60;
   var HISCORE_KEY = 'si-hiscore';
-  var AUTOFIRE_KEY = 'si-autofire';
+  var AUTOFIRE_KEY = 'si-autofire-v2';
   var DIFF_KEY = 'si-difficulty';
 
   /* Difficulty tiers: enemy stat multiplier, lives, HP, and ammo policy.
@@ -32,7 +32,7 @@
   var rt = null;
   var mode = 'menu';        /* menu | play | paused | over */
   var hiScore = 0;
-  var autofire = true;
+  var autofire = false;
   var raf = 0, lastT = 0, acc = 0;
   var overHandled = false;
 
@@ -80,7 +80,7 @@
     ctx.imageSmoothingEnabled = false;
 
     try { hiScore = parseInt(localStorage.getItem(HISCORE_KEY) || '0', 10) || 0; } catch (e) {}
-    try { autofire = localStorage.getItem(AUTOFIRE_KEY) !== '0'; } catch (e) {}
+    try { autofire = localStorage.getItem(AUTOFIRE_KEY) === '1'; } catch (e) {}
     try { var savedDiff = localStorage.getItem(DIFF_KEY); if (DIFF_PRESETS[savedDiff]) difficulty = savedDiff; } catch (e) {}
 
     SI.i18n.applyToDom();
@@ -209,6 +209,7 @@
     canvas.width = rt.W;
     canvas.height = rt.H;
     overHandled = false;
+    prevRawFire = false;
     acc = 0;
     mode = 'play';
     showScreen('play');
@@ -383,17 +384,25 @@
   }
 
   function currentInput() {
-    var useTouch = touchMode();
     if (demoActive && mode === 'play') return demoInput();
-    return {
+    var rawFire = !!(keys.fire || touchFire);
+    var out = {
       up: keys.up || dpadDirs.up > 0,
       down: keys.down || dpadDirs.down > 0,
       left: keys.left || dpadDirs.left > 0,
       right: keys.right || dpadDirs.right > 0,
-      fire: keys.fire || touchFire || (useTouch && autofire),
+      fire: false,
       special: keys.special || touchBomb
     };
+    if (autofire) {
+      out.fire = rawFire;               /* hold-to-spray */
+    } else {
+      out.fire = rawFire && !prevRawFire; /* one volley per press */
+      prevRawFire = rawFire;
+    }
+    return out;
   }
+  var prevRawFire = false;
 
   var KEYMAP = {
     ArrowUp: 'up', ArrowDown: 'down', ArrowLeft: 'left', ArrowRight: 'right',
