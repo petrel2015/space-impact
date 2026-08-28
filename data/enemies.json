@@ -9,7 +9,8 @@
     "drop": {
       "power": 0.05,
       "energy": 0.02,
-      "boomerang": 0.03
+      "boomerang": 0.03,
+      "aim": 0.04
     }
   },
   "bat": {
@@ -26,7 +27,8 @@
     "drop": {
       "power": 0.05,
       "heal": 0.02,
-      "boomerang": 0.03
+      "boomerang": 0.03,
+      "aim": 0.03
     }
   },
   "sting": {
@@ -62,7 +64,8 @@
     "drop": {
       "heal": 0.06,
       "shield": 0.03,
-      "boomerang": 0.05
+      "boomerang": 0.05,
+      "aim": 0.03
     }
   },
   "gunner": {
@@ -98,7 +101,8 @@
     "drop": {
       "shield": 0.06,
       "power": 0.03,
-      "option": 0.02
+      "option": 0.02,
+      "aim": 0.03
     }
   },
   "spinner": {
@@ -329,7 +333,8 @@
     "attack": "none",
     "drop": {
       "power": 0.06,
-      "energy": 0.02
+      "energy": 0.02,
+      "aim": 0.03
     }
   },
   "crab": {
@@ -365,7 +370,8 @@
     "attack": "none",
     "drop": {
       "heal": 0.05,
-      "power": 0.03
+      "power": 0.03,
+      "aim": 0.03
     }
   },
   "cube": {
@@ -386,7 +392,8 @@
     },
     "drop": {
       "power": 0.08,
-      "laser": 0.03
+      "laser": 0.03,
+      "aim": 0.03
     }
   },
   "lasher": {
@@ -404,7 +411,8 @@
     "bulletSpeed": 46,
     "drop": {
       "energy": 0.1,
-      "spread": 0.03
+      "spread": 0.03,
+      "aim": 0.04
     }
   },
   "spider": {

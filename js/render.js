@@ -12,7 +12,7 @@
   var POWERUP_SPRITES = {
     power: 'pPower', spread: 'pSpread', laser: 'pLaser',
     heal: 'pHeal', energy: 'pEnergy', shield: 'pShield', missile: 'pMissile',
-    boomerang: 'pBoomerang', option: 'pOption', life: 'pLife'
+    boomerang: 'pBoomerang', option: 'pOption', life: 'pLife', aim: 'pAim'
   };
 
   /* Static parallax starfield — deterministic, engine-independent. */
@@ -88,7 +88,7 @@
   /* Aim tracer: faint animated dashed rays from the muzzle along the
      next volley's real trajectories (engine.volleyRays), each stopping
      at the first enemy it would hit — a blinking cross marks impact.
-     Helps finite-ammo pilots line up before spending a round. */
+     Active only while the picked-up aim item's timer runs. */
   function drawAim(ctx, rt, lcd) {
     var rays = SI.engine.volleyRays(rt.player);
     var phase = Math.floor(rt.t * 14);
@@ -235,7 +235,7 @@
     }
 
     /* aim tracer sits on top of the world, under HUD and overlays */
-    if (o.aim && rt.status !== 'over') drawAim(ctx, rt, lcd);
+    if (p.aimTimer > 0 && rt.status !== 'over') drawAim(ctx, rt, lcd);
 
     ctx.restore();
 

@@ -21,7 +21,7 @@
   var ITEM_SPRITES = {
     power: 'pPower', spread: 'pSpread', laser: 'pLaser', heal: 'pHeal',
     energy: 'pEnergy', shield: 'pShield', missile: 'pMissile',
-    boomerang: 'pBoomerang', option: 'pOption', life: 'pLife'
+    boomerang: 'pBoomerang', option: 'pOption', life: 'pLife', aim: 'pAim'
   };
 
   var seen = { enemies: {}, items: {} };   /* id/type → 1 */

@@ -9,7 +9,7 @@ see the [README](../../README.md); for fixing problems, see
 1. Open the [online demo](https://petrel2015.github.io/space-impact/) — or
    serve the repo locally (`python3 -m http.server 8000`, then open
    `http://localhost:8000/`).
-2. Optionally pick difficulty / theme / sound / auto-fire / aim line in the
+2. Optionally pick difficulty / theme / sound / auto-fire in the
    header **Settings ⚙** popover first (see below).
 3. Press **Start** (or `Enter`). The button stays disabled until the level
    data has finished loading — on a slow connection that can take a moment;
@@ -27,7 +27,6 @@ stronger enemies, keeping your score and upgrades.
 | Fire | Space / J (one volley per press by default) | FIRE button |
 | Special beam | K / X | BOMB button |
 | Pause / resume | P / Esc | ⏸ button (top-right of the LCD) |
-| Aim tracer on/off | L | Settings ⚙ |
 | Start / retry | Enter | — |
 
 - **Point shots by default:** each FIRE press fires exactly one volley. Turn
@@ -58,7 +57,7 @@ Ammo rules (Standard and up):
 - Every enemy kill **recoups** 2 rounds (Standard) or 1 (Tight/Hardcore).
 - Missiles have their **own pool** and never touch this stockpile.
 - At 0 rounds the trigger is dry — the HUD number is your guide; the aim
-  tracer helps you not waste shots.
+  tracer item helps you not waste shots.
 
 Each new level grants a fresh stockpile sized for that level. Losing a life
 resets weapon level and missiles but not your ammo pool.
@@ -82,25 +81,28 @@ Drops drift left; fly into them to collect.
 | **B** boomerang | 10 s of boomerang volleys — the blade flies out, turns back toward your row, and pierces on both legs; it also shreds enemy bullets it touches |
 | **W** wingman | +1 escort drone (max 2) firing a straight shot with every volley — missile launches included. Lost on death, carried across levels and saves |
 | **1UP** life | +1 spare ship (max 5). At full strength: +500 score instead |
+| **◎** aim tracer | 20 s of dashed landing preview (see below). Repeat pickups stack to 45 s; lost on death |
 
 Bosses always drop heal + energy when killed; mid-bosses always drop a heal.
 Losing a life resets weapon level to 1 and clears your missile stockpile and wingmen.
 
 ## Aim Tracer
 
-A faint animated dashed line (toggle: **L** or Settings ⚙) previews exactly
-where your next volley lands — one ray per barrel, including spread angles —
-with a blinking cross on the first enemy it would hit. It always mirrors the
-real volley geometry (they share the same ray function in the engine). It is
-purely visual: it costs nothing and fires nothing.
+An in-game item (the ◎ crosshair drop), not a setting: picking one up grants
+**20 seconds** of a faint animated dashed line that previews exactly where
+your next volley lands — one ray per barrel, including spread angles — with a
+blinking cross on the first enemy it would hit. It always mirrors the real
+volley geometry (they share the same ray function in the engine). It is
+purely visual: it costs nothing and fires nothing. Repeat pickups extend the
+timer up to 45 s; losing a life ends the effect early.
 
 ## Pausing & Settings
 
 - Pause with P/Esc or the ⏸ button; Resume / Restart / Menu from the overlay.
 - Opening the header Settings ⚙ **mid-game auto-pauses**; switching tabs away
   also auto-pauses.
-- Everything in Settings is persisted: difficulty, theme, sound, auto-fire,
-  aim line (see [Privacy](./privacy.md) for the exact storage keys).
+- Everything in Settings is persisted: difficulty, theme, sound, auto-fire
+  (see [Privacy](./privacy.md) for the exact storage keys).
 - Language toggles with the header button (中文/EN) and is remembered.
 
 ## Custom Levels
@@ -132,7 +134,6 @@ below. Uploaded levels live only in the current page session.
 | `?autostart=1` | Start playing on load |
 | `?demo=1` | Attract-mode autopilot (use together with `?autostart=1`) |
 | `?paused=1` | Open paused (overlay testing) |
-| `?aim=0` / `?aim=1` | Force the aim tracer off/on |
 | `?level=14` | Start at a given level (1–14) |
 
 ## Error Messages

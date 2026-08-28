@@ -55,7 +55,7 @@ fine) is deliberately not enough. Add `?touch=1` to force them.
 |--------|-------|-----|
 | Fire only shoots once per press | Default point-shot behavior | Settings ⚙ → Auto-fire ON for hold-to-spray |
 | Can't fire at all on Standard+ | Ammo pool empty (HUD shows 0) — the trigger is dry | Kills recoup rounds; next level grants a fresh stockpile; or switch to Casual (unlimited) |
-| The dashed aim line is annoying/missing | Aim tracer toggled | Press `L` or Settings ⚙ → Aim line |
+| The dashed aim line disappeared | The ◎ aim-tracer item's 20 s timer ran out (or you lost a life) | It's a pickup, not a setting — grab another ◎ crosshair drop |
 | Game pauses by itself | Opening Settings mid-game, or the tab was hidden | Auto-pause by design; Resume continues exactly where you stopped |
 | Graphics look blurry | Non-integer scaling / browser zoom | The canvas snaps to integer pixel scale on resize; reset browser zoom (Cmd/Ctrl+0) |
 | High score reset to 0 | localStorage cleared/blocked (private mode, "clear site data") | The game silently continues without storage; nothing else breaks |

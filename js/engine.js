@@ -21,8 +21,9 @@
   var FIRE_COOLDOWN = 0.26;
   var MAX_HP = 8, MAX_LIVES = 3, MAX_SPECIAL = 5, LIFE_MAX = 5;
   var POWERUP_TYPES = ['power', 'spread', 'laser', 'heal', 'energy', 'shield', 'missile',
-    'boomerang', 'option', 'life'];
+    'boomerang', 'option', 'life', 'aim'];
   var MISSILE_PICKUP = 12, MISSILE_MAX = 20, OPTION_MAX = 2;
+  var AIM_PICKUP = 20, AIM_MAX = 45;
 
   function DataError(key, params) {
     var e = new Error(key);
@@ -184,6 +185,8 @@
         /* wingmen: escort drones that volley with the ship */
         options: carry.options || 0, optionY: [],
         mode: 'normal', modeTimer: 0,
+        /* aim tracer item: dashed trajectory preview while active */
+        aimTimer: 0,
         shield: 0,
         invuln: 2,
         cooldown: 0,
@@ -261,6 +264,7 @@
       p.missiles = 0;
       p.options = 0; p.optionY.length = 0;
       p.mode = 'normal'; p.modeTimer = 0;
+      p.aimTimer = 0;
       p.shield = 0;
       p.y = (rt.H - p.h) / 2;
       pushEvent(rt, 'lifeLost', { lives: p.lives });
@@ -424,6 +428,7 @@
         if (p.lives < LIFE_MAX) p.lives++;
         else p.score += 500;
         break;
+      case 'aim': p.aimTimer = Math.min(AIM_MAX, p.aimTimer + AIM_PICKUP); break;
     }
     pushEvent(rt, 'powerup', { type: pu.type });
   }
@@ -485,6 +490,7 @@
       p.modeTimer -= dt;
       if (p.modeTimer <= 0) p.mode = 'normal';
     }
+    if (p.aimTimer > 0) p.aimTimer = Math.max(0, p.aimTimer - dt);
 
     /* fire & special */
     if (input.fire && p.cooldown <= 0 && rt.status !== 'over') firePlayer(rt);
@@ -636,6 +642,7 @@
   SI.engine = {
     W: W, H: H, HUD_TOP: HUD_TOP, HUD_BOTTOM: HUD_BOTTOM,
     MAX_HP: MAX_HP, MAX_SPECIAL: MAX_SPECIAL, LIFE_MAX: LIFE_MAX, OPTION_MAX: OPTION_MAX,
+    POWERUP_TYPES: POWERUP_TYPES,
     DataError: DataError,
     mulberry32: mulberry32,
     aabb: aabb,

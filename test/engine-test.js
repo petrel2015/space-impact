@@ -484,6 +484,38 @@ levels.forEach(function (lvl) {
   check(rt2.player.options === 2 && rt2.player.optionY.length === 2, 'carry.options should re-arm the wingmen');
 })();
 
+/* 16. aim tracer item: timed pickup, stacks with a cap, lost on death */
+(function () {
+  var rt = SI.engine.createRuntime({ defs: defs, level: levels[0], seed: 5, difficulty: 1 });
+  var input = NO_INPUT;
+
+  check(rt.player.aimTimer === 0, 'aim tracer must start inactive');
+
+  rt.powerups.push({ x: rt.player.x + 2, y: rt.player.y + 2, type: 'aim', age: 0 });
+  SI.engine.step(rt, input, STEP);
+  check(rt.player.aimTimer > 19 && rt.player.aimTimer <= 20,
+    'aim pickup should grant ~20s, got ' + rt.player.aimTimer);
+
+  /* repeat pickups stack up to the cap */
+  rt.player.aimTimer = 44;
+  rt.powerups.push({ x: rt.player.x + 2, y: rt.player.y + 2, type: 'aim', age: 0 });
+  SI.engine.step(rt, input, STEP);
+  check(rt.player.aimTimer <= 45, 'aim time exceeded the 45s cap: ' + rt.player.aimTimer);
+
+  /* the timer runs down to expiry */
+  rt.player.aimTimer = 1.5;
+  for (var i = 0; i < Math.ceil(2 / STEP); i++) SI.engine.step(rt, input, STEP);
+  check(rt.player.aimTimer === 0, 'aim timer should expire');
+
+  /* losing a life forfeits the tracer */
+  rt.player.aimTimer = 10;
+  rt.player.hp = 1;
+  rt.player.invuln = 0;
+  rt.ebullets.push({ x: rt.player.x + 1, y: rt.player.y + 1, vx: 0, vy: 0, w: 3, h: 3 });
+  SI.engine.step(rt, input, STEP);
+  check(rt.player.aimTimer === 0, 'death should drop the aim tracer');
+})();
+
 /* ── summary ─────────────────────────────────── */
 if (fails) {
   console.error('\n' + fails + ' check(s) failed.');

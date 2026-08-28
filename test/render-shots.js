@@ -132,6 +132,8 @@ function shot(name, levelIdx, atSeconds, opts) {
   });
   var input = o.input || { up: false, down: false, left: false, right: false, fire: true, special: false };
   if (o.mode) { rt.player.mode = o.mode; rt.player.modeTimer = o.modeTimer || 30; }
+  /* aim tracer is now an item: activate by giving the timer seconds */
+  if (o.aim) rt.player.aimTimer = o.aim === true ? 30 : o.aim;
   var steps = Math.floor(atSeconds * 60);
   for (var i = 0; i < steps; i++) {
     if (o.godmode) rt.player.invuln = 1;
@@ -146,7 +148,7 @@ function shot(name, levelIdx, atSeconds, opts) {
     SI.engine.step(rt, input, 1 / 60);
   }
   var ctx = makeCtx(144, 80);
-  SI.render.draw(ctx, rt, { hiScore: o.hiScore || 0, aim: o.aim });
+  SI.render.draw(ctx, rt, { hiScore: o.hiScore || 0 });
   var file = '/tmp/si-shots/' + name + '.png';
   writePng(file, ctx, 4);
   console.log('wrote', file, '(t=' + rt.t.toFixed(1) + 's, score=' + rt.player.score +
@@ -192,6 +194,13 @@ if (process.argv.length >= 4) {
       rt.player.mode = 'boomerang';
       rt.player.modeTimer = 9;
       rt.player.cooldown = 0;
+    }
+  });
+  shot('p4-aim-item', 4, 14, {
+    godmode: true, aim: true,
+    setup: function (rt) {
+      rt.player.y = 46;
+      rt.powerups.push({ x: 78, y: 40, type: 'aim', age: 0.3 });
     }
   });
   shot('n7-gameover', 1, 200, { input: { up: false, down: false, left: false, right: false, fire: false, special: false } });

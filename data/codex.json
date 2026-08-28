@@ -2,164 +2,430 @@
   "_note": "Codex display content only. All stats (hp/speed/attack/...) live in enemies.json and are read at runtime — never duplicated here. name/review are {en, zh} pairs; item desc describes the engine effect (engine.js applyPowerup).",
   "enemies": {
     "drone": {
-      "name": { "en": "Drone", "zh": "侦察机" },
-      "review": { "en": "Cannon fodder with a work ethic — dies in one hit, yet carries your early drops.", "zh": "炮灰中的劳模——一炮就碎，却承包了你前期的补给。" }
+      "name": {
+        "en": "Drone",
+        "zh": "侦察机"
+      },
+      "review": {
+        "en": "Cannon fodder with a work ethic — dies in one hit, yet carries your early drops.",
+        "zh": "炮灰中的劳模——一炮就碎，却承包了你前期的补给。"
+      }
     },
     "bat": {
-      "name": { "en": "Bat", "zh": "蝙蝠" },
-      "review": { "en": "Weaves a lazy sine wave; more annoying than dangerous.", "zh": "飘忽的正弦舞步，烦人有余，威胁不足。" }
+      "name": {
+        "en": "Bat",
+        "zh": "蝙蝠"
+      },
+      "review": {
+        "en": "Weaves a lazy sine wave; more annoying than dangerous.",
+        "zh": "飘忽的正弦舞步，烦人有余，威胁不足。"
+      }
     },
     "sting": {
-      "name": { "en": "Sting", "zh": "毒刺" },
-      "review": { "en": "The first foe that shoots back. Respect the lane it holds.", "zh": "第一个会还手的家伙，它占的那条弹道值得尊重。" }
+      "name": {
+        "en": "Sting",
+        "zh": "毒刺"
+      },
+      "review": {
+        "en": "The first foe that shoots back. Respect the lane it holds.",
+        "zh": "第一个会还手的家伙，它占的那条弹道值得尊重。"
+      }
     },
     "rock": {
-      "name": { "en": "Rock", "zh": "陨石" },
-      "review": { "en": "A drifting rock. It never chases you — you crash into it all by yourself.", "zh": "一块会漂的石头。它不追你，是你自己撞上去的。" }
+      "name": {
+        "en": "Rock",
+        "zh": "陨石"
+      },
+      "review": {
+        "en": "A drifting rock. It never chases you — you crash into it all by yourself.",
+        "zh": "一块会漂的石头。它不追你，是你自己撞上去的。"
+      }
     },
     "gunner": {
-      "name": { "en": "Gunner", "zh": "炮手" },
-      "review": { "en": "Parks at mid-field and snipes your row — move, or be moved.", "zh": "停在半场瞄准你的航线——要么挪位，要么挪命。" }
+      "name": {
+        "en": "Gunner",
+        "zh": "炮手"
+      },
+      "review": {
+        "en": "Parks at mid-field and snipes your row — move, or be moved.",
+        "zh": "停在半场瞄准你的航线——要么挪位，要么挪命。"
+      }
     },
     "chaser": {
-      "name": { "en": "Chaser", "zh": "追踪者" },
-      "review": { "en": "Locks onto your altitude and homes in. Shake it off, don't outfly it.", "zh": "咬住你的高度穷追不舍，靠变向甩，别硬飞。" }
+      "name": {
+        "en": "Chaser",
+        "zh": "追踪者"
+      },
+      "review": {
+        "en": "Locks onto your altitude and homes in. Shake it off, don't outfly it.",
+        "zh": "咬住你的高度穷追不舍，靠变向甩，别硬飞。"
+      }
     },
     "spinner": {
-      "name": { "en": "Spinner", "zh": "陀螺" },
-      "review": { "en": "Slow, tanky, and paints spirals of bullets you must thread through.", "zh": "又慢又硬，吐出的螺旋弹幕得贴着缝钻。" }
+      "name": {
+        "en": "Spinner",
+        "zh": "陀螺"
+      },
+      "review": {
+        "en": "Slow, tanky, and paints spirals of bullets you must thread through.",
+        "zh": "又慢又硬，吐出的螺旋弹幕得贴着缝钻。"
+      }
     },
     "bomber": {
-      "name": { "en": "Bomber", "zh": "轰炸机" },
-      "review": { "en": "A flying bulkhead fanning bullets — breach it before it blocks the sky.", "zh": "会扇形吐弹的空中路障，趁它没堵死天空先拆掉。" }
+      "name": {
+        "en": "Bomber",
+        "zh": "轰炸机"
+      },
+      "review": {
+        "en": "A flying bulkhead fanning bullets — breach it before it blocks the sky.",
+        "zh": "会扇形吐弹的空中路障，趁它没堵死天空先拆掉。"
+      }
     },
     "wasp": {
-      "name": { "en": "Wasp", "zh": "黄蜂" },
-      "review": { "en": "Fast, twitchy, one hit from dead — and one bump from killing you.", "zh": "急速乱窜，一碰即碎——也一碰即要你命。" }
+      "name": {
+        "en": "Wasp",
+        "zh": "黄蜂"
+      },
+      "review": {
+        "en": "Fast, twitchy, one hit from dead — and one bump from killing you.",
+        "zh": "急速乱窜，一碰即碎——也一碰即要你命。"
+      }
     },
     "crab": {
-      "name": { "en": "Crab", "zh": "螃蟹" },
-      "review": { "en": "Crawls in and unfurls a bullet wall with one gap. Find it, live there.", "zh": "慢吞吞摊开一面只留一道缺口的弹墙，找到缝就守住。" }
+      "name": {
+        "en": "Crab",
+        "zh": "螃蟹"
+      },
+      "review": {
+        "en": "Crawls in and unfurls a bullet wall with one gap. Find it, live there.",
+        "zh": "慢吞吞摊开一面只留一道缺口的弹墙，找到缝就守住。"
+      }
     },
     "manta": {
-      "name": { "en": "Manta", "zh": "蝠鲼" },
-      "review": { "en": "Glides in, hovers, then kamikaze-dives your row.", "zh": "滑进来悬停片刻，然后朝你的航线自杀式俯冲。" }
+      "name": {
+        "en": "Manta",
+        "zh": "蝠鲼"
+      },
+      "review": {
+        "en": "Glides in, hovers, then kamikaze-dives your row.",
+        "zh": "滑进来悬停片刻，然后朝你的航线自杀式俯冲。"
+      }
     },
     "cube": {
-      "name": { "en": "Cube", "zh": "立方体" },
-      "review": { "en": "Advance, halt, X-cross, repeat. Learn the rhythm and it's a box of loot.", "zh": "走、停、十字弹，循环往复。踩准节奏，它就是一只宝箱。" }
+      "name": {
+        "en": "Cube",
+        "zh": "立方体"
+      },
+      "review": {
+        "en": "Advance, halt, X-cross, repeat. Learn the rhythm and it's a box of loot.",
+        "zh": "走、停、十字弹，循环往复。踩准节奏，它就是一只宝箱。"
+      }
     },
     "lasher": {
-      "name": { "en": "Lasher", "zh": "鞭击者" },
-      "review": { "en": "Its aimed shots come absurdly fast — kill it first, or hug the gaps.", "zh": "狙击弹快得离谱，优先点掉，或者老老实实贴缝躲。" }
+      "name": {
+        "en": "Lasher",
+        "zh": "鞭击者"
+      },
+      "review": {
+        "en": "Its aimed shots come absurdly fast — kill it first, or hug the gaps.",
+        "zh": "狙击弹快得离谱，优先点掉，或者老老实实贴缝躲。"
+      }
     },
     "spider": {
-      "name": { "en": "Spider", "zh": "蜘蛛" },
-      "review": { "en": "A quicker, hungrier chaser with real HP. Never let it get personal.", "zh": "更快更耐咬的追踪者，千万别让它贴近身。" }
+      "name": {
+        "en": "Spider",
+        "zh": "蜘蛛"
+      },
+      "review": {
+        "en": "A quicker, hungrier chaser with real HP. Never let it get personal.",
+        "zh": "更快更耐咬的追踪者，千万别让它贴近身。"
+      }
     },
     "bastion": {
-      "name": { "en": "Bastion", "zh": "堡垒" },
-      "review": { "en": "A treasure chest with cannons — tough, but pays out the best drops.", "zh": "长了炮台的宝箱——皮厚，但掉落最肥。" }
+      "name": {
+        "en": "Bastion",
+        "zh": "堡垒"
+      },
+      "review": {
+        "en": "A treasure chest with cannons — tough, but pays out the best drops.",
+        "zh": "长了炮台的宝箱——皮厚，但掉落最肥。"
+      }
     },
     "mb1": {
-      "name": { "en": "Vanguard", "zh": "先锋" },
-      "review": { "en": "Mid-level gatekeeper. Beat it and a heal drops on the spot.", "zh": "关卡中段的守门人，打倒当场掉一口回血。" }
+      "name": {
+        "en": "Vanguard",
+        "zh": "先锋"
+      },
+      "review": {
+        "en": "Mid-level gatekeeper. Beat it and a heal drops on the spot.",
+        "zh": "关卡中段的守门人，打倒当场掉一口回血。"
+      }
     },
     "mb2": {
-      "name": { "en": "Sentinel", "zh": "哨卫" },
-      "review": { "en": "The second-half gatekeeper — spiral and curtain, a double greeting.", "zh": "后半程守门人——螺旋弹加弹帘，双重问候。" }
+      "name": {
+        "en": "Sentinel",
+        "zh": "哨卫"
+      },
+      "review": {
+        "en": "The second-half gatekeeper — spiral and curtain, a double greeting.",
+        "zh": "后半程守门人——螺旋弹加弹帘，双重问候。"
+      }
     },
     "boss1": {
-      "name": { "en": "Mothership", "zh": "母舰" },
-      "review": { "en": "Wave one's graduation exam: five-way fans, aimed shots, bursts.", "zh": "第一波次的毕业考：五向扇形、狙击、连发三件套。" }
+      "name": {
+        "en": "Mothership",
+        "zh": "母舰"
+      },
+      "review": {
+        "en": "Wave one's graduation exam: five-way fans, aimed shots, bursts.",
+        "zh": "第一波次的毕业考：五向扇形、狙击、连发三件套。"
+      }
     },
     "boss2": {
-      "name": { "en": "Broodmother", "zh": "孵育母舰" },
-      "review": { "en": "Hatches drones mid-fight while fanning bullets. Crowd control required.", "zh": "一边扇形撒弹一边孵小飞机，考验你的清理效率。" }
+      "name": {
+        "en": "Broodmother",
+        "zh": "孵育母舰"
+      },
+      "review": {
+        "en": "Hatches drones mid-fight while fanning bullets. Crowd control required.",
+        "zh": "一边扇形撒弹一边孵小飞机，考验你的清理效率。"
+      }
     },
     "boss2b": {
-      "name": { "en": "Broodmother Mk.II", "zh": "孵育母舰·改" },
-      "review": { "en": "Same mother, meaner temper: spirals, spawns, seven-way fans.", "zh": "同一艘母舰，脾气更坏：螺旋、召崽、七向扇形全招呼。" }
+      "name": {
+        "en": "Broodmother Mk.II",
+        "zh": "孵育母舰·改"
+      },
+      "review": {
+        "en": "Same mother, meaner temper: spirals, spawns, seven-way fans.",
+        "zh": "同一艘母舰，脾气更坏：螺旋、召崽、七向扇形全招呼。"
+      }
     },
     "boss3": {
-      "name": { "en": "Fortress", "zh": "巨型要塞" },
-      "review": { "en": "A battleship the size of your screen; the nine-way fan owns the corners.", "zh": "几乎占满屏幕的战列舰，九向扇形逼你贴边走位。" }
+      "name": {
+        "en": "Fortress",
+        "zh": "巨型要塞"
+      },
+      "review": {
+        "en": "A battleship the size of your screen; the nine-way fan owns the corners.",
+        "zh": "几乎占满屏幕的战列舰，九向扇形逼你贴边走位。"
+      }
     },
     "boss4": {
-      "name": { "en": "Dreadnought", "zh": "无畏舰" },
-      "review": { "en": "Bullet curtains with a wasp escort. The gap moves — so should you.", "zh": "弹帘开路还带黄蜂护卫，缺口会挪，你也要跟着挪。" }
+      "name": {
+        "en": "Dreadnought",
+        "zh": "无畏舰"
+      },
+      "review": {
+        "en": "Bullet curtains with a wasp escort. The gap moves — so should you.",
+        "zh": "弹帘开路还带黄蜂护卫，缺口会挪，你也要跟着挪。"
+      }
     },
     "boss4b": {
-      "name": { "en": "Dreadnought Mk.II", "zh": "无畏舰·改" },
-      "review": { "en": "Faster cycle, faster bullets, same nightmare.", "zh": "循环更快、子弹更快，噩梦还是那个噩梦。" }
+      "name": {
+        "en": "Dreadnought Mk.II",
+        "zh": "无畏舰·改"
+      },
+      "review": {
+        "en": "Faster cycle, faster bullets, same nightmare.",
+        "zh": "循环更快、子弹更快，噩梦还是那个噩梦。"
+      }
     },
     "boss5": {
-      "name": { "en": "Hydra", "zh": "九头蛇" },
-      "review": { "en": "Its blade head throws curtains, fans and kamikaze mantas.", "zh": "刀盘旋转间弹帘、扇形弹齐出，还会放出俯冲蝠鲼。" }
+      "name": {
+        "en": "Hydra",
+        "zh": "九头蛇"
+      },
+      "review": {
+        "en": "Its blade head throws curtains, fans and kamikaze mantas.",
+        "zh": "刀盘旋转间弹帘、扇形弹齐出，还会放出俯冲蝠鲼。"
+      }
     },
     "boss5b": {
-      "name": { "en": "Hydra Mk.II", "zh": "九头蛇·改" },
-      "review": { "en": "More HP, tighter spirals, spider escorts. Bring your best gun.", "zh": "血更厚、螺旋更密，还带蜘蛛护卫——火力全开吧。" }
+      "name": {
+        "en": "Hydra Mk.II",
+        "zh": "九头蛇·改"
+      },
+      "review": {
+        "en": "More HP, tighter spirals, spider escorts. Bring your best gun.",
+        "zh": "血更厚、螺旋更密，还带蜘蛛护卫——火力全开吧。"
+      }
     },
     "boss6": {
-      "name": { "en": "Leviathan", "zh": "利维坦" },
-      "review": { "en": "An eleven-way fan is not an attack pattern, it's weather.", "zh": "十一向扇形已经不是弹幕，是天灾。" }
+      "name": {
+        "en": "Leviathan",
+        "zh": "利维坦"
+      },
+      "review": {
+        "en": "An eleven-way fan is not an attack pattern, it's weather.",
+        "zh": "十一向扇形已经不是弹幕，是天灾。"
+      }
     },
     "boss6b": {
-      "name": { "en": "Leviathan Prime", "zh": "利维坦·极" },
-      "review": { "en": "The final wall: every pattern, every escort, 430 HP of no.", "zh": "终局之墙：所有弹幕、所有护卫，430 点血量写满了「不」。" }
+      "name": {
+        "en": "Leviathan Prime",
+        "zh": "利维坦·极"
+      },
+      "review": {
+        "en": "The final wall: every pattern, every escort, 430 HP of no.",
+        "zh": "终局之墙：所有弹幕、所有护卫，430 点血量写满了「不」。"
+      }
     }
   },
   "items": {
     "power": {
-      "name": { "en": "Power up", "zh": "火力强化" },
-      "desc": { "en": "Weapon level +1 (max 3). At max level it converts to 200 points.", "zh": "火力等级 +1（上限 3 级），满级时转化为 200 分。" },
-      "review": { "en": "The cornerstone of every run — early pickups snowball.", "zh": "每一次通关的基石——前期捡到就是滚雪球。" }
+      "name": {
+        "en": "Power up",
+        "zh": "火力强化"
+      },
+      "desc": {
+        "en": "Weapon level +1 (max 3). At max level it converts to 200 points.",
+        "zh": "火力等级 +1（上限 3 级），满级时转化为 200 分。"
+      },
+      "review": {
+        "en": "The cornerstone of every run — early pickups snowball.",
+        "zh": "每一次通关的基石——前期捡到就是滚雪球。"
+      }
     },
     "spread": {
-      "name": { "en": "Spread shot", "zh": "散弹模式" },
-      "desc": { "en": "Three-way volley for 12 seconds.", "zh": "12 秒内三向散射齐射。" },
-      "review": { "en": "Crowd eraser — loses to single targets, shines in swarms.", "zh": "清杂神器——打单体略亏，进鱼群血赚。" }
+      "name": {
+        "en": "Spread shot",
+        "zh": "散弹模式"
+      },
+      "desc": {
+        "en": "Three-way volley for 12 seconds.",
+        "zh": "12 秒内三向散射齐射。"
+      },
+      "review": {
+        "en": "Crowd eraser — loses to single targets, shines in swarms.",
+        "zh": "清杂神器——打单体略亏，进鱼群血赚。"
+      }
     },
     "laser": {
-      "name": { "en": "Laser", "zh": "穿透激光" },
-      "desc": { "en": "Piercing beam for 10 seconds, damage 2, cuts through whole rows.", "zh": "10 秒穿透激光，伤害 2，整排贯穿。" },
-      "review": { "en": "Line the convoy up and delete it in one pass.", "zh": "把敌人排成一串，一梭子全带走。" }
+      "name": {
+        "en": "Laser",
+        "zh": "穿透激光"
+      },
+      "desc": {
+        "en": "Piercing beam for 10 seconds, damage 2, cuts through whole rows.",
+        "zh": "10 秒穿透激光，伤害 2，整排贯穿。"
+      },
+      "review": {
+        "en": "Line the convoy up and delete it in one pass.",
+        "zh": "把敌人排成一串，一梭子全带走。"
+      }
     },
     "heal": {
-      "name": { "en": "Heal", "zh": "回血" },
-      "desc": { "en": "Restores 2 HP.", "zh": "生命 +2。" },
-      "review": { "en": "The greenest number in the game. Never skip it.", "zh": "全游戏最治愈的数字，路过别放过。" }
+      "name": {
+        "en": "Heal",
+        "zh": "回血"
+      },
+      "desc": {
+        "en": "Restores 2 HP.",
+        "zh": "生命 +2。"
+      },
+      "review": {
+        "en": "The greenest number in the game. Never skip it.",
+        "zh": "全游戏最治愈的数字，路过别放过。"
+      }
     },
     "energy": {
-      "name": { "en": "Energy", "zh": "能量块" },
-      "desc": { "en": "+1 special charge (max 5) for the screen-clearing beam.", "zh": "大招充能 +1（上限 5 格），用于清屏激光。" },
-      "review": { "en": "Insurance against bullet hell — five blocks, five escapes.", "zh": "弹幕地狱的保险单——五格就是五条退路。" }
+      "name": {
+        "en": "Energy",
+        "zh": "能量块"
+      },
+      "desc": {
+        "en": "+1 special charge (max 5) for the screen-clearing beam.",
+        "zh": "大招充能 +1（上限 5 格），用于清屏激光。"
+      },
+      "review": {
+        "en": "Insurance against bullet hell — five blocks, five escapes.",
+        "zh": "弹幕地狱的保险单——五格就是五条退路。"
+      }
     },
     "shield": {
-      "name": { "en": "Shield", "zh": "护盾" },
-      "desc": { "en": "Absorbs 3 hits; shield hits cause no knockback timer.", "zh": "吸收 3 次伤害，且受击不触发无敌硬直。" },
-      "review": { "en": "Turns three mistakes into three nothing-burgers.", "zh": "把三次失误变成三次无事发生。" }
+      "name": {
+        "en": "Shield",
+        "zh": "护盾"
+      },
+      "desc": {
+        "en": "Absorbs 3 hits; shield hits cause no knockback timer.",
+        "zh": "吸收 3 次伤害，且受击不触发无敌硬直。"
+      },
+      "review": {
+        "en": "Turns three mistakes into three nothing-burgers.",
+        "zh": "把三次失误变成三次无事发生。"
+      }
     },
     "missile": {
-      "name": { "en": "Homing missiles", "zh": "追踪导弹" },
-      "desc": { "en": "+12 homing missiles (max 20), damage 3, fly straight through enemy fire.", "zh": "追踪导弹 +12 枚（上限 20），伤害 3，直穿敌方子弹。" },
-      "review": { "en": "Fire-and-forget luxury — your aim line can retire early.", "zh": "发射后不管的奢侈品——瞄准线可以提前退休。" }
+      "name": {
+        "en": "Homing missiles",
+        "zh": "追踪导弹"
+      },
+      "desc": {
+        "en": "+12 homing missiles (max 20), damage 3, fly straight through enemy fire.",
+        "zh": "追踪导弹 +12 枚（上限 20），伤害 3，直穿敌方子弹。"
+      },
+      "review": {
+        "en": "Fire-and-forget luxury — your aim line can retire early.",
+        "zh": "发射后不管的奢侈品——瞄准线可以提前退休。"
+      }
     },
     "boomerang": {
-      "name": { "en": "Boomerang", "zh": "回旋镖" },
-      "desc": { "en": "For 10 seconds volleys fly out and curve back, piercing on both legs and shredding enemy fire en route.", "zh": "10 秒内子弹飞出后折返，去、回两程均穿透伤害，途中还会削掉敌方子弹。" },
-      "review": { "en": "Park beside a boss and let the return leg do the filing.", "zh": "贴着 Boss 站桩，返程那一刀最疼。" }
+      "name": {
+        "en": "Boomerang",
+        "zh": "回旋镖"
+      },
+      "desc": {
+        "en": "For 10 seconds volleys fly out and curve back, piercing on both legs and shredding enemy fire en route.",
+        "zh": "10 秒内子弹飞出后折返，去、回两程均穿透伤害，途中还会削掉敌方子弹。"
+      },
+      "review": {
+        "en": "Park beside a boss and let the return leg do the filing.",
+        "zh": "贴着 Boss 站桩，返程那一刀最疼。"
+      }
     },
     "option": {
-      "name": { "en": "Wingman", "zh": "僚机" },
-      "desc": { "en": "+1 escort drone (max 2) that volleys with you — missile launches included. Lost on death.", "zh": "僚机 +1 台（上限 2），随每次开火齐射——连发射导弹时也不例外。坠机后清空。" },
-      "review": { "en": "Two little shadows doing half your paperwork.", "zh": "两道小影子，替你分担一半的火力输出。" }
+      "name": {
+        "en": "Wingman",
+        "zh": "僚机"
+      },
+      "desc": {
+        "en": "+1 escort drone (max 2) that volleys with you — missile launches included. Lost on death.",
+        "zh": "僚机 +1 台（上限 2），随每次开火齐射——连发射导弹时也不例外。坠机后清空。"
+      },
+      "review": {
+        "en": "Two little shadows doing half your paperwork.",
+        "zh": "两道小影子，替你分担一半的火力输出。"
+      }
     },
     "life": {
-      "name": { "en": "1UP", "zh": "备用机" },
-      "desc": { "en": "+1 spare ship (max 5); at full strength it converts to 500 points.", "zh": "备用机体 +1（上限 5 台）；满编时转化为 500 分。" },
-      "review": { "en": "The rarest glint on the field — always worth the detour.", "zh": "全场最稀有的一闪——绕路也值得捡。" }
+      "name": {
+        "en": "1UP",
+        "zh": "备用机"
+      },
+      "desc": {
+        "en": "+1 spare ship (max 5); at full strength it converts to 500 points.",
+        "zh": "备用机体 +1（上限 5 台）；满编时转化为 500 分。"
+      },
+      "review": {
+        "en": "The rarest glint on the field — always worth the detour.",
+        "zh": "全场最稀有的一闪——绕路也值得捡。"
+      }
+    },
+    "aim": {
+      "name": {
+        "en": "Aim tracer",
+        "zh": "瞄准虚线"
+      },
+      "desc": {
+        "en": "For 20 seconds a dashed line previews where your volley will land (per barrel, spread angles included), with a cross marking the first target hit. Repeats stack to 45s; lost on death.",
+        "zh": "20 秒内虚线实时预示弹道落点（按每根炮管分别显示，散弹连角度都有），命中点以十字标记。重复拾取最长叠到 45 秒；坠机后失效。"
+      },
+      "review": {
+        "en": "Cheap insurance for finite-ammo pilots — see the hit before you pay for it.",
+        "zh": "省弹药档的廉价保险——先看见命中，再付出子弹。"
+      }
     }
   }
 }

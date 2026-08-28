@@ -12,7 +12,7 @@ your browser's `localStorage` and consists of settings and your high score.
 
 ## Local Storage (localStorage)
 
-The game writes exactly these 7 keys, all under the page's origin:
+The game writes exactly these 6 keys, all under the page's origin:
 
 | Key | Value | Purpose | Lifetime |
 |-----|-------|---------|----------|
@@ -21,7 +21,6 @@ The game writes exactly these 7 keys, all under the page's origin:
 | `si-sound` | `1` / `0` | Sound on/off | Until you clear site data |
 | `si-hiscore` | number | Best score ever | Until you clear site data |
 | `si-autofire-v2` | `1` / `0` | Auto-fire toggle | Until you clear site data |
-| `si-aimline` | `1` / `0` | Aim tracer toggle | Until you clear site data |
 | `si-difficulty` | `casual` / `standard` / `tight` / `hardcore` | Difficulty tier | Until you clear site data |
 
 No personal data, no identifiers, no gameplay telemetry is stored or

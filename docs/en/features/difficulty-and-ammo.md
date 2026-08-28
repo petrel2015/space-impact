@@ -83,7 +83,7 @@ Tier selection persists in `localStorage` (`si-difficulty`).
 
 Settings ⚙ popover → Difficulty segmented control (Casual / Standard /
 Tight / Hardcore), remembered per browser. During play the finite-ammo
-tiers show the round count beside HP/lives; the aim tracer (default on)
+tiers show the round count beside HP/lives; the aim-tracer item (◎ drop)
 and point-shot fire (default) exist to make every round count — flipping
 on Auto-fire on finite tiers is a deliberate handicap.
 

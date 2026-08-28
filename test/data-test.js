@@ -87,7 +87,7 @@ Object.keys(enemies).forEach(function (id) {
   }
   if (d.drop) {
     var VALID = ['power', 'spread', 'laser', 'heal', 'energy', 'shield', 'missile',
-      'boomerang', 'option', 'life'];
+      'boomerang', 'option', 'life', 'aim'];
     Object.keys(d.drop).forEach(function (k) {
       check(VALID.indexOf(k) >= 0, 'enemy ' + id + ' drop has unknown type ' + k);
       check(typeof d.drop[k] === 'number' && d.drop[k] >= 0 && d.drop[k] <= 1,

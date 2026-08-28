@@ -146,6 +146,10 @@
       tone({ f0: 784, dur: 0.08, type: 'triangle', vol: 0.08, at: 0.14 });
       tone({ f0: 1047, dur: 0.1, type: 'triangle', vol: 0.07, at: 0.2 });
     },
+    aimGet: function () {                     /* tracer pickup: soft rising dyad */
+      tone({ f0: 587, dur: 0.09, type: 'sine', vol: 0.09 });
+      tone({ f0: 880, dur: 0.12, type: 'sine', vol: 0.08, at: 0.07 });
+    },
     oneUp: function () {                      /* extra-ship fanfare */
       [523, 659, 784, 1047, 1319].forEach(function (f, i) {
         tone({ f0: f, dur: 0.09, type: 'square', vol: 0.09, at: i * 0.07 });

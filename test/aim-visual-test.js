@@ -54,6 +54,7 @@ function inkPx(ctx, x, y) { return ctx.px[x + ',' + y] === lcd.ink; }
 (function () {
   var rt = SI.engine.createRuntime({ defs: defs, level: levels[0], seed: 42, difficulty: 1 });
   rt.t = 3;                                  /* freeze dash phase at a known point */
+  rt.player.aimTimer = 30;                   /* item active */
   var cy0 = Math.floor(rt.player.y + rt.player.h / 2);
   rt.enemies.push({
     id: 'drone', def: defs.drone, x: 90, y: cy0 - 2, baseY: cy0 - 2,
@@ -61,7 +62,7 @@ function inkPx(ctx, x, y) { return ctx.px[x + ',' + y] === lcd.ink; }
     speed: 0, fireInterval: Infinity, cooldown: Infinity, age: 0, phase: 0, state: {}, isBoss: false
   });
   var ctx = makeCtx(144, 80);
-  SI.render.draw(ctx, rt, { aim: true });
+  SI.render.draw(ctx, rt, {});
 
   var p = rt.player;
   var cy = Math.floor(p.y + p.h / 2);
@@ -86,12 +87,24 @@ function inkPx(ctx, x, y) { return ctx.px[x + ',' + y] === lcd.ink; }
               dimPx(ctx, hitX - 1, hitY) || dimPx(ctx, hitX, hitY - 1);
   check(cross, 'no impact marker at the tracer terminus');
 
-  /* aim off → no dashes at all */
+  /* tracer only while the item's timer runs: expired → no dashes at all */
   var ctx2 = makeCtx(144, 80);
-  SI.render.draw(ctx2, rt, { aim: false });
+  rt.player.aimTimer = 0;
+  SI.render.draw(ctx2, rt, {});
   var anyDim = false;
   for (var x3 = p.x + p.w; x3 < 88 && !anyDim; x3++) anyDim = dimPx(ctx2, x3, cy);
-  check(!anyDim, 'tracer drawn even with aim disabled');
+  check(!anyDim, 'tracer drawn with the aim item expired');
+
+  /* the pickup itself renders with the crosshair sprite */
+  rt.player.aimTimer = 5;
+  rt.powerups.push({ x: 70, y: cy, type: 'aim', age: 0 });
+  var ctx3 = makeCtx(144, 80);
+  SI.render.draw(ctx3, rt, {});
+  var icon = false;
+  for (var ix = 66; ix <= 74 && !icon; ix++) {
+    for (var iy = cy - 4; iy <= cy + 4 && !icon; iy++) { if (inkPx(ctx3, ix, iy)) icon = true; }
+  }
+  check(icon, 'aim pickup icon (pAim) not drawn on the field');
 })();
 
 /* ── scene 2: missile in flight gets warhead + exhaust trail ── */
@@ -100,7 +113,7 @@ function inkPx(ctx, x, y) { return ctx.px[x + ',' + y] === lcd.ink; }
   rt.t = 3;
   rt.bullets.push({ x: 60, y: 40, vx: 80, vy: 0, w: 4, h: 3, dmg: 3, pierce: false, missile: true });
   var ctx = makeCtx(144, 80);
-  SI.render.draw(ctx, rt, { aim: false });
+  SI.render.draw(ctx, rt, {});
   var head = inkPx(ctx, 58, 39) || inkPx(ctx, 59, 40);
   check(head, 'missile warhead not drawn in ink');
   var trail = false;
@@ -110,7 +123,7 @@ function inkPx(ctx, x, y) { return ctx.px[x + ',' + y] === lcd.ink; }
   /* HUD shows the M count */
   rt.player.missiles = 7;
   var ctx2 = makeCtx(144, 80);
-  SI.render.draw(ctx2, rt, { aim: false });
+  SI.render.draw(ctx2, rt, {});
   var found = false;
   for (var y = 72; y < 80 && !found; y++) {
     for (var x = 95; x < 120 && !found; x++) { if (inkPx(ctx2, x, y)) found = true; }

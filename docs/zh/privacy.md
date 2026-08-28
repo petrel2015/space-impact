@@ -11,7 +11,7 @@ English version: [Privacy](../en/privacy.md).
 
 ## 本地存储（localStorage）
 
-游戏只写以下 7 个键，全部挂在页面同源下：
+游戏只写以下 6 个键，全部挂在页面同源下：
 
 | 键 | 值 | 用途 | 生命周期 |
 |----|----|------|----------|
@@ -20,7 +20,6 @@ English version: [Privacy](../en/privacy.md).
 | `si-sound` | `1` / `0` | 音效开关 | 直到清除站点数据 |
 | `si-hiscore` | 数字 | 历史最高分 | 直到清除站点数据 |
 | `si-autofire-v2` | `1` / `0` | 自动连发开关 | 直到清除站点数据 |
-| `si-aimline` | `1` / `0` | 瞄准虚线开关 | 直到清除站点数据 |
 | `si-difficulty` | `casual` / `standard` / `tight` / `hardcore` | 难度档位 | 直到清除站点数据 |
 
 不存储、不传输任何个人数据、标识符或游戏行为遥测。`localStorage`

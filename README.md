@@ -66,10 +66,10 @@ Plus 2 **mid-bosses** (boss HP bar + guaranteed heal drop, but the level goes on
 - 🔫 **Point shots by default** — one volley per FIRE press; flip the **Auto-fire** toggle in settings for hold-to-spray.
 - ⚡ **Power-ups** — P power · S spread · L piercing laser · + heal · E special energy · G shield · B boomerang · W wingman · 1UP; the special is a screen-clearing beam ([what each item does](docs/en/usage.md#power-ups)).
 - 🚀 **Reward weapon** — M homing missiles drop from kills: 12 tracking warheads per pickup, heavy damage, their own ammo pool (never touches your bullet stock), and they fly straight through enemy fire.
-- 🎯 **Aim tracer** — a faint animated dashed line previews exactly where your next volley lands (per barrel, including spread angles) with a blinking cross on the target it would hit. Toggle with **L** or in settings.
+- 🎯 **Aim tracer item** — picking up the ◎ crosshair grants 20s of a faint animated dashed line that previews exactly where your next volley lands (per barrel, including spread angles) with a blinking cross on the target it would hit — line up before you spend ammo. Repeat pickups stack to 45s.
 - 💥 **Bullet cancel** — the classic detail: your shots and enemy shots annihilate each other mid-air (the piercing laser eats through).
 - 🔊 **Synthesized SFX** — WebAudio square-wave bleeps, zero audio files.
-- ⚙️ **Settings in the header** — difficulty, theme, sound, auto-fire and aim line in a popover available any time (opening it mid-game auto-pauses).
+- ⚙️ **Settings in the header** — difficulty, theme, sound and auto-fire in a popover available any time (opening it mid-game auto-pauses).
 - 🤖 **Attract mode** — `?demo=1&autostart=1` autopilot plays the game through the same input path as a human.
 - 🧩 **Custom levels without a repo** — download a template from the start screen, edit it, upload the JSON and play it instantly ([how](docs/en/usage.md#custom-levels)).
 
@@ -93,11 +93,10 @@ Any other static file server works too. Controls:
 | Move | Arrows / WASD | D-pad (bottom-left) |
 | Fire — one volley per press | Space / J | FIRE |
 | Auto-fire (hold to spray) | toggle in Settings ⚙ | Auto-fire toggle |
-| Aim tracer on/off | L | toggle in Settings ⚙ |
 | Special beam | K / X | BOMB |
 | Pause | P / Esc | ⏸ top-right |
 
-Handy URL params (testing / shareable links): `?lang=zh|en` · `?theme=retro|night|paper` · `?touch=1` · `?autostart=1` · `?demo=1` (attract mode, with autostart) · `?paused=1` · `?aim=0|1` · `?level=14` — [full table](docs/en/usage.md#url-parameters).
+Handy URL params (testing / shareable links): `?lang=zh|en` · `?theme=retro|night|paper` · `?touch=1` · `?autostart=1` · `?demo=1` (attract mode, with autostart) · `?paused=1` · `?level=14` — [full table](docs/en/usage.md#url-parameters).
 
 ## Extending the Game
 

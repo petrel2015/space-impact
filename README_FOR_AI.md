@@ -90,12 +90,12 @@ content requires no engine code changes.
 ## Inputs
 
 - **User input:** keyboard (arrows/WASD, Space/J fire, K/X special, P/Esc
-  pause, L aim tracer), pointer/touch (D-pad, FIRE, BOMB buttons).
+  pause), pointer/touch (D-pad, FIRE, BOMB buttons).
 - **Data input:** `data/enemies.json`, `data/levels.json`,
   `data/levels/*.json` fetched same-origin at load; user-uploaded level JSON
   files (must be a valid compiled level shape; numeric `id`, `events[]`).
 - **URL parameters:** `lang` (en|zh), `theme` (retro|night|paper), `touch=1`,
-  `autostart=1`, `demo=1`, `paused=1`, `aim` (0|1), `level` (number).
+  `autostart=1`, `demo=1`, `paused=1`, `level` (number).
 
 ## Outputs
 
@@ -140,9 +140,11 @@ install, build, or lint step and no dependencies.
 
 Verified against the source code:
 
-- **localStorage keys (7):** `si-lang`, `si-theme`, `si-sound`,
-  `si-hiscore`, `si-autofire-v2`, `si-aimline`, `si-difficulty` — plain
+- **localStorage keys (settings, 6):** `si-lang`, `si-theme`, `si-sound`,
+  `si-hiscore`, `si-autofire-v2`, `si-difficulty` — plain
   settings/high score only, never cleared automatically, no personal data.
+  (Additional gameplay keys: `si-codex-v1` discovery state and `si-save-v1`
+  save slots.)
 - **Network at runtime:** same-origin `fetch` of the game's own JSON packs
   (`data/enemies.json`, `data/levels.json`, `data/levels/*.json`). The
   donate QR library (`js/vendor/qrcode-generator.js`, same-origin) loads
@@ -229,7 +231,8 @@ formations: 5
 difficulty_tiers: casual, standard, tight, hardcore
 finite_ammo_tiers: standard, tight, hardcore
 resolution_logical: 144x80 (144x128 portrait on touch phones)
-localstorage_keys: si-lang, si-theme, si-sound, si-hiscore, si-autofire-v2, si-aimline, si-difficulty
+localstorage_keys: si-lang, si-theme, si-sound, si-hiscore, si-autofire-v2, si-difficulty, si-codex-v1, si-save-1/2/3
+pickup_types: power, spread, laser, heal, energy, shield, missile, boomerang, option, life, aim
 network_calls: same-origin JSON fetch only (+ lazy same-origin QR lib after donate dialog opens; official qr.alipay.com link on explicit donate tap, mobile)
 analytics: none
 offline_pwa: false
