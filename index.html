@@ -9,7 +9,7 @@
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="favicon-16.png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="stylesheet" href="css/style.css?v=16">
+<link rel="stylesheet" href="css/style.css?v=17">
 </head>
 <body>
 
@@ -150,10 +150,17 @@
 
 <footer class="site-foot">
   <div class="wrap donate-section">
-    <button type="button" id="donate-entry" class="donate-entry" data-i18n="donateEntry">☕ Buy me a coffee</button>
+    <button type="button" id="donate-entry" class="donate-entry"><svg class="px-cup" aria-hidden="true" focusable="false"><use href="#px-cup"/></svg><span data-i18n="donateEntry">Buy me a coffee</span></button>
   </div>
   <div class="wrap" data-i18n="footerNote">Runs entirely in your browser · levels &amp; enemies are data-driven JSON</div>
 </footer>
+
+<!-- pixel coffee cup (footer entry + donation dialog title) -->
+<svg hidden aria-hidden="true">
+  <symbol id="px-cup" viewBox="0 0 9 8">
+    <path d="M2 0h1v1H2zM4 0h1v1H4zM2 1h1v1H2zM4 1h1v1H4zM0 3h7v1H0zM8 3h1v1H8zM0 4h7v1H0zM8 4h1v1H8zM0 5h9v1H0zM1 6h6v1H1zM0 7h9v1H0z"/>
+  </symbol>
+</svg>
 
 <!-- ═══ Codex dialog (enemies + items bestiary) ═══ -->
 <div class="codex-overlay" id="codex-dialog" hidden>
@@ -184,7 +191,7 @@
 <div class="donation-overlay" id="donation-dialog" hidden>
   <div class="donation-dialog" role="dialog" aria-modal="true" aria-label="Buy me a coffee / 请作者喝杯咖啡">
     <button type="button" class="donate-close" id="donation-close" aria-label="Close / 关闭">×</button>
-    <h3 class="donation-title" data-i18n="donateTitle">Buy me a coffee ☕</h3>
+    <h3 class="donation-title"><svg class="px-cup" aria-hidden="true" focusable="false"><use href="#px-cup"/></svg><span data-i18n="donateTitle">Buy me a coffee</span></h3>
     <p class="donation-subtitle" data-i18n="donateSubtitle">If this little tool helped you, you can buy the author a coffee.</p>
     <div class="segmented donation-tabs" role="group" aria-label="Payment channel / 支付方式">
       <button type="button" id="donation-tab-alipay" data-i18n="donateAlipay" aria-pressed="true">Alipay</button>
@@ -195,17 +202,17 @@
   </div>
 </div>
 
-<script src="js/i18n.js?v=18"></script>
-<script src="js/theme.js?v=18"></script>
-<script src="js/audio.js?v=18"></script>
-<script src="js/sprites.js?v=18"></script>
-<script src="js/level-template.js?v=18"></script>
-<script src="js/behaviors.js?v=18"></script>
-<script src="js/engine.js?v=18"></script>
-<script src="js/render.js?v=18"></script>
-<script src="js/codex.js?v=18"></script>
-<script src="js/save.js?v=18"></script>
-<script src="js/app.js?v=18"></script>
-<script src="js/donation.js?v=18"></script>
+<script src="js/i18n.js?v=19"></script>
+<script src="js/theme.js?v=19"></script>
+<script src="js/audio.js?v=19"></script>
+<script src="js/sprites.js?v=19"></script>
+<script src="js/level-template.js?v=19"></script>
+<script src="js/behaviors.js?v=19"></script>
+<script src="js/engine.js?v=19"></script>
+<script src="js/render.js?v=19"></script>
+<script src="js/codex.js?v=19"></script>
+<script src="js/save.js?v=19"></script>
+<script src="js/app.js?v=19"></script>
+<script src="js/donation.js?v=19"></script>
 </body>
 </html>

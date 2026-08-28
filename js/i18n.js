@@ -115,8 +115,8 @@
 
       footerNote: 'Runs entirely in your browser · levels & enemies are data-driven JSON',
 
-      donateEntry: '☕ Buy me a coffee',
-      donateTitle: 'Buy me a coffee ☕',
+      donateEntry: 'Buy me a coffee',
+      donateTitle: 'Buy me a coffee',
       donateSubtitle: 'If this little tool helped you, you can buy the author a coffee.',
       donateAlipay: 'Alipay',
       donateWechatPay: 'WeChat Pay',
@@ -240,8 +240,8 @@
 
       footerNote: '纯前端运行 · 关卡与怪物均为 JSON 数据驱动',
 
-      donateEntry: '☕ 请作者喝杯咖啡',
-      donateTitle: '请作者喝杯咖啡 ☕',
+      donateEntry: '请作者喝杯咖啡',
+      donateTitle: '请作者喝杯咖啡',
       donateSubtitle: '如果这个小工具帮到了你，可以请作者喝杯咖啡。',
       donateAlipay: '支付宝',
       donateWechatPay: '微信支付',

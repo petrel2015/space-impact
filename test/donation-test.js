@@ -43,9 +43,11 @@ var DICT = global.SI.i18n.DICT;
 var enKeys = Object.keys(DICT.en).sort().join(',');
 var zhKeys = Object.keys(DICT.zh).sort().join(',');
 check(enKeys === zhKeys, 'i18n zh/en key sets identical');
-check(DICT.zh.donateEntry === '☕ 请作者喝杯咖啡', 'zh entry copy is spec-exact');
-check(DICT.en.donateEntry === '☕ Buy me a coffee', 'en entry copy is spec-exact');
-check(DICT.zh.donateTitle === '请作者喝杯咖啡 ☕' && DICT.en.donateTitle === 'Buy me a coffee ☕', 'dialog titles spec-exact');
+check(DICT.zh.donateEntry === '请作者喝杯咖啡', 'zh entry copy is spec-exact');
+check(DICT.en.donateEntry === 'Buy me a coffee', 'en entry copy is spec-exact');
+check(DICT.zh.donateTitle === '请作者喝杯咖啡' && DICT.en.donateTitle === 'Buy me a coffee', 'dialog titles spec-exact');
+check(DICT.en.donateEntry.indexOf('☕') === -1 && DICT.zh.donateTitle.indexOf('☕') === -1,
+  'no coffee emoji in copy — the pixel cup SVG carries the icon');
 ['donateSubtitle', 'donateAlipay', 'donateWechatPay', 'donateScanAlipay',
  'donateScanWechat', 'donateFallbackHint', 'donateQrAlt', 'donateQrError', 'donateClose']
   .forEach(function (k) {
@@ -132,8 +134,10 @@ function interact() {
         /* QR lib absent from DOM before the dialog ever opens */
         check(!d.querySelector('script[src*="qrcode-generator"]'), 'QR lib script not in DOM before first open');
 
-        /* T1 — entry copy (default en markup) */
-        check(entry.textContent === '☕ Buy me a coffee', 'T1 footer entry text (en)');
+        /* T1 — entry copy (default en markup); the pixel-cup SVG is
+           markup-only and contributes nothing to textContent */
+        check(entry.textContent === 'Buy me a coffee', 'T1 footer entry text (en)');
+        check(entry.querySelector('svg.px-cup use') !== null, 'T1 pixel cup icon present (no emoji)');
 
         /* T2 — open via entry click: dialog, tabs, hint, focus.
            jsdom's .click() does not move focus; real browsers focus the
@@ -199,8 +203,8 @@ function interact() {
 
         /* T9 — language switch updates dialog texts (zh) */
         w.SI.i18n.setLang('zh');
-        check(entry.textContent === '☕ 请作者喝杯咖啡', 'T9 zh entry copy');
-        check($('donation-dialog').querySelector('.donation-title').textContent === '请作者喝杯咖啡 ☕', 'T9 zh title via data-i18n');
+        check(entry.textContent === '请作者喝杯咖啡', 'T9 zh entry copy');
+        check($('donation-dialog').querySelector('.donation-title').textContent === '请作者喝杯咖啡', 'T9 zh title via data-i18n');
         tabW.click();
         check(hint.textContent === '打开微信扫一扫', 'T9 zh hint follows langchange');
         w.SI.i18n.setLang('en');
