@@ -23,6 +23,25 @@
   };
 
   /* ── storage (node-testable) ───────────────── */
+
+  /* The campaign was re-cut from 14 levels to 5 (《归途》). A snapshot
+     taken before the rework can sit at old level 6-14; map it onto the
+     new campaign by progress ratio — old 8 ≈ new 3 (round(8×5/14)), the
+     mapped level never leads the old progress by more than rounding.
+     Ids inside the new campaign pass through; ids outside both (custom
+     uploads like 90) also pass through untouched so the picker keeps
+     reporting them as "level data missing" instead of guessing. */
+  var LEGACY_LEVEL_COUNT = 14;
+
+  function remapLegacyLevel(id, total) {
+    var n = Math.max(1, total | 0);
+    if (id >= 1 && id <= n) return id;
+    if (id > n && id <= LEGACY_LEVEL_COUNT) {
+      return Math.max(1, Math.min(n, Math.round(id * n / LEGACY_LEVEL_COUNT)));
+    }
+    return id;
+  }
+
   function store() {
     try { return global.localStorage || null; } catch (e) { return null; }
   }
@@ -89,7 +108,9 @@
     if (opts && opts.resolveLevel && opts.resolveLevel(snap.levelId) < 0) {
       return t('saveMissingLevel');
     }
-    var bits = [t('saveLevelLabel', { n: snap.levelId })];
+    /* pre-rework snapshots display the level they were mapped onto */
+    var shownId = opts && opts.mapLevel ? opts.mapLevel(snap.levelId) : snap.levelId;
+    var bits = [t('saveLevelLabel', { n: shownId })];
     if (snap.loop > 0) bits.push(t('saveLoopLabel', { n: snap.loop + 1 }));
     bits.push(t('scoreLabel') + ' ' + snap.carry.score);
     if (DIFF_LABEL[snap.difficulty]) bits.push(t(DIFF_LABEL[snap.difficulty]));
@@ -209,6 +230,8 @@
 
   SI.Save = {
     SLOTS: SLOTS,
+    LEGACY_LEVEL_COUNT: LEGACY_LEVEL_COUNT,
+    remapLegacyLevel: remapLegacyLevel,
     read: read,
     write: write,
     clear: clear,

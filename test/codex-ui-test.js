@@ -250,6 +250,20 @@ function run() {
           d.dispatchEvent(new w.KeyboardEvent('keydown', { key: 'Escape' }));
           $('btn-quit').click();
           check($('btn-continue').hidden, 'T9 continue hidden again after deleting the save');
+
+          /* ── T10 pre-rework save (old level 6-14) maps onto the 5-level cut ── */
+          w.localStorage.setItem('si-save-1', JSON.stringify({
+            v: 1, levelId: 8, loop: 1, difficulty: 'standard',
+            carry: { score: 9999, lives: 2, weaponLevel: 2, missiles: 0, special: 1, maxHp: 8 },
+            savedAt: w.Date.now()
+          }));
+          w.SI.SaveUI.open('load');
+          var legacyMeta = d.querySelector('#save-slots .save-slot .slot-meta');
+          check(legacyMeta && legacyMeta.textContent.indexOf('第 3 关') >= 0,
+            'T10 legacy level-8 summary shows the mapped 第 3 关: ' + (legacyMeta && legacyMeta.textContent));
+          d.querySelector('#save-slots .save-slot-main').click();
+          check($('save-dialog').hidden, 'T10 legacy save loads (no missing-level refusal)');
+          check(!$('screen-play').hidden, 'T10 resumed into the game on the mapped level');
         });
     });
 }

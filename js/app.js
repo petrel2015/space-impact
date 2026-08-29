@@ -227,6 +227,12 @@
     return -1;
   }
 
+  /* snapshot level resolution: pre-rework snapshots (old levels 6-14)
+     are mapped onto the 5-level cut by progress ratio before lookup */
+  function resolveSaveLevel(id) {
+    return levelIndexById(SI.Save.remapLegacyLevel(id, levels.length));
+  }
+
   /* level-boundary snapshot: the same carry shape advanceLevel() builds */
   function makeSnapshot() {
     if (!rt || !levels[levelIdx]) return null;
@@ -246,7 +252,7 @@
   }
 
   function applySave(snap) {
-    var idx = levelIndexById(snap.levelId);
+    var idx = resolveSaveLevel(snap.levelId);
     if (idx < 0) return false;
     setDifficulty(snap.difficulty);
     var preset = DIFF_PRESETS[difficulty] || DIFF_PRESETS.standard;
@@ -683,7 +689,8 @@
 
     SI.SaveUI.init({
       snapshot: makeSnapshot,
-      resolveLevel: levelIndexById,
+      resolveLevel: resolveSaveLevel,
+      mapLevel: function (id) { return SI.Save.remapLegacyLevel(id, levels.length); },
       onLoad: applySave,
       onChange: refreshContinueBtn
     });

@@ -85,6 +85,20 @@ check(typeof SI.SaveUI.init === 'function' && typeof SI.SaveUI.open === 'functio
   'SaveUI should expose init/open');
 check(SI.SaveUI.isOpen() === false, 'SaveUI.isOpen false without DOM');
 
+/* ── 14→5 campaign re-cut: legacy level mapping ── */
+/* rule: new ids pass through; old 6-14 map by progress ratio
+   round(id×5/14) — old 8 ≈ new 3; anything else (custom ids) stays
+   as-is so the picker still flags it as a missing level */
+var EXPECT_MAP = { 1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 2, 7: 3, 8: 3, 9: 3,
+  10: 4, 11: 4, 12: 4, 13: 5, 14: 5, 15: 15, 90: 90 };
+Object.keys(EXPECT_MAP).forEach(function (old) {
+  var got = SI.Save.remapLegacyLevel(parseInt(old, 10), 5);
+  check(got === EXPECT_MAP[old],
+    'remapLegacyLevel(' + old + ', 5) should be ' + EXPECT_MAP[old] + ', got ' + got);
+  check(got <= 5 || parseInt(old, 10) > 14,
+    'remapLegacyLevel(' + old + ') must never invent a built-in level > 5');
+});
+
 /* ── summary ─────────────────────────────────── */
 if (fails) {
   console.error('\n' + fails + ' check(s) failed.');
