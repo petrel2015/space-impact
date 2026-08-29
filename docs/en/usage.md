@@ -78,7 +78,7 @@ Drops drift left; fly into them to collect.
 | **E** energy | +1 special charge (max 5) |
 | **G** shield | Absorbs the next 3 hits |
 | **M** missile | +12 homing missiles (cap 20) — heavy damage (3× a normal shot), auto-track the nearest enemy ahead, fly straight through enemy bullets |
-| **B** boomerang | 10 s of boomerang volleys — the blade flies out, turns back toward your row, and pierces on both legs; it also shreds enemy bullets it touches |
+| **B** boomerang | 10 s of free-throw boomerangs — no ammo spent, even at 0 rounds; the blade glides across the whole field, bites every target once per leg, shreds enemy bullets and returns to your hand |
 | **W** wingman | +1 escort drone (max 2) firing a straight shot with every volley — missile launches included. Lost on death, carried across levels and saves |
 | **1UP** life | +1 spare ship (max 5). At full strength: +500 score instead |
 | **◎** aim tracer | 20 s of dashed landing preview (see below). Repeat pickups stack to 45 s; lost on death |

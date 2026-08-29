@@ -61,8 +61,10 @@ content requires no engine code changes.
 5. **Power-ups & weapons** — power (weapon level up to 3), spread (12 s),
    piercing laser (10 s), heal (+2 HP), energy (special charge, max 5),
    shield (3 hits), homing missiles (12 per pickup, cap 20, own ammo pool,
-   immune to bullet-cancel), boomerang (10 s mode: out-and-back blade that
-   pierces on both legs and shreds enemy bullets; caught back at the ship),
+   immune to bullet-cancel), boomerang (10 s mode: ammo-free out-and-back
+   blade — throws cost no rounds and work on a dry clip — that glides the
+   full field width, bites each target once per leg, shreds enemy bullets,
+   and is caught back at the ship),
    wingman (up to 2 escort drones firing with every volley incl. missile
    launches, carried across levels and save slots, lost on death), 1UP
    (ultra-rare drop, +1 spare ship, cap 5, over-cap converts to 500 score);

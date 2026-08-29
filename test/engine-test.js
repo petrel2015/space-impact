@@ -392,7 +392,7 @@ levels.forEach(function (lvl) {
     'overflow 1UP should convert to 500 points, got +' + (rt.player.score - score));
 })();
 
-/* 14. boomerang: outbound pierce, turn-around, return catch, second hit */
+/* 14. boomerang: free throws, full-field glide, one bite per leg, catch */
 (function () {
   var rt = SI.engine.createRuntime({ defs: defs, level: levels[0], seed: 5, difficulty: 1 });
   var input = NO_INPUT;
@@ -402,7 +402,25 @@ levels.forEach(function (lvl) {
   SI.engine.step(rt, input, STEP);
   check(rt.player.mode === 'boomerang', 'boomerang pickup should switch the weapon mode');
 
-  /* a tanky target on the pilot's row: the blade must pierce it both ways */
+  /* the blade comes back to hand: throws never spend a round */
+  rt.player.cooldown = 0;
+  rt.player.ammo = 5;
+  SI.engine.step(rt, fireOn, STEP);
+  check(rt.player.ammo === 5, 'boomerang throw should not consume ammo');
+  var rang = rt.bullets.filter(function (b) { return b.boomerang; })[0];
+  check(!!rang && rang.pierce && rang.vx > 0, 'volley should launch a piercing outbound boomerang');
+
+  /* even a dry clip keeps the blade looping */
+  rt.player.cooldown = 0;
+  rt.player.ammo = 0;
+  var bladesBefore = rt.bullets.filter(function (b) { return b.boomerang; }).length;
+  SI.engine.step(rt, fireOn, STEP);
+  var bladesAfter = rt.bullets.filter(function (b) { return b.boomerang; }).length;
+  check(bladesAfter === bladesBefore + 1, 'dry clip should still throw the blade');
+
+  /* a tanky target on the pilot's row: the blade must pierce it both
+     ways, once per leg */
+  rt.bullets.length = 0;
   var cy = rt.player.y + rt.player.h / 2;
   rt.enemies.push({
     id: 'drone', def: defs.drone, x: rt.player.x + 40, y: rt.player.y, baseY: rt.player.y,
@@ -411,18 +429,18 @@ levels.forEach(function (lvl) {
     age: 0, phase: 0, state: {}, isBoss: false
   });
   rt.player.cooldown = 0;
-  rt.player.ammo = Infinity;
-  SI.engine.step(rt, fireOn, STEP);
+  SI.engine.step(rt, fireOn, STEP);   /* dry clip still launches the blade */
   var rang = rt.bullets.filter(function (b) { return b.boomerang; })[0];
-  check(!!rang && rang.pierce && rang.vx > 0, 'volley should launch a piercing outbound boomerang');
+  check(!!rang, 'blade should be in flight for the two-leg test');
 
-  var flipped = false, recovered = false, hpAfterOut = null, minD = 1e9;
+  var flipped = false, recovered = false, hpAfterOut = null, minD = 1e9, maxX = 0;
   for (var i = 0; i < 600; i++) {
     rt.player.invuln = 1;
     SI.engine.step(rt, input, STEP);
     rt.events.length = 0;
     var r2 = rt.bullets.filter(function (b) { return b.boomerang; })[0];
     if (!r2) { recovered = true; break; }
+    if (r2.x > maxX) maxX = r2.x;
     if (!flipped && r2.vx < 0) {
       flipped = true;
       hpAfterOut = rt.enemies.length ? rt.enemies[0].hp : 60;
@@ -435,9 +453,10 @@ levels.forEach(function (lvl) {
   check(flipped, 'boomerang never turned around');
   check(recovered, 'returning boomerang was never caught');
   check(minD < 12, 'return leg never came back to the ship (closest ' + minD.toFixed(1) + 'px)');
-  check(hpAfterOut !== null && hpAfterOut < 60, 'outbound leg should pierce the target');
+  check(maxX > 100, 'blade should glide across the field (reached x=' + maxX.toFixed(1) + ')');
+  check(hpAfterOut === 58, 'outbound leg should bite the target exactly once for 2 (hp ' + hpAfterOut + ')');
   var finalHp = rt.enemies.length ? rt.enemies[0].hp : 60;
-  check(finalHp < hpAfterOut, 'return leg should hit again (hp ' + finalHp + ' after ' + hpAfterOut + ')');
+  check(finalHp === 56, 'return leg should bite again exactly once (hp ' + finalHp + ' after ' + hpAfterOut + ')');
 
   /* the mode expires back to the normal trigger */
   rt.player.mode = 'boomerang'; rt.player.modeTimer = 0.01;

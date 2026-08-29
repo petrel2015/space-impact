@@ -377,12 +377,12 @@
         "zh": "回旋镖"
       },
       "desc": {
-        "en": "For 10 seconds volleys fly out and curve back, piercing on both legs and shredding enemy fire en route.",
-        "zh": "10 秒内子弹飞出后折返，去、回两程均穿透伤害，途中还会削掉敌方子弹。"
+        "en": "For 10 seconds throwing is free — no ammo spent, even on a dry clip. The blade glides the full width of the field, bites every target once per leg, shreds enemy fire and returns to your hand.",
+        "zh": "10 秒内掷镖免费——不费一颗子弹，空仓也能扔。镖刃贯穿全屏，去、回两程各咬一口，顺手削掉敌方子弹，最后回到手上。"
       },
       "review": {
-        "en": "Park beside a boss and let the return leg do the filing.",
-        "zh": "贴着 Boss 站桩，返程那一刀最疼。"
+        "en": "Out of rounds? Keep the blades looping — the far wall is just a turnaround.",
+        "zh": "弹尽粮绝也不怕——空仓白嫖飞镖，打到墙上都会弹回来。"
       }
     },
     "option": {

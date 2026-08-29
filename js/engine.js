@@ -332,6 +332,16 @@
       pushEvent(rt, 'missileShoot');
       return;
     }
+    /* boomerang: the blade comes back to hand, so a throw is free —
+       no rounds spent, and even a dry clip keeps it looping */
+    if (p.mode === 'boomerang') {
+      fireOptions(rt);
+      rt.bullets.push({ x: cx + 2, y: cy, vx: 120, vy: 0, w: 5, h: 5, dmg: 2, pierce: true,
+        boomerang: true, leg: 1, hitList: [] });
+      p.cooldown = 0.3;
+      pushEvent(rt, 'shoot');
+      return;
+    }
     /* finite-ammo tiers: one charge per volley, none left = dry trigger */
     if (p.ammo <= 0) return;
     if (p.ammo !== Infinity) p.ammo--;
@@ -343,9 +353,6 @@
       [-0.35, 0, 0.35].forEach(function (a) {
         rt.bullets.push({ x: cx, y: cy, vx: Math.cos(a) * B, vy: Math.sin(a) * B, w: 3, h: 2, dmg: 1, pierce: false });
       });
-      p.cooldown = 0.3;
-    } else if (p.mode === 'boomerang') {
-      rt.bullets.push({ x: cx + 2, y: cy, vx: 120, vy: 0, w: 5, h: 5, dmg: 1, pierce: true, boomerang: true });
       p.cooldown = 0.3;
     } else if (p.weaponLevel >= 3) {
       [0, -3, 3].forEach(function (dy) {
@@ -547,14 +554,17 @@
         b.vx = Math.min(125, b.vx + 170 * dt);
       }
       if (b.boomerang) {
-        /* decelerate out, then fly home: the return leg seeks the
-           pilot's row so the blade can be caught back in hand */
-        b.vx -= 120 * dt;
+        /* long glide toward the far wall, then fly home: the return
+           leg seeks the pilot's row so the blade can be caught back */
+        if (b.vx > 0 && b.x + b.w / 2 > W - 2) b.vx = -b.vx;
+        b.vx -= 62 * dt;
         if (b.vx < -100) b.vx = -100;
         if (b.vx < 0) {
           var wy = Math.max(-40, Math.min(40, (p.y + p.h / 2 - b.y) * 3));
           b.vy += Math.max(-120 * dt, Math.min(120 * dt, wy - b.vy));
         }
+        /* each leg bites every target once — wipe the ledger on the turn */
+        if (b.leg === 1 && b.vx <= 0) { b.leg = -1; b.hitList.length = 0; }
       }
       b.x += b.vx * dt; b.y += b.vy * dt;
       if (b.boomerang && b.vx < 0 &&
@@ -605,7 +615,9 @@
       for (var he = rt.enemies.length - 1; he >= 0; he--) {
         var te = rt.enemies[he];
         if (!aabb(pb.x - pb.w / 2, pb.y - pb.h / 2, pb.w, pb.h, te.x, te.y, te.w, te.h)) continue;
+        if (pb.boomerang && pb.hitList.indexOf(te) >= 0) continue;
         te.hp -= pb.dmg;
+        if (pb.boomerang) pb.hitList.push(te);
         if (te.hp <= 0) killEnemy(rt, te, he);
         else pushEvent(rt, 'hitEnemy');
         if (!pb.pierce) { rt.bullets.splice(hb, 1); break; }

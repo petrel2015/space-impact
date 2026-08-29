@@ -29,6 +29,12 @@ All notable user-visible changes to this project are documented in this file.
   `README_FOR_AI.md` for AI assistants.
 
 ### Changed
+- Boomerang pickup reworked: throws are free — no ammo spent on limited-ammo
+  tiers and a dry clip still loops the blade; the glide now spans the full
+  field width and bounces off the far wall instead of flying off-screen;
+  damage doubled to 2 with exactly one bite per target per leg. Codex and
+  bilingual usage docs updated; engine tests gained free-throw / dry-clip /
+  full-field-glide / one-bite-per-leg assertions.
 - Donate flow rebuilt: a single low-key footer entry (`☕ Buy me a coffee /
   ☕ 请作者喝杯咖啡`) opens a dialog with Alipay / WeChat Pay tabs; QR codes
   are now generated in the browser from the raw receive-money links (dark on
