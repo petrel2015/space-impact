@@ -247,6 +247,10 @@
         def.miniboss ? t('codexTagMiniboss') : t('codexTagBoss')));
     }
     titleBox.appendChild(nameRow);
+    if (unlocked && entry && bi(entry.habitat)) {
+      /* ecological grouping: one small line naming the star domain */
+      titleBox.appendChild(el('p', 'codex-habitat', t('codexHabitat') + ' · ' + bi(entry.habitat)));
+    }
     if (!unlocked) {
       var hint = t('codexLocked');
       if (firstSeen[id]) hint += ' · ' + t('codexFirstSeen', { n: firstSeen[id] });

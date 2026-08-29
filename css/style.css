@@ -789,6 +789,13 @@ body.small .touch-controls { display: flex; }
   color: var(--muted);
 }
 
+.codex-habitat {
+  margin: 3px 0 0;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
 .codex-stats {
   display: flex;
   flex-direction: column;

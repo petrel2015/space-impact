@@ -156,6 +156,8 @@ function run() {
       check(unlocked && unlocked.textContent.indexOf('侦察机') >= 0, 'T4 zh enemy name renders');
       check(unlocked && unlocked.textContent.indexOf('血量') >= 0 && unlocked.textContent.indexOf('攻击方式') >= 0,
         'T4 stat rows (HP / attack) render on unlocked card');
+      check(unlocked && unlocked.textContent.indexOf('钢铁坟场') >= 0,
+        'T4 habitat line renders on unlocked card');
       check(unlocked && unlocked.textContent.indexOf('炮灰中的劳模') >= 0, 'T4 one-line review renders');
       check(d.querySelectorAll('#codex-body .codex-card.is-locked').length === 26,
         'T4 remaining 26 stay locked');

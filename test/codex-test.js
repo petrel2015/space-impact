@@ -52,7 +52,7 @@ ck.forEach(function (id) {
 });
 ek.forEach(function (id) {
   var e = codexData.enemies[id];
-  ['name', 'review'].forEach(function (f) {
+  ['name', 'review', 'habitat'].forEach(function (f) {
     check(e && e[f] && e[f].en && e[f].zh, 'codex ' + id + '.' + f + ' needs non-empty en+zh');
   });
 });
@@ -118,6 +118,13 @@ check(SI.Codex.attackText(defs.boss3).indexOf('侦察机') >= 0,
   'spawn attack text should name the spawned enemy (侦察机, boss3 放巡逻机)');
 
 /* ── discovery state + persistence ───────────── */
+/* habitat labels follow the campaign's ecological grouping (EP01-05) */
+var HABITATS = ['碎石带', '虫巢星云', '钢铁坟场', '封锁线', '时空乱流'];
+Object.keys(codexData.enemies).forEach(function (id) {
+  var h = codexData.enemies[id].habitat.zh;
+  check(HABITATS.indexOf(h) >= 0, 'codex ' + id + ' habitat "' + h + '" is not a campaign star domain');
+});
+
 check(SI.Codex.counts().enemies === 0, 'codex should start empty');
 SI.Codex.markEnemySeen('drone');
 SI.Codex.markEnemySeen('drone');            /* idempotent */
