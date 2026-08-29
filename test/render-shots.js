@@ -38,8 +38,29 @@ function makeCtx(w, h) {
     canvas: { width: w, height: h },
     get globalAlpha() { return alpha; },
     set globalAlpha(v) { alpha = v; },
-    set fillStyle(v) { st = { c: v, rgb: hex(v) }; },
+    set fillStyle(v) { st = { c: v, grad: (v && typeof v === 'object' && v.at) ? v : null, rgb: hex(v) }; },
     get fillStyle() { return st.c; },
+    /* vertical linear gradients are all the game uses (level scenery) */
+    createLinearGradient: function (x0, y0, x1, y1) {
+      var stops = [];
+      return {
+        addColorStop: function (off, color) { stops.push({ off: off, rgb: hex(color) }); },
+        at: function (y) {
+          if (!stops.length) return [0, 0, 0];
+          var t = Math.max(0, Math.min(1, (y - y0) / ((y1 - y0) || 1)));
+          stops.sort(function (a, b) { return a.off - b.off; });
+          if (t <= stops[0].off) return stops[0].rgb;
+          for (var i = 0; i < stops.length - 1; i++) {
+            var a = stops[i], b = stops[i + 1];
+            if (t >= a.off && t <= b.off) {
+              var f = (t - a.off) / ((b.off - a.off) || 1);
+              return [0, 1, 2].map(function (k) { return Math.round(a.rgb[k] + (b.rgb[k] - a.rgb[k]) * f); });
+            }
+          }
+          return stops[stops.length - 1].rgb;
+        }
+      };
+    },
     save: function () { stack.push({ tx: ctx.tx, ty: ctx.ty }); },
     restore: function () { var s = stack.pop(); ctx.tx = s ? s.tx : 0; ctx.ty = s ? s.ty : 0; },
     translate: function (x, y) { ctx.tx += x; ctx.ty += y; },
@@ -49,12 +70,13 @@ function makeCtx(w, h) {
       rw = Math.round(rw); rh = Math.round(rh);
       for (var yy = y; yy < y + rh; yy++) {
         if (yy < 0 || yy >= h) continue;
+        var rgb = st.grad ? st.grad.at(yy) : st.rgb;
         for (var xx = x; xx < x + rw; xx++) {
           if (xx < 0 || xx >= w) continue;
           var i = (yy * w + xx) * 3;
-          buf[i] = Math.round(st.rgb[0] * alpha + buf[i] * (1 - alpha));
-          buf[i + 1] = Math.round(st.rgb[1] * alpha + buf[i + 1] * (1 - alpha));
-          buf[i + 2] = Math.round(st.rgb[2] * alpha + buf[i + 2] * (1 - alpha));
+          buf[i] = Math.round(rgb[0] * alpha + buf[i] * (1 - alpha));
+          buf[i + 1] = Math.round(rgb[1] * alpha + buf[i + 1] * (1 - alpha));
+          buf[i + 2] = Math.round(rgb[2] * alpha + buf[i + 2] * (1 - alpha));
         }
       }
     },
@@ -160,18 +182,20 @@ function shot(name, levelIdx, atSeconds, opts) {
 if (process.argv.length >= 4) {
   shot('cli-shot', parseInt(process.argv[2], 10) - 1, parseFloat(process.argv[3]), { godmode: true });
 } else {
-  /* default gallery set */
-  shot('n1-l5-wasps-cube', 4, 14, { godmode: true });
-  shot('n2-l5-miniboss', 4, 42, { godmode: true });
-  shot('n3-l5-boss4', 4, 66, { godmode: true });
-  shot('n4-l6-curtain', 5, 10, { godmode: true });
-  shot('n5-l7-manta-dive', 6, 12, { godmode: true });
-  shot('n6-l14-final-boss', 13, 96, { godmode: true });
-  shot('n8-ammo-hud', 0, 12, { godmode: true, player: { ammo: 348, ammoGain: 2, maxHp: 6 } });
-  shot('n9-aim-tracer', 4, 14, { godmode: true, aim: true });
-  shot('n10-missiles', 4, 14, { godmode: true, aim: true, player: { missiles: 7, ammo: 120, ammoGain: 2, maxHp: 6 } });
-  shot('n11-aim-spread', 4, 20, { godmode: true, aim: true, mode: 'spread' });
-  shot('p1-new-pickups', 4, 14, {
+  /* default gallery: one scenery shot per campaign unit + boss beats */
+  shot('s1-l1-drift', 0, 20, { godmode: true });
+  shot('s2-l2-swarm', 1, 40, { godmode: true });
+  shot('s3-l3-graveyard', 2, 70, { godmode: true });
+  shot('s4-l4-blockade', 3, 45, { godmode: true });
+  shot('s5-l5-turbulence', 4, 55, { godmode: true });
+  shot('s6-l1-boss1', 0, 183, { godmode: true });
+  shot('s7-l4-boss4', 3, 183, { godmode: true });
+  shot('s8-l5-boss6', 4, 183, { godmode: true });
+  shot('s9-ammo-hud', 0, 12, { godmode: true, player: { ammo: 348, ammoGain: 2, maxHp: 6 } });
+  shot('s10-aim-tracer', 0, 14, { godmode: true, aim: true });
+  shot('s11-missiles', 0, 14, { godmode: true, aim: true, player: { missiles: 7, ammo: 120, ammoGain: 2, maxHp: 6 } });
+  shot('s12-aim-spread', 0, 20, { godmode: true, aim: true, mode: 'spread' });
+  shot('p1-new-pickups', 0, 14, {
     godmode: true, aim: true,
     setup: function (rt) {
       rt.player.y = 46;
@@ -180,7 +204,7 @@ if (process.argv.length >= 4) {
       rt.powerups.push({ x: 110, y: 62, type: 'life', age: 0.6 });
     }
   });
-  shot('p2-wingmen', 4, 14, {
+  shot('p2-wingmen', 0, 14, {
     godmode: true, aim: true, tail: 0.5,
     setup: function (rt) {
       rt.player.y = 30;
@@ -188,7 +212,7 @@ if (process.argv.length >= 4) {
       rt.player.optionY = [33.5, 52];
     }
   });
-  shot('p3-boomerang', 4, 14, {
+  shot('p3-boomerang', 0, 14, {
     godmode: true, aim: true, tail: 0.35,
     setup: function (rt) {
       rt.player.mode = 'boomerang';
@@ -196,7 +220,7 @@ if (process.argv.length >= 4) {
       rt.player.cooldown = 0;
     }
   });
-  shot('p4-aim-item', 4, 14, {
+  shot('p4-aim-item', 0, 14, {
     godmode: true, aim: true,
     setup: function (rt) {
       rt.player.y = 46;

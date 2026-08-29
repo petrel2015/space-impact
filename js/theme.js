@@ -71,6 +71,23 @@
   var ORDER = ['retro', 'night', 'paper'];
   var current = 'retro';
 
+  /* Per-level scenery: the five《归途》campaign units' palettes (same
+     values as the lore-book banners, test/make-lore-images.js UNITS).
+     While a scene is active the playfield paints a bgTop→bgBot gradient
+     with accent ink and dim stars; levels without an entry (custom
+     uploads) keep the plain theme LCD look. */
+  var LEVEL_SCENES = {
+    1: { bgTop: '#4a4136', bgBot: '#16120e', accent: '#e0b36a', dim: '#7d6b4c' },
+    2: { bgTop: '#472052', bgBot: '#130a1a', accent: '#ff8fb8', dim: '#8a4a72' },
+    3: { bgTop: '#1d2c52', bgBot: '#090c18', accent: '#7fd8ff', dim: '#3f5f8a' },
+    4: { bgTop: '#4c1f1c', bgBot: '#150808', accent: '#ffa25c', dim: '#8a4a3a' },
+    5: { bgTop: '#23305e', bgBot: '#0b1320', accent: '#7dffe8', dim: '#4a6a9a' }
+  };
+
+  function levelScene(id) {
+    return LEVEL_SCENES[id] || null;
+  }
+
   function detect() {
     var saved = null;
     try { saved = global.localStorage && global.localStorage.getItem(STORE_KEY); } catch (e) {}
@@ -109,8 +126,10 @@
   SI.theme = {
     THEMES: THEMES,
     ORDER: ORDER,
+    LEVEL_SCENES: LEVEL_SCENES,
     get current() { return current; },
     def: currentDef,
+    levelScene: levelScene,
     setTheme: setTheme,
     apply: apply
   };

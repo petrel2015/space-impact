@@ -10,6 +10,7 @@ require('../js/sprites.js');
 require('../js/behaviors.js');
 require('../js/engine.js');
 require('../js/render.js');
+require('../js/level-template.js');
 
 var fs = require('fs');
 var path = require('path');
@@ -18,9 +19,9 @@ var fails = 0;
 function check(cond, msg) { if (!cond) { fails++; console.error('FAIL: ' + msg); } }
 
 var defs = SI.engine.compileEnemies(JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data/enemies.json'), 'utf8')));
-var levels = JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data/levels.json'), 'utf8')).levels.map(function (f) {
-  return SI.engine.compileLevel(JSON.parse(fs.readFileSync(path.join(__dirname, '..', 'data', f), 'utf8')), defs);
-});
+/* the custom-level template has no scenery entry, so the renderer stays
+   on the plain theme LCD palette this test asserts pixel colors against */
+var levels = [SI.engine.compileLevel(JSON.parse(JSON.stringify(SI.levelTemplate)), defs)];
 
 /* pixel-recording 2D context: fillRect(x,y,w,h) lights w×h pixels */
 function makeCtx(w, h) {
@@ -32,6 +33,7 @@ function makeCtx(w, h) {
     get fillStyle() { return color; },
     get globalAlpha() { return alpha; },
     set globalAlpha(v) { alpha = v; },
+    createLinearGradient: function () { return { addColorStop: function () {} }; },
     save: function () {}, restore: function () {}, translate: function () {},
     fillRect: function (x, y, rw, rh) {
       x = Math.round(x); y = Math.round(y); rw = Math.round(rw); rh = Math.round(rh);

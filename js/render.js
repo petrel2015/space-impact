@@ -122,14 +122,30 @@
   function draw(ctx, rt, opts) {
     var o = opts || {};
     var lcd = SI.theme.def().lcd;
+    /* campaign scenery: on the five built-in units the playfield paints
+       the unit's gradient with accent ink + dim stars; HUD strips and
+       status boxes keep the theme LCD chrome; custom levels → classic */
+    var scene = SI.theme.levelScene(rt.levelId);
+    var pal = scene ? { bg: lcd.bg, ink: scene.accent, dim: scene.dim } : lcd;
     var W = rt.W, H = rt.H;
     var p = rt.player;
 
-    ctx.fillStyle = lcd.bg;
-    ctx.fillRect(0, 0, W, H);
+    if (scene) {
+      var grad = ctx.createLinearGradient(0, HUD_LINE_TOP_Y, 0, H - 8);
+      grad.addColorStop(0, scene.bgTop);
+      grad.addColorStop(1, scene.bgBot);
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, W, H);
+      ctx.fillStyle = lcd.bg;
+      ctx.fillRect(0, 0, W, HUD_LINE_TOP_Y);
+      ctx.fillRect(0, H - 8, W, 8);
+    } else {
+      ctx.fillStyle = lcd.bg;
+      ctx.fillRect(0, 0, W, H);
+    }
 
     /* starfield (playfield only, mapped onto this field height) */
-    ctx.fillStyle = lcd.dim;
+    ctx.fillStyle = pal.dim;
     for (var s = 0; s < STARS.length; s++) {
       var star = STARS[s];
       var sx = (star.x - rt.t * star.v) % W;
@@ -152,22 +168,22 @@
       var pu = rt.powerups[i];
       var blink = Math.floor(pu.age * 5) % 2 === 0;
       sprite(ctx, POWERUP_SPRITES[pu.type], Math.floor(pu.x) - 3, Math.floor(pu.y) - 3,
-        { color: blink ? lcd.ink : lcd.dim });
+        { color: blink ? pal.ink : pal.dim });
     }
 
     /* enemies */
     for (var e = 0; e < rt.enemies.length; e++) {
       var en = rt.enemies[e];
-      sprite(ctx, en.def.sprite, Math.floor(en.x), Math.floor(en.y), { color: lcd.ink });
+      sprite(ctx, en.def.sprite, Math.floor(en.x), Math.floor(en.y), { color: pal.ink });
     }
 
     /* player bullets (missiles get a warhead + flickering exhaust) */
     for (var b = 0; b < rt.bullets.length; b++) {
       var bl = rt.bullets[b];
       if (bl.missile) {
-        ctx.fillStyle = lcd.ink;
+        ctx.fillStyle = pal.ink;
         ctx.fillRect(Math.floor(bl.x) - 2, Math.floor(bl.y) - 1, 4, 3);
-        ctx.fillStyle = lcd.dim;
+        ctx.fillStyle = pal.dim;
         var ex = Math.floor(bl.x) - 3 - (Math.floor(rt.t * 30) % 2);
         ctx.fillRect(ex, Math.floor(bl.y), 3, 1);
         continue;
@@ -175,7 +191,7 @@
       if (bl.boomerang) {
         /* spinning blade: horizontal ↔ vertical bar swap reads as rotation */
         var rgx = Math.floor(bl.x), rgy = Math.floor(bl.y);
-        ctx.fillStyle = lcd.ink;
+        ctx.fillStyle = pal.ink;
         if (Math.floor(rt.t * 20) % 2 === 0) {
           ctx.fillRect(rgx - 2, rgy, 5, 1);
           ctx.fillRect(rgx, rgy - 1, 1, 3);
@@ -185,21 +201,21 @@
         }
         continue;
       }
-      ctx.fillStyle = lcd.ink;
+      ctx.fillStyle = pal.ink;
       ctx.fillRect(Math.floor(bl.x - bl.w / 2), Math.floor(bl.y - bl.h / 2), bl.w, bl.h);
     }
 
     /* enemy bullets */
     for (var eb = 0; eb < rt.ebullets.length; eb++) {
       var q = rt.ebullets[eb];
-      sprite(ctx, 'ebullet', Math.floor(q.x) - 1, Math.floor(q.y) - 1, { color: lcd.ink });
+      sprite(ctx, 'ebullet', Math.floor(q.x) - 1, Math.floor(q.y) - 1, { color: pal.ink });
     }
 
     /* player (blink while invulnerable) */
     if (rt.status !== 'over' && !(p.invuln > 0 && Math.floor(p.invuln * 10) % 2 === 0)) {
-      sprite(ctx, 'player', Math.floor(p.x), Math.floor(p.y), { color: lcd.ink });
+      sprite(ctx, 'player', Math.floor(p.x), Math.floor(p.y), { color: pal.ink });
       if (p.shield > 0) {
-        ctx.fillStyle = lcd.dim;
+        ctx.fillStyle = pal.dim;
         ctx.fillRect(Math.floor(p.x) - 2, Math.floor(p.y) - 2, p.w + 4, 1);
         ctx.fillRect(Math.floor(p.x) - 2, Math.floor(p.y) + p.h + 1, p.w + 4, 1);
         ctx.fillRect(Math.floor(p.x) - 2, Math.floor(p.y) - 2, 1, p.h + 4);
@@ -211,7 +227,7 @@
     if (rt.status !== 'over') {
       for (var wo = 0; wo < p.options; wo++) {
         var wpos = SI.engine.optionPos(p, wo);
-        sprite(ctx, 'playerMini', Math.floor(wpos.x), Math.floor(wpos.y) - 1, { color: lcd.ink });
+        sprite(ctx, 'playerMini', Math.floor(wpos.x), Math.floor(wpos.y) - 1, { color: pal.ink });
       }
     }
 
@@ -221,21 +237,21 @@
       var frame = pt.age / pt.ttl < 0.33 ? 'ex1' : (pt.age / pt.ttl < 0.66 ? 'ex2' : 'ex3');
       sprite(ctx, frame, Math.floor(pt.x - (frame === 'ex1' ? 2.5 : frame === 'ex2' ? 3.5 : 4.5) * pt.scale),
         Math.floor(pt.y - (frame === 'ex1' ? 2.5 : frame === 'ex2' ? 3.5 : 4.5) * pt.scale),
-        { scale: pt.scale, color: lcd.ink });
+        { scale: pt.scale, color: pal.ink });
     }
 
     /* special beam */
     if (rt.beam) {
       var by = Math.floor(rt.beam.y);
-      ctx.fillStyle = lcd.ink;
+      ctx.fillStyle = pal.ink;
       ctx.fillRect(0, by - 1, W, 3);
-      ctx.fillStyle = lcd.dim;
+      ctx.fillStyle = pal.dim;
       ctx.fillRect(0, by - 3, W, 1);
       ctx.fillRect(0, by + 2, W, 1);
     }
 
     /* aim tracer sits on top of the world, under HUD and overlays */
-    if (p.aimTimer > 0 && rt.status !== 'over') drawAim(ctx, rt, lcd);
+    if (p.aimTimer > 0 && rt.status !== 'over') drawAim(ctx, rt, pal);
 
     ctx.restore();
 
@@ -287,11 +303,11 @@
     if (boss) {
       var bw = 60;
       var bxx = Math.floor((W - bw) / 2);
-      ctx.fillStyle = lcd.dim;
+      ctx.fillStyle = pal.dim;
       ctx.fillRect(bxx - 1, 9, bw + 2, 3);
-      ctx.fillStyle = lcd.bg;
+      ctx.fillStyle = scene ? scene.bgTop : lcd.bg;
       ctx.fillRect(bxx, 10, bw, 1);
-      ctx.fillStyle = lcd.ink;
+      ctx.fillStyle = pal.ink;
       ctx.fillRect(bxx, 10, Math.max(0, Math.round(bw * boss.hp / boss.maxHp)), 1);
     }
 
@@ -309,7 +325,7 @@
     /* flash overlay */
     if (rt.flash > 0) {
       ctx.globalAlpha = Math.min(0.4, rt.flash * 0.5);
-      ctx.fillStyle = lcd.ink;
+      ctx.fillStyle = pal.ink;
       ctx.fillRect(0, 0, W, H);
       ctx.globalAlpha = 1;
     }

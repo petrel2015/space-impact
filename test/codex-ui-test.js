@@ -43,7 +43,8 @@ function ctxStub() {
     clearRect: function () {}, fillRect: function () {}, fillText: function () {},
     save: function () {}, restore: function () {}, beginPath: function () {},
     moveTo: function () {}, lineTo: function () {}, stroke: function () {},
-    setLineDash: function () {}, translate: function () {}, drawImage: function () {}
+    setLineDash: function () {}, translate: function () {}, drawImage: function () {},
+    createLinearGradient: function () { return { addColorStop: function () {} }; }
   };
 }
 
