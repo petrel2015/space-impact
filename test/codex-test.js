@@ -145,6 +145,10 @@ SI.i18n.setLang('en');
 check(SI.Codex.enemyName('drone') === 'Drone', 'en enemyName should localize');
 
 /* ── every enemy shows up in some built-in level (hint coverage) ── */
+/* Loop-only variants stay out of the 5-level campaign on purpose — they
+   are reserved for the second playthrough (difficulty loop), so their
+   locked cards carry no first-appearance hint. */
+var LOOP_ONLY = ['boss2b', 'boss4b', 'boss5', 'boss5b', 'boss6b'];
 var index = readJson('data/levels.json');
 var referenced = {};
 index.levels.forEach(function (file) {
@@ -154,7 +158,7 @@ index.levels.forEach(function (file) {
   });
 });
 Object.keys(enemies).forEach(function (id) {
-  check(referenced[id] != null,
+  check(referenced[id] != null || LOOP_ONLY.indexOf(id) >= 0,
     'enemy ' + id + ' appears in no built-in level — codex hint would be empty');
 });
 

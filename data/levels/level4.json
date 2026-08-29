@@ -1,42 +1,10 @@
 {
   "id": 4,
   "lore": "docs/lore/level-04.md",
-  "difficulty": 1.2,
+  "difficulty": 1.35,
   "events": [
     {
       "t": 5.0,
-      "enemy": "drone",
-      "count": 6,
-      "interval": 0.3,
-      "formation": "lineV",
-      "y": 0.5
-    },
-    {
-      "t": 19.0,
-      "enemy": "chaser",
-      "count": 5,
-      "interval": 0.35,
-      "formation": "scatter",
-      "y": 0.5
-    },
-    {
-      "t": 32.0,
-      "enemy": "sting",
-      "count": 4,
-      "interval": 0.45,
-      "formation": "lineH",
-      "y": 0.3
-    },
-    {
-      "t": 46.0,
-      "enemy": "sting",
-      "count": 4,
-      "interval": 0.45,
-      "formation": "lineH",
-      "y": 0.7
-    },
-    {
-      "t": 60.0,
       "enemy": "gunner",
       "count": 1,
       "interval": 1,
@@ -44,7 +12,15 @@
       "y": 0.25
     },
     {
-      "t": 75.0,
+      "t": 12.0,
+      "enemy": "bomber",
+      "count": 1,
+      "interval": 1,
+      "formation": "single",
+      "y": 0.45
+    },
+    {
+      "t": 20.0,
       "enemy": "gunner",
       "count": 1,
       "interval": 1,
@@ -52,56 +28,136 @@
       "y": 0.75
     },
     {
-      "t": 88.0,
-      "enemy": "spinner",
+      "t": 27.0,
+      "enemy": "bomber",
       "count": 1,
       "interval": 1,
       "formation": "single",
+      "y": 0.55
+    },
+    {
+      "t": 34.0,
+      "enemy": "crab",
+      "count": 1,
+      "interval": 1,
+      "formation": "single",
+      "y": 0.35
+    },
+    {
+      "t": 42.0,
+      "enemy": "crab",
+      "count": 2,
+      "interval": 2.5,
+      "formation": "scatter",
+      "y": 0.65
+    },
+    {
+      "t": 52.0,
+      "enemy": "crab",
+      "count": 2,
+      "interval": 2.5,
+      "formation": "scatter",
+      "y": 0.4
+    },
+    {
+      "t": 63.0,
+      "enemy": "crab",
+      "count": 1,
+      "interval": 1,
+      "formation": "single",
+      "y": 0.55
+    },
+    {
+      "t": 66.0,
+      "enemy": "lasher",
+      "count": 2,
+      "interval": 1.5,
+      "formation": "lineH",
       "y": 0.3
     },
     {
-      "t": 103.0,
-      "enemy": "spinner",
+      "t": 76.0,
+      "enemy": "crab",
       "count": 1,
       "interval": 1,
       "formation": "single",
       "y": 0.7
     },
     {
-      "t": 117.0,
-      "enemy": "bomber",
+      "t": 86.0,
+      "enemy": "lasher",
+      "count": 2,
+      "interval": 1.5,
+      "formation": "lineH",
+      "y": 0.6
+    },
+    {
+      "t": 95.0,
+      "enemy": "mb1",
       "count": 1,
       "interval": 1,
       "formation": "single",
-      "y": 0.3
+      "y": 0.35
     },
     {
-      "t": 131.0,
-      "enemy": "bomber",
-      "count": 1,
-      "interval": 1,
-      "formation": "single",
-      "y": 0.7
-    },
-    {
-      "t": 145.0,
-      "enemy": "bat",
-      "count": 6,
-      "interval": 0.25,
-      "formation": "stagger",
+      "t": 108.0,
+      "enemy": "crab",
+      "count": 2,
+      "interval": 2.5,
+      "formation": "scatter",
       "y": 0.5
     },
     {
-      "t": 159.0,
-      "enemy": "rock",
-      "count": 5,
-      "interval": 0.4,
+      "t": 118.0,
+      "enemy": "lasher",
+      "count": 3,
+      "interval": 1.2,
+      "formation": "lineH",
+      "y": 0.4
+    },
+    {
+      "t": 125.0,
+      "enemy": "mb2",
+      "count": 1,
+      "interval": 1,
+      "formation": "single",
+      "y": 0.6
+    },
+    {
+      "t": 138.0,
+      "enemy": "bastion",
+      "count": 1,
+      "interval": 1,
+      "formation": "single",
+      "y": 0.3
+    },
+    {
+      "t": 150.0,
+      "enemy": "gunner",
+      "count": 2,
+      "interval": 1.5,
       "formation": "scatter",
       "y": 0.7
     },
     {
+      "t": 160.0,
+      "enemy": "bastion",
+      "count": 1,
+      "interval": 1,
+      "formation": "single",
+      "y": 0.65
+    },
+    {
+      "t": 170.0,
+      "enemy": "bomber",
+      "count": 3,
+      "interval": 2.0,
+      "formation": "scatter",
+      "y": 0.45
+    },
+    {
       "t": 178,
-      "boss": "boss3"
+      "boss": "boss4"
     }
   ]
 }

@@ -104,9 +104,10 @@ function done() {
 
 function $(id) { return d.getElementById(id); }
 function sleep(ms) { return new Promise(function (r) { w.setTimeout(r, ms); }); }
-function until(cond) {
+function until(cond, maxPolls) {
+  var max = maxPolls || 300;
   return (function poll(i) {
-    return cond() ? Promise.resolve(true) : (i > 300 ? Promise.resolve(false) : sleep(10).then(function () { return poll(i + 1); }));
+    return cond() ? Promise.resolve(true) : (i > max ? Promise.resolve(false) : sleep(10).then(function () { return poll(i + 1); }));
   })(0);
 }
 function pressKey(key) {
@@ -167,17 +168,19 @@ function run() {
       check(stored && stored.indexOf('drone') >= 0 && stored.indexOf('heal') >= 0,
         'T5 codex state persisted to localStorage');
 
-      /* ── T6 close, run the game, per-frame discovery hook ── */
-      d.dispatchEvent(new w.KeyboardEvent('keydown', { key: 'Escape' }));
-      check($('codex-dialog').hidden, 'T6 Escape closes codex');
-      w.SI.i18n.setLang('zh');
-      $('btn-start').click();
-      check($('screen-play') && !$('screen-play').hidden, 'T6 game screen visible');
-      return until(function () { return w.SI.Codex.isEnemySeen('drone') || false; })
-        .then(function (marked) {
-          /* level 1 spawns its first drones at t=5s — the frame loop hook
-             should mark them without any direct call */
-          check(marked, 'T6 per-frame discovery hook marks spawned drones');
+          /* ── T6 close, run the game, per-frame discovery hook ── */
+          d.dispatchEvent(new w.KeyboardEvent('keydown', { key: 'Escape' }));
+          check($('codex-dialog').hidden, 'T6 Escape closes codex');
+          w.SI.i18n.setLang('zh');
+          $('btn-start').click();
+          check($('screen-play') && !$('screen-play').hidden, 'T6 game screen visible');
+          /* rock is not pre-marked by T4 (that was drone), so this is a real
+             end-to-end check: the first rocks spawn at t=5s game time */
+          return until(function () { return w.SI.Codex.isEnemySeen('rock') || false; }, 900)
+            .then(function (marked) {
+              /* level 1 spawns its first rocks at t=5s — the frame loop hook
+                 should mark them without any direct call */
+              check(marked, 'T6 per-frame discovery hook marks spawned rocks');
           pressKey('p');
           return until(function () { return !$('ov-pause').hidden; });
         })

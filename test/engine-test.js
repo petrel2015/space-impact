@@ -88,11 +88,11 @@ levels.forEach(function (lvl) {
     'level ' + lvl.id + ' not completed within ' + cap + 's (status=' + rt.status + ', t=' + rt.t.toFixed(1) + ')');
 });
 
-/* 2. mid-boss death must NOT clear the level (level 8 has mb1 + end boss) */
+/* 2. mid-boss death must NOT clear the level (level 4 has mb1+mb2 + end boss) */
 (function () {
-  var rt = SI.engine.createRuntime({ defs: defs, level: levels[7], seed: 11, difficulty: 1.2 });
+  var rt = SI.engine.createRuntime({ defs: defs, level: levels[3], seed: 11, difficulty: 1.2 });
   var sawBigDie = false;
-  var steps = Math.floor(150 / STEP);   /* mb1 shows up around t≈137 */
+  var steps = Math.floor(150 / STEP);   /* mb1 shows up around t≈95, mb2 at t≈125 */
   for (var i = 0; i < steps; i++) {
     rt.player.invuln = 1;
     SI.engine.step(rt, { up: false, down: false, left: false, right: false, fire: true, special: false }, STEP);
@@ -104,7 +104,7 @@ levels.forEach(function (lvl) {
     }
     rt.events.length = 0;
   }
-  check(sawBigDie, 'expected a mid-boss/big enemy death on level 8');
+  check(sawBigDie, 'expected a mid-boss/big enemy death on level 4');
 })();
 
 /* 3. passive player dies eventually on level 2 (difficulty is real) */
@@ -226,20 +226,21 @@ levels.forEach(function (lvl) {
     rt.events.length = 0;
   }
   check(more === 2, 'refilled rounds should fire exactly twice, got ' + more);
-  /* kills recoup ammo on gain tiers: level 6 opens with a crab at t=5 */
-  var crabRt = SI.engine.createRuntime({ defs: defs, level: levels[5], seed: 5, difficulty: 1 });
-  crabRt.player.ammo = 200;
-  crabRt.player.ammoGain = 2;
+  /* kills recoup ammo on gain tiers: level 4's opening bomber (t=12,
+     y=0.45) crosses the stationary gunner's row and dies */
+  var gainRt = SI.engine.createRuntime({ defs: defs, level: levels[3], seed: 5, difficulty: 1 });
+  gainRt.player.ammo = 200;
+  gainRt.player.ammoGain = 2;
   var recouped = false, killed = false, prev;
-  for (var k = 0; k < 600 && !recouped; k++) {
-    crabRt.player.invuln = 1;
-    prev = crabRt.player.ammo;
-    SI.engine.step(crabRt, input, STEP);
-    if (crabRt.events.some(function (e) { return e.type === 'explode' || e.type === 'bigExplode'; })) killed = true;
-    if (crabRt.player.ammo > prev) recouped = true;   /* ammo only ever rises via kills */
+  for (var k = 0; k < 3000 && !recouped; k++) {
+    gainRt.player.invuln = 1;
+    prev = gainRt.player.ammo;
+    SI.engine.step(gainRt, input, STEP);
+    if (gainRt.events.some(function (e) { return e.type === 'explode' || e.type === 'bigExplode'; })) killed = true;
+    if (gainRt.player.ammo > prev) recouped = true;   /* ammo only ever rises via kills */
     rt.events.length = 0;
   }
-  check(killed, 'crab never died — test setup wrong');
+  check(killed, 'opening bomber never died — test setup wrong');
   check(recouped, 'kill did not recoup ammo on a gain tier');
 })();
 

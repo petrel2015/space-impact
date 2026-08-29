@@ -1,95 +1,135 @@
 {
   "id": 2,
   "lore": "docs/lore/level-02.md",
-  "difficulty": 1.05,
+  "difficulty": 1.1,
   "events": [
     {
       "t": 5.0,
-      "enemy": "drone",
+      "enemy": "wasp",
       "count": 5,
       "interval": 0.4,
-      "formation": "lineV",
-      "y": 0.25
+      "formation": "scatter",
+      "y": 0.4
     },
     {
-      "t": 21.0,
-      "enemy": "drone",
+      "t": 15.0,
+      "enemy": "wasp",
       "count": 5,
       "interval": 0.4,
-      "formation": "lineV",
-      "y": 0.75
+      "formation": "scatter",
+      "y": 0.6
     },
     {
-      "t": 35.0,
-      "enemy": "sting",
-      "count": 3,
-      "interval": 0.5,
-      "formation": "lineH",
+      "t": 26.0,
+      "enemy": "wasp",
+      "count": 7,
+      "interval": 0.3,
+      "formation": "stagger",
       "y": 0.5
     },
     {
-      "t": 50.0,
-      "enemy": "bat",
-      "count": 4,
-      "interval": 0.3,
-      "formation": "stagger",
-      "y": 0.35
-    },
-    {
-      "t": 64.0,
-      "enemy": "bat",
-      "count": 4,
-      "interval": 0.3,
-      "formation": "stagger",
-      "y": 0.65
-    },
-    {
-      "t": 78.0,
-      "enemy": "gunner",
-      "count": 1,
-      "interval": 1,
-      "formation": "single",
+      "t": 34.0,
+      "enemy": "sting",
+      "count": 3,
+      "interval": 0.8,
+      "formation": "lineH",
       "y": 0.3
     },
     {
-      "t": 93.0,
-      "enemy": "gunner",
-      "count": 1,
-      "interval": 1,
-      "formation": "single",
+      "t": 45.0,
+      "enemy": "sting",
+      "count": 3,
+      "interval": 0.8,
+      "formation": "lineH",
       "y": 0.7
     },
     {
-      "t": 109.0,
+      "t": 56.0,
+      "enemy": "sting",
+      "count": 4,
+      "interval": 0.7,
+      "formation": "lineH",
+      "y": 0.5
+    },
+    {
+      "t": 66.0,
       "enemy": "chaser",
       "count": 3,
-      "interval": 0.4,
+      "interval": 0.8,
+      "formation": "scatter",
+      "y": 0.35
+    },
+    {
+      "t": 77.0,
+      "enemy": "chaser",
+      "count": 3,
+      "interval": 0.8,
+      "formation": "scatter",
+      "y": 0.65
+    },
+    {
+      "t": 88.0,
+      "enemy": "chaser",
+      "count": 4,
+      "interval": 0.7,
       "formation": "scatter",
       "y": 0.5
     },
     {
-      "t": 122.0,
-      "enemy": "rock",
+      "t": 97.0,
+      "enemy": "wasp",
+      "count": 8,
+      "interval": 0.3,
+      "formation": "lineV",
+      "y": 0.3
+    },
+    {
+      "t": 106.0,
+      "enemy": "sting",
       "count": 3,
-      "interval": 0.6,
-      "formation": "scatter",
+      "interval": 0.8,
+      "formation": "lineH",
+      "y": 0.6
+    },
+    {
+      "t": 116.0,
+      "enemy": "wasp",
+      "count": 8,
+      "interval": 0.3,
+      "formation": "lineV",
       "y": 0.7
     },
     {
-      "t": 136.0,
-      "enemy": "sting",
+      "t": 127.0,
+      "enemy": "chaser",
       "count": 4,
-      "interval": 0.5,
-      "formation": "lineH",
+      "interval": 0.7,
+      "formation": "scatter",
+      "y": 0.45
+    },
+    {
+      "t": 138.0,
+      "enemy": "wasp",
+      "count": 10,
+      "interval": 0.25,
+      "formation": "stagger",
       "y": 0.5
     },
     {
       "t": 150.0,
-      "enemy": "spinner",
-      "count": 1,
-      "interval": 1,
-      "formation": "single",
-      "y": 0.5
+      "enemy": "sting",
+      "count": 4,
+      "interval": 0.7,
+      "formation": "lineH",
+      "y": 0.35
+    },
+    {
+      "t": 160.0,
+      "enemy": "chaser",
+      "count": 4,
+      "interval": 0.7,
+      "formation": "scatter",
+      "y": 0.6
     },
     {
       "t": 178,

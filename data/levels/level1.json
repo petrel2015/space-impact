@@ -5,99 +5,131 @@
   "events": [
     {
       "t": 5.0,
-      "enemy": "drone",
-      "count": 4,
-      "interval": 0.5,
-      "formation": "lineV",
-      "y": 0.3
+      "enemy": "rock",
+      "count": 3,
+      "interval": 1.5,
+      "formation": "scatter",
+      "y": 0.35
     },
     {
-      "t": 21.0,
-      "enemy": "drone",
-      "count": 4,
-      "interval": 0.5,
-      "formation": "lineV",
-      "y": 0.7
+      "t": 16.0,
+      "enemy": "rock",
+      "count": 3,
+      "interval": 1.5,
+      "formation": "scatter",
+      "y": 0.6
     },
     {
-      "t": 35.0,
+      "t": 27.0,
+      "enemy": "rock",
+      "count": 2,
+      "interval": 2.0,
+      "formation": "scatter",
+      "y": 0.45
+    },
+    {
+      "t": 33.0,
       "enemy": "bat",
       "count": 3,
-      "interval": 0.3,
+      "interval": 0.4,
+      "formation": "stagger",
+      "y": 0.4
+    },
+    {
+      "t": 44.0,
+      "enemy": "bat",
+      "count": 3,
+      "interval": 0.4,
+      "formation": "stagger",
+      "y": 0.6
+    },
+    {
+      "t": 55.0,
+      "enemy": "bat",
+      "count": 4,
+      "interval": 0.35,
       "formation": "stagger",
       "y": 0.5
     },
     {
-      "t": 49.0,
-      "enemy": "drone",
-      "count": 5,
-      "interval": 0.45,
-      "formation": "lineH",
-      "y": 0.25
-    },
-    {
       "t": 63.0,
-      "enemy": "bat",
-      "count": 3,
-      "interval": 0.3,
-      "formation": "stagger",
-      "y": 0.65
-    },
-    {
-      "t": 77.0,
-      "enemy": "sting",
+      "enemy": "manta",
       "count": 2,
-      "interval": 1.2,
-      "formation": "single",
-      "y": 0.35
-    },
-    {
-      "t": 92.0,
-      "enemy": "rock",
-      "count": 2,
-      "interval": 0.8,
+      "interval": 1.5,
       "formation": "scatter",
       "y": 0.3
     },
     {
-      "t": 107.0,
-      "enemy": "drone",
-      "count": 6,
-      "interval": 0.35,
-      "formation": "lineV",
-      "y": 0.5
+      "t": 74.0,
+      "enemy": "manta",
+      "count": 2,
+      "interval": 1.5,
+      "formation": "scatter",
+      "y": 0.65
     },
     {
-      "t": 120.0,
-      "enemy": "drone",
-      "count": 4,
-      "interval": 0.5,
-      "formation": "lineV",
+      "t": 85.0,
+      "enemy": "manta",
+      "count": 3,
+      "interval": 1.2,
+      "formation": "scatter",
+      "y": 0.45
+    },
+    {
+      "t": 96.0,
+      "enemy": "rock",
+      "count": 3,
+      "interval": 1.2,
+      "formation": "scatter",
       "y": 0.3
     },
     {
-      "t": 136.0,
-      "enemy": "drone",
+      "t": 103.0,
+      "enemy": "bat",
       "count": 4,
-      "interval": 0.5,
-      "formation": "lineV",
-      "y": 0.7
+      "interval": 0.35,
+      "formation": "stagger",
+      "y": 0.55
     },
     {
-      "t": 150.0,
-      "enemy": "bat",
+      "t": 114.0,
+      "enemy": "rock",
       "count": 3,
-      "interval": 0.3,
-      "formation": "stagger",
+      "interval": 1.2,
+      "formation": "scatter",
+      "y": 0.65
+    },
+    {
+      "t": 126.0,
+      "enemy": "rock",
+      "count": 4,
+      "interval": 1.0,
+      "formation": "scatter",
+      "y": 0.25
+    },
+    {
+      "t": 137.0,
+      "enemy": "rock",
+      "count": 4,
+      "interval": 1.0,
+      "formation": "scatter",
       "y": 0.5
     },
     {
-      "t": 164.0,
-      "enemy": "drone",
-      "count": 5,
-      "interval": 0.45,
-      "formation": "lineH",
-      "y": 0.25
+      "t": 148.0,
+      "enemy": "rock",
+      "count": 4,
+      "interval": 1.0,
+      "formation": "scatter",
+      "y": 0.7
+    },
+    {
+      "t": 158.0,
+      "enemy": "bat",
+      "count": 4,
+      "interval": 0.35,
+      "formation": "stagger",
+      "y": 0.5
     },
     {
       "t": 178,
