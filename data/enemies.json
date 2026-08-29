@@ -211,7 +211,7 @@
         {
           "id": "spawn",
           "params": {
-            "enemy": "drone",
+            "enemy": "wasp",
             "count": 2
           }
         },
@@ -312,7 +312,7 @@
         {
           "id": "spawn",
           "params": {
-            "enemy": "chaser",
+            "enemy": "drone",
             "count": 2
           }
         },

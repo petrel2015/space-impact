@@ -109,10 +109,13 @@ SI.Codex.init({ data: codexData, defs: defs, firstSeen: {} });
 /* cycle text composes sub-attacks — the composite boss must mention them */
 SI.i18n.setLang('en');
 check(SI.Codex.attackText(defs.boss1).indexOf('→') >= 0, 'cycle attack text should join sub-attacks');
-/* spawn text names the spawned enemy in the current language */
+/* spawn text names the spawned enemy in the current language
+   (boss2 lays wasps — EP02 lore: 蜂后产卵) */
 SI.i18n.setLang('zh');
-check(SI.Codex.attackText(defs.boss2).indexOf('侦察机') >= 0,
-  'spawn attack text should name the spawned enemy (侦察机)');
+check(SI.Codex.attackText(defs.boss2).indexOf('黄蜂') >= 0,
+  'spawn attack text should name the spawned enemy (黄蜂)');
+check(SI.Codex.attackText(defs.boss3).indexOf('侦察机') >= 0,
+  'spawn attack text should name the spawned enemy (侦察机, boss3 放巡逻机)');
 
 /* ── discovery state + persistence ───────────── */
 check(SI.Codex.counts().enemies === 0, 'codex should start empty');
