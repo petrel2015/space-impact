@@ -150,6 +150,7 @@ Create `data/levels/level15.json`:
 - `t` = seconds into the level; `y` = spawn height (0–1); `count`/`interval` = how many + stagger.
 - Formations: `single` / `lineV` / `lineH` / `stagger` / `scatter`.
 - `difficulty` = per-level strength coefficient (0.5–3, default 1).
+- `lore` = optional repo-relative link to the level's page in the [setting book](docs/lore/README.md) (e.g. `docs/lore/level-01.md`); ignored by the engine.
 - Every level needs at least one `boss` event (that's what clears it). Mid-bosses are spawned as normal `enemy` events.
 
 Then register `"levels/level15.json"` in `data/levels.json` (ids must increase) and run `node test/data-test.js` — typos in ids, formations or sprites fail instantly.

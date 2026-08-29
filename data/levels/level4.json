@@ -1,5 +1,6 @@
 {
   "id": 4,
+  "lore": "docs/lore/level-04.md",
   "difficulty": 1.2,
   "events": [
     {

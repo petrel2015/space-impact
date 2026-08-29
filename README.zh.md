@@ -148,6 +148,7 @@ python3 -m http.server 8000
 - `t` = 关卡内秒数；`y` = 生成高度（0–1）；`count`/`interval` = 数量与出场间隔。
 - 编队：`single` / `lineV`（纵列）/ `lineH`（横排）/ `stagger`（错落）/ `scatter`（散布）。
 - `difficulty` = 该关强度系数（0.5–3，默认 1）。
+- `lore` = 可选，指向该关在[设定集](docs/lore/README.md)里的页面（如 `docs/lore/level-01.md`）；引擎编译时忽略，纯文档字段。
 - 每关至少一个 `boss` 事件（击杀即过关）；中 Boss 用普通 `enemy` 事件投放即可。
 
 然后把 `"levels/level15.json"` 加进 `data/levels.json`（id 需递增），跑 `node test/data-test.js`——id、编队、精灵的笔误会当场报错。

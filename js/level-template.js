@@ -17,7 +17,8 @@
       'count / interval: how many spawn and the gap between them.',
       'formation: single | lineV | lineH | stagger | scatter.',
       'y: spawn height 0 (top) ~ 1 (bottom).',
-      'Every level needs exactly one boss event — killing it clears the level.'
+      'Every level needs exactly one boss event — killing it clears the level.',
+      'lore: optional link to the level book page for this level (e.g. docs/lore/level-01.md).'
     ],
     id: 90,
     difficulty: 1,
