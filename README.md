@@ -24,14 +24,15 @@ The whole game is one HTML page with zero framework, zero build step and zero as
 
 ## Game Content
 
-**14 levels · 27 enemy types · 9 movement primitives · 10 attack primitives**
+**5-level story campaign · 27 enemy types · 9 movement primitives · 10 attack primitives**
 
 | Levels | What shows up | Boss |
 |--------|---------------|------|
-| 1–4 | Wave 1 roster: drones, sine bats, asteroids, gunners, chasers, spinners, bombers | Dreadnought · Crab · Fortress |
-| 5–7 | Wave 2 roster joins: zig-zag wasps, curtain-firing crabs, diving mantas, tanks, snipers, spiders | Warbird · Serpent |
-| 8–10 | Mixed chaos, double mid-bosses, a "best of" remix storm | Serpent Ⅱ · Overlord · Fortress rematch |
-| 11–14 | Elite gauntlets, spider nests, everything at once | Overlord → **Overlord Ω** (final) |
+| 1 · The Drift | Drifting rocks, sine-wave bats, dive-bombing mantas — nobody shoots, it's you versus the terrain | Mothership “Rockmaw” |
+| 2 · Swarm Nebula | Zig-zag wasps, lane-holding stings, relentless chasers — speed and numbers, no formations | Broodmother “the Queen” (lays wasps) |
+| 3 · Iron Graveyard | Patrol drones, sentry cubes, spiral spinners, repair spiders — regular, readable bullet patterns | Fortress “Master Brain” |
+| 4 · The Blockade | Gunners, bombers, curtain crabs, snipers, bastions — an organized army, plus two mid-bosses on patrol | Dreadnought raider flagship |
+| 5 · The Way Home | Four turbulence waves (one star domain per wave, 2–3s breather between), then the last stand | **Leviathan** (final) |
 
 Regular enemies (pick your poison):
 
@@ -47,7 +48,7 @@ Regular enemies (pick your poison):
 | crab | straight | **curtain** (bullet wall with one gap) | 4 | 700 |
 | manta | hover → **dive** | — (kamikaze) | 3 | 450 |
 
-Plus 2 **mid-bosses** (boss HP bar + guaranteed heal drop, but the level goes on) and 10 boss forms — the final one cycles 7 attack patterns and spawns its own reinforcements. After level 14 the campaign loops with enemies scaled up (+40% HP, +12% speed, faster fire per loop).
+The campaign is a five-episode story, **The Way Home** (《归途》 — [setting book](docs/lore/README.md)): four wormhole beacons, five star domains, one boss guarding each exit. Each level runs on its own scenery palette and bookends with a skippable narration line. Plus 2 **mid-bosses** (boss HP bar + guaranteed heal drop, but the level goes on) and 10 boss forms total — five loop-only variants (Mk.II bosses, Hydra…) stay out of the campaign, reserved for second-loop / endless content. After level 5 the campaign loops with enemies scaled up (+40% HP, +12% speed, faster fire per loop).
 
 ## Core Features
 
@@ -96,7 +97,7 @@ Any other static file server works too. Controls:
 | Special beam | K / X | BOMB |
 | Pause | P / Esc | ⏸ top-right |
 
-Handy URL params (testing / shareable links): `?lang=zh|en` · `?theme=retro|night|paper` · `?touch=1` · `?autostart=1` · `?demo=1` (attract mode, with autostart) · `?paused=1` · `?level=14` — [full table](docs/en/usage.md#url-parameters).
+Handy URL params (testing / shareable links): `?lang=zh|en` · `?theme=retro|night|paper` · `?touch=1` · `?autostart=1` · `?demo=1` (attract mode, with autostart) · `?paused=1` · `?level=5` — [full table](docs/en/usage.md#url-parameters).
 
 ## Extending the Game
 
@@ -132,11 +133,11 @@ Attack primitives: `none` · `straight` · `aimed` · `fan` `{ways, spread}` · 
 
 ### Add a level
 
-Create `data/levels/level15.json`:
+Create `data/levels/level6.json`:
 
 ```json
 {
-  "id": 15,
+  "id": 6,
   "difficulty": 1.2,
   "events": [
     { "t": 0.5, "enemy": "drone", "count": 4, "interval": 0.5,
@@ -153,7 +154,7 @@ Create `data/levels/level15.json`:
 - `lore` = optional repo-relative link to the level's page in the [setting book](docs/lore/README.md) (e.g. `docs/lore/level-01.md`); ignored by the engine.
 - Every level needs at least one `boss` event (that's what clears it). Mid-bosses are spawned as normal `enemy` events.
 
-Then register `"levels/level15.json"` in `data/levels.json` (ids must increase) and run `node test/data-test.js` — typos in ids, formations or sprites fail instantly.
+Then register `"levels/level6.json"` in `data/levels.json` (ids must increase) and run `node test/data-test.js` — typos in ids, formations or sprites fail instantly.
 
 ### Or just: download the template, upload your level
 

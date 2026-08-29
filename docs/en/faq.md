@@ -51,7 +51,7 @@ Two deliberate cases: you opened the header Settings popover mid-game
 (changing difficulty mid-run would be unfair), or the tab was hidden
 (visibilitychange). Both resume exactly where you stopped.
 
-## What happens after level 14?
+## What happens after level 5?
 
 The campaign loops back to level 1 with everything scaled up — enemy HP
 +40%, speed +12%, faster fire per loop — while your score, weapon level,

@@ -16,7 +16,7 @@ see the [README](../../README.md); for fixing problems, see
    if loading fails it turns into an error message with a **Retry** button.
 
 You start at level 1 (or the level forced by `?level=N`). Clearing the final
-boss ends the level; after level 14 the campaign loops back to level 1 with
+boss ends the level; after level 5 the campaign loops back to level 1 with
 stronger enemies, keeping your score and upgrades.
 
 ## Controls
@@ -62,7 +62,7 @@ Ammo rules (Standard and up):
 Each new level grants a fresh stockpile sized for that level. Losing a life
 resets weapon level and missiles but not your ammo pool.
 
-Enemy scaling per campaign loop (after level 14): +40% HP, +12% speed, 10%
+Enemy scaling per campaign loop (after level 5): +40% HP, +12% speed, 10%
 faster fire.
 
 ## Power-Ups
@@ -134,7 +134,7 @@ below. Uploaded levels live only in the current page session.
 | `?autostart=1` | Start playing on load |
 | `?demo=1` | Attract-mode autopilot (use together with `?autostart=1`) |
 | `?paused=1` | Open paused (overlay testing) |
-| `?level=14` | Start at a given level (1–14) |
+| `?level=5` | Start at a given level (1–5) |
 
 ## Error Messages
 

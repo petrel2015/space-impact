@@ -65,7 +65,9 @@ position saves).
 
 - Keys: `si-save-1/2/3`. Slots with corrupt JSON or unknown versions
   read as empty; slots referencing custom (uploaded) level ids show
-  "level data missing" and can be deleted.
+  "level data missing" and can be deleted. Snapshots from the pre-rework
+  14-level campaign are remapped onto the 5-level cut by progress ratio
+  (an old level-8 save resumes at new level 3).
 - Pause menu → **Save progress** opens the 3-slot picker (click =
   overwrite, with the summary and timestamp refreshed in place).
 - Start screen → **Continue** (only when a save exists) opens the same

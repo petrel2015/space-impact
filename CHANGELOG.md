@@ -29,6 +29,17 @@ All notable user-visible changes to this project are documented in this file.
   `README_FOR_AI.md` for AI assistants.
 
 ### Changed
+- Campaign re-cut from 14 levels into the five-episode story campaign
+  **The Way Home (《归途》)**: one star domain per level with a locked
+  enemy ecology (Drift / Swarm Nebula / Iron Graveyard / Blockade /
+  Turbulence; level 5 mixes them strictly wave by wave), two patrolling
+  mid-bosses in level 4, per-level scenery palettes and skippable
+  opening/closing narration lines. Boss summons now follow their ecology
+  (the Broodmother lays wasps, the Master Brain launches patrol drones).
+  Old level-6-14 saves are mapped onto the new cut by progress ratio
+  (old level 8 ≈ new level 3); the five loop-only variant bosses stay in
+  the data pack for second-loop / endless content. Codex cards gained a
+  habitat line naming each enemy's star domain.
 - Boomerang pickup reworked: throws are free — no ammo spent on limited-ammo
   tiers and a dry clip still loops the blade; the glide now spans the full
   field width and bounces off the far wall instead of flying off-screen;

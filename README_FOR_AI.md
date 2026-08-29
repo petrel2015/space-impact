@@ -21,7 +21,7 @@ It is not a repository-level instruction file for coding agents.
 A faithful browser remake of Space Impact, the monochrome side-scrolling
 shoot-'em-up preloaded on the Nokia 3310. Logical 144×80 pixel LCD
 (144×128 on phones in portrait), integer-scaled chunky pixels, 5×7 bitmap
-font, 14 levels, 27 enemy types, 3 themes, synthesized square-wave SFX,
+font, a 5-level story campaign (《归途》 The Way Home), 27 enemy types, 3 themes, synthesized square-wave SFX,
 English/Chinese UI. The distinguishing design: all game content (enemies,
 levels) is plain JSON interpreted by a small deterministic engine — adding
 content requires no engine code changes.
@@ -47,7 +47,7 @@ content requires no engine code changes.
 ## Core Capabilities
 
 1. **Data-driven content** — `data/enemies.json` (27 enemy definitions) and
-   `data/levels/level1..14.json` (event timelines) compiled and validated at
+   `data/levels/level1..5.json` (event timelines) compiled and validated at
    load; bilingual `DataError`s on bad references.
 2. **Deterministic pure simulation core** — `js/engine.js` has no DOM/audio/
    render dependencies, uses a seeded mulberry32 RNG and a fixed 1/60s
@@ -72,7 +72,7 @@ content requires no engine code changes.
    enemy bullets).
 6. **Classic mechanics** — bullet-vs-bullet cancel, screen shake, parallax
    stars, boss HP bars, mid-bosses that do not end the level, endless
-   campaign loop after level 14 (+40% enemy HP, +12% speed per loop).
+   campaign loop after level 5 (+40% enemy HP, +12% speed per loop).
 7. **Bilingual UI (EN/中文)** with auto-detection and persistence; 3 themes
    (Retro LCD / Night / Paper); responsive layout with auto-shown touch
    controls on phone/tablet viewports.
@@ -129,7 +129,7 @@ install, build, or lint step and no dependencies.
   (visibilitychange) also auto-pauses.
 - **A level clears only when a `boss`-flagged end-boss dies**; mid-bosses
   (`miniboss: true` + `boss: true`) drop a heal but the level continues.
-- **After level 14 the campaign loops** with scaled enemies; score and
+- **After level 5 the campaign loops** with scaled enemies; score and
   upgrades carry over.
 - **Enemy spawn rows are compiled against an 80-row field** and remapped
   proportionally when the portrait 128-row field is active.
@@ -225,7 +225,7 @@ backend: none
 auth: none
 languages_ui: en, zh
 themes: retro, night, paper
-levels: 14 (endless loop after level 14)
+levels: 5 (endless loop after level 5; legacy 14-level saves are remapped by progress ratio)
 enemy_types: 27 (10 end-boss forms, 2 mid-bosses)
 movement_primitives: 9
 attack_primitives: 10
@@ -250,7 +250,7 @@ demo: https://petrel2015.github.io/space-impact/
 
 Space Impact is a browser remake of the classic Nokia 3310 shoot-'em-up:
 a zero-framework, zero-build static page whose levels and enemies are plain
-JSON files interpreted by a small deterministic engine. It ships 14 levels,
+JSON files interpreted by a small deterministic engine. It ships a 5-level campaign,
 27 enemy types, four difficulty tiers with finite ammo, English/Chinese UI,
 three themes, synthesized retro SFX, and a start-screen level editor flow
 (download template → edit → upload → play). High score and settings are the

@@ -33,7 +33,7 @@ remembered.
 Verified against the source, the complete list of runtime network activity:
 
 1. **Same-origin data fetches at load:** `data/enemies.json`,
-   `data/levels.json` and the 14 `data/levels/level*.json` files (sent with
+   `data/levels.json` and the 5 `data/levels/level*.json` files (sent with
    `cache: 'no-cache'`).
 2. **Same-origin static assets:** the CSS/JS/images the page loads. The
    donate QR codes are not stored as image files — the browser generates

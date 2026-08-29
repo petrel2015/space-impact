@@ -30,7 +30,7 @@ English version: [Privacy](../en/privacy.md).
 对照源码核实的完整运行时网络活动清单：
 
 1. **加载时的同源数据请求：** `data/enemies.json`、
-   `data/levels.json` 与 14 个 `data/levels/level*.json`
+   `data/levels.json` 与 5 个 `data/levels/level*.json`
    （带 `cache: 'no-cache'`）。
 2. **同源静态资源：** 页面加载的 CSS/JS/图片。收款二维码不落地为
    图片文件——由浏览器在捐赠弹窗打开后按收款链接实时生成；QR 库

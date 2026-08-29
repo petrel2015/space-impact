@@ -18,8 +18,8 @@
 | 命令 | 作用 | 最近一次验证结果 |
 |------|------|------------------|
 | `python3 -m http.server 8000` | 在 `http://localhost:8000/` 提供游戏 | `/index.html` 与 `/data/enemies.json` 均 200 |
-| `node test/data-test.js` | 数据包校验 | **全部通过**（27 怪物、14 关卡、54 个 i18n 键） |
-| `node test/engine-test.js` | 确定性模拟测试 | **全部通过**（模拟通关全部 14 关） |
+| `node test/data-test.js` | 数据包校验 | **全部通过**（27 怪物、5 关卡、i18n 键） |
+| `node test/engine-test.js` | 确定性模拟测试 | **全部通过**（模拟通关全部 5 关） |
 | `node test/aim-visual-test.js` | 瞄准虚线 + 导弹渲染校验 | **全部通过** |
 | `node test/render-shots.js` | 无头 PNG 场景截图 → `/tmp/si-shots/` | 生成 11 张 PNG |
 | `node test/render-shots.js 5 42` | 渲染第 5 关第 42 秒（开发目检） | 任意关卡/秒数可用 |
@@ -44,7 +44,7 @@
 
 **`test/engine-test.js`** —— 用固定种子把真实数据包喂给真实引擎：
 
-1. 全部 14 关都可通关（脚本化无敌玩家在时限内击杀最终 Boss）。
+1. 全部 5 关都可通关（脚本化无敌玩家在时限内击杀最终 Boss）。
 2. 中 Boss 死亡**不会**过关（第 8 关的 mb1 + 末尾 Boss）。
 3. 第 2 关挂机的玩家会受到伤害（难度是真实的）。
 4. 确定性：同种子 → 状态轨迹逐字节一致。

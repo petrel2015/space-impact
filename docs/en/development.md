@@ -20,8 +20,8 @@ All of the following were executed against this tree and pass:
 | Command | What it does | Last verified result |
 |---------|--------------|----------------------|
 | `python3 -m http.server 8000` | Serve the game at `http://localhost:8000/` | 200 for `/index.html` and `/data/enemies.json` |
-| `node test/data-test.js` | Data-pack validation | **all checks passed** (27 enemies, 14 levels, 54 i18n keys) |
-| `node test/engine-test.js` | Deterministic simulation tests | **all checks passed** (14 levels simulated to completion) |
+| `node test/data-test.js` | Data-pack validation | **all checks passed** (27 enemies, 5 levels, i18n keys) |
+| `node test/engine-test.js` | Deterministic simulation tests | **all checks passed** (5 levels simulated to completion) |
 | `node test/aim-visual-test.js` | Aim tracer + missile rendering checks | **all checks passed** |
 | `node test/render-shots.js` | Headless PNG scene gallery → `/tmp/si-shots/` | 11 PNGs written |
 | `node test/render-shots.js 5 42` | Render level 5 at t=42 s (dev visual check) | works for any level/second |
@@ -49,7 +49,7 @@ There is no build, bundle or lint step — nothing to configure.
 **`test/engine-test.js`** — plays the real data packs through the real
 engine with a fixed seed:
 
-1. Every one of the 14 levels is completable (scripted invincible player
+1. Every one of the 5 levels is completable (scripted invincible player
    kills the end boss within the time cap).
 2. Mid-boss death does **not** clear a level (level 8's mb1 + end boss).
 3. A passive player on level 2 takes damage (difficulty is real).
