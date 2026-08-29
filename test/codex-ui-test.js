@@ -174,6 +174,16 @@ function run() {
           w.SI.i18n.setLang('zh');
           $('btn-start').click();
           check($('screen-play') && !$('screen-play').hidden, 'T6 game screen visible');
+
+          /* ── T6b narration bar: opening line renders, click skips ── */
+          check(!$('story-bar').hidden, 'T6b opening narration bar visible');
+          check($('story-kicker').textContent.indexOf('EP01') >= 0,
+            'T6b narration kicker carries the unit tag');
+          check($('story-text').textContent.indexOf('醒醒') >= 0,
+            'T6b zh opening narration renders');
+          $('story-skip').click();
+          check($('story-bar').hidden, 'T6b narration bar skips on demand');
+
           /* rock is not pre-marked by T4 (that was drone), so this is a real
              end-to-end check: the first rocks spawn at t=5s game time */
           return until(function () { return w.SI.Codex.isEnemySeen('rock') || false; }, 900)

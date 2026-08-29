@@ -476,6 +476,52 @@ html[data-theme="retro"] .lcd-grid {
 
 .overlay[hidden] { display: none; }
 
+/* campaign narration bar — level open/clear line, pixel chrome */
+.story-bar {
+  position: absolute;
+  left: 4%;
+  right: 4%;
+  bottom: 12%;
+  display: flex;
+  align-items: stretch;
+  gap: 6px;
+  z-index: 4;
+  cursor: pointer;
+}
+
+.story-bar[hidden] { display: none; }
+
+.story-panel {
+  flex: 1;
+  background: var(--panel);
+  border: 2px solid var(--ink);
+  box-shadow: 3px 3px 0 var(--shadow);
+  padding: 6px 10px;
+}
+
+.story-kicker {
+  margin: 0 0 3px;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.story-text {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.story-skip {
+  flex: none;
+  align-self: flex-end;
+  padding: 2px 8px;
+  font-size: 11px;
+  box-shadow: 2px 2px 0 var(--shadow);
+  background: var(--panel);
+}
+
+
 .overlay-panel {
   background: var(--panel);
   border: 2px solid var(--ink);

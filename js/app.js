@@ -42,6 +42,7 @@
   var touchFire = false, touchBomb = false;
 
   var canvas, ctx, lcd;
+  var storyBar, storyKicker, storyText, storyKind = null, storyTimer = null;
 
   /* URL params (testing / shareable links):
      ?lang=en|zh  ?theme=retro|night|paper  ?touch=1
@@ -79,6 +80,21 @@
     ctx = canvas.getContext('2d');
     lcd = $('lcd');
     ctx.imageSmoothingEnabled = false;
+    storyBar = $('story-bar');
+    storyKicker = $('story-kicker');
+    storyText = $('story-text');
+    if (storyBar) {
+      /* the whole bar is a skip target; the button is explicit about it */
+      storyBar.addEventListener('click', hideStory);
+      $('story-skip').addEventListener('click', function (e) {
+        e.stopPropagation();
+        SI.audio.play('ui');
+        hideStory();
+      });
+      document.addEventListener('langchange', function () {
+        if (!storyBar.hidden && storyKind) showStory(storyKind);
+      });
+    }
 
     try { hiScore = parseInt(localStorage.getItem(HISCORE_KEY) || '0', 10) || 0; } catch (e) {}
     try { autofire = localStorage.getItem(AUTOFIRE_KEY) === '1'; } catch (e) {}
@@ -259,6 +275,31 @@
       : Infinity;
   }
 
+  /* ── campaign narration (《归途》旁白条) ─────── */
+
+  /* One line per level open/clear, keyed by level id ('storyL3Clear'...).
+     Custom uploaded levels have no keys → no bar. Opening lines auto-hide
+     so they yield to the action; closing lines stay until the next level. */
+  function showStory(kind) {
+    if (!storyBar) return;
+    var id = levels[levelIdx] ? levels[levelIdx].id : 0;
+    var textKey = 'storyL' + id + (kind === 'clear' ? 'Clear' : 'Open');
+    var titleKey = 'storyTitleL' + id;
+    if (!SI.i18n.DICT.en[textKey]) { hideStory(); return; }
+    storyKind = kind;
+    storyKicker.textContent = SI.i18n.DICT.en[titleKey] ? SI.i18n.t(titleKey) : '';
+    storyText.textContent = SI.i18n.t(textKey);
+    storyBar.hidden = false;
+    if (storyTimer) { global.clearTimeout(storyTimer); storyTimer = null; }
+    if (kind !== 'clear') storyTimer = global.setTimeout(hideStory, 8000);
+  }
+
+  function hideStory() {
+    if (storyTimer) { global.clearTimeout(storyTimer); storyTimer = null; }
+    storyKind = null;
+    if (storyBar) storyBar.hidden = true;
+  }
+
   function startLevel(idx, loop, carry) {
     levelIdx = idx;
     loopCount = loop;
@@ -293,6 +334,7 @@
     closeSettings();
     fitLcd();
     SI.audio.play('levelStart');
+    showStory('open');
   }
 
   function advanceLevel() {
@@ -332,6 +374,7 @@
 
   function showGameOver() {
     mode = 'over';
+    hideStory();
     var score = rt.player.score;
     var isRecord = score > hiScore;
     saveHiScore(score);
@@ -344,6 +387,7 @@
   function toMenu() {
     mode = 'menu';
     rt = null;
+    hideStory();
     hideOverlays();
     showScreen('start');
     updateHiScoreUi();
@@ -432,6 +476,12 @@
         SI.audio.play(PICKUP_SFX[puType] || 'powerup');
         if (!demoActive && puType) SI.Codex.markItemSeen(puType);
         continue;
+      }
+      if (evs[i].type === 'levelClear') {
+        showStory('clear');
+        /* hold the CLEAR! beat so the closing line can be read —
+           the finale gets a longer curtain call before the loop */
+        rt.clearTimer = Math.max(rt.clearTimer, levelIdx === levels.length - 1 ? 7 : 4.5);
       }
       var a = AUDIO_MAP[evs[i].type];
       if (a) SI.audio.play(a);
